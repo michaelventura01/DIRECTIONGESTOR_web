@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+        <div class="h2 text-center">Institucion</div>
+      </div>
+      <div class="card-body">
+          <div class="row" *ngFor = "let instituto of instituciones">
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Nombre de Institucion
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase" >
+                  {{instituto.Nombre}}
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Descripcion
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                {{instituto.Descripcion}}
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Telefono
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                {{instituto.Telefono}} |
+
+                  <a *ngFor="let dato of tipoTelefonos" >
+                    <a *ngIf="dato.id == instituto.TipoTelefono ">{{dato.descripcion}}</a>
+                  </a>
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Correo
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6">
+                {{instituto.Correo}}
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Estado
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                <a *ngFor="let dato of estados" >
+                  <a *ngIf="dato.id == instituto.Estado">{{dato.descripcion}}</a>
+                </a>
+              </div>
+          </div>
+          </div>
+          <div class="card-footer form-group">
+              <div class="row">
+                  <div *ngIf="esEditor" class="col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10 mt-1 mb-1">
+                    <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="['/institucionEditar', idInstitucion]"/>
+                  </div>
+                  <div class="col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10 mt-1 mb-1">
+                    <input type="submit" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/menu']"  />
+                  </div>
+              </div>
+          </div>
+  </div>
+</div>

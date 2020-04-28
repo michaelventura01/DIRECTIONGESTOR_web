@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+        <div class="h2 text-center">Agregar Estudiante a Curso</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioCreado">
+                      <div class="form-group">
+                          <label  class="control-label font-weight-bold">Estudiante</label>
+                          <div class="form-group row">
+                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <input type="text" formControlName="buscarEstudiante" (change)='filtrarPersonas()' class="form-control mb-4" placeholder="Escribir para filtrar Estudiantes" />
+                                <select formControlName="Estudiante" class ="form-control" required>
+                                  <option></option>
+                                  <option *ngFor="let estudiante of filtrarPersonas()" [value] = 'estudiante.id'>{{estudiante.Codigo | uppercase}} | {{estudiante.Nombre | uppercase}} {{estudiante.Apellido | uppercase}} | {{estudiante.Edad | uppercase}} </option>
+                                </select>
+                                <div *ngIf="formularioCreado.controls['Estudiante'].invalid && formularioCreado.controls['Estudiante'].dirty" class="alert alert-danger">El Estudiante es Requerido </div>
+
+                            </div>
+                            <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
+                                <button type="button" (click)='filtrarPersonas()' class="btn btn-secondary " ><div class="h4"><i class="fas fa-search "></i></div></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                            <label class="control-label font-weight-bold">Curso</label>
+                            <select formControlName="Curso" class ="form-control" required>
+                              <option></option>
+                              <option [value]="curso.id" *ngFor="let curso of tenerCursos()">{{curso.Descripcion | uppercase}} | {{curso.Codigo | uppercase}}</option>
+                            </select>
+                            <div *ngIf="formularioCreado.controls['Curso'].invalid && formularioCreado.controls['Curso'].dirty" class="alert alert-danger">El Curso es Requerido </div>
+                        </div>
+                        <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                          <label class="control-label font-weight-bold">Periodo</label>
+                          <select formControlName="Periodo" class ="form-control" required>
+                            <option></option>
+                            <option [value]="periodo.id" *ngFor="let periodo of tenerPeriodos()">{{periodo.Descripcion | uppercase}} | {{periodo.Codigo | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioCreado.controls['Periodo'].invalid && formularioCreado.controls['Periodo'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
+                      </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+              <input type="submit" [disabled] = 'formularioCreado.invalid' (click)=" guardarEstudianteCurso(buscarCursoEstudiante())" value="Agregar" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/estudianteCursos'"/>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

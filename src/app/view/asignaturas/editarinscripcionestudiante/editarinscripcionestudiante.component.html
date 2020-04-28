@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header ">
+        <div class="h2 text-center">Modificar Estudiante Inscrito a una Asignatura</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioCreado">
+                      <div class="form-group">
+                          <label class="control-label h6 font-weight-bold">Estudiante</label>
+                          <select formControlName="Estudiante" class ="form-control">
+                                  <option value="1">codigo - nombre</option>
+                          </select>
+                          <div *ngIf="formularioCreado.controls['Estudiante'].invalid && formularioCreado.controls['Estudiante'].dirty" class="alert alert-danger">El Estudiante es Requerido </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label h6 font-weight-bold">Asignatura</label>
+                          <select formControlName="Asignatura" class="form-control" required>
+                              <option value="1">codigo - nombre</option>
+                          </select>
+                          <div *ngIf="formularioCreado.controls['Asignatura'].invalid && formularioCreado.controls['Asignatura'].dirty" class="alert alert-danger">La Asignatura es Requerida </div>
+                      </div>
+                      <div class="form-group">
+                          <label for="Profesor" class="control-label h6 font-weight-bold">Profesor</label>
+                          <select formControlName="Profesor" class="form-control" required>
+                                  <option value="1">codigo - nombre</option>
+                          </select>
+                          <div *ngIf="formularioCreado.controls['Profesor'].invalid && formularioCreado.controls['Profesor'].dirty" class="alert alert-danger">El Profesor es Requerido </div>
+                     </div>
+                      <div class="form-group">
+                          <label asp-for="Periodo" class="control-label">Periodo</label>
+                          <select formControlName="Periodo" class ="form-control" required></select>
+                          <div *ngIf="formularioCreado.controls['Periodo'].invalid && formularioCreado.controls['Periodo'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
+                      </div>
+                      <div class="form-group">
+                          <label for="Estado" class="control-label h6 font-weight-bold">Estado</label>
+                          <select formControlName="Estado" class ="form-control" required></select>
+                          <div *ngIf="formularioCreado.controls['Estado'].invalid && formularioCreado.controls['Estado'].dirty" class="alert alert-danger">El Estado es Requerido </div>
+
+                      </div>
+                      <hr>
+                      <div class="row">
+                          <div class="form-group mx-auto col-xl-8 col-lg-8  col-md-8 col-sm-10 col-xs-10">
+                              <input type="button" value="Editar" class="btn btn-outline-primary btn-block font-weight-bold" />
+                          </div>
+                          <div class="form-group mx-auto col-xl-4 col-lg-4  col-md-4 col-sm-10 col-xs-10">
+                              <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/inscripcionDetalle']"/>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header ">
+        <div class="h2 text-center">Agregar Asignatura a Curso</div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formularioCreado">
+          <div class="row">
+            <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+              <label class="control-label font-weight-bold ">Asignatura</label>
+              <select formControlName="Asignatura" class ="form-control">
+                <option *ngFor="let asignatura of tenerAsignaturas()" [value]="asignatura.id">{{asignatura.Descripcion | uppercase }} | {{asignatura.Codigo | uppercase }}</option>
+              </select>
+              <div *ngIf="formularioCreado.controls['Asignatura'].invalid && formularioCreado.controls['Asignatura'].dirty" class="alert alert-danger">La Asignatura es Requerida</div>
+            </div>
+            <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+              <label class="control-label font-weight-bold  ">Curso</label>
+              <select formControlName="Curso" class="form-control" >
+                <option *ngFor="let curso of tenerCursos()" [value]="curso.id">{{curso.Descripcion | uppercase}} | {{curso.Codigo | uppercase}}</option>
+              </select>
+              <div *ngIf="formularioCreado.controls['Curso'].invalid && formularioCreado.controls['Curso'].dirty" class="alert alert-danger">La Asignatura es Requerida</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="form-group  mb-4 mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+              <input type="button" (click)="guardarCursoAsignatura(buscarCursoAsignatura())" [disabled]='formularioCreado.invalid' value="Agregar" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+              <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/asignaturaCursos'"/>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

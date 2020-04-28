@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header ">
+        <div class="h2 text-center">Agregar Acta de Nacimiento</div>
+      </div>
+      <div class="card-body">
+          <div class="form-group">
+              <label for="Persona" class="control-label font-weight-bold">Persona</label>
+              <input type="text" name="Persona" class="form-control" disabled value="Persona"/>
+          </div>
+          <div class="row">
+                  <div class="col-xl col-lg col-md col-sm col-xs">
+                      <form [formGroup]="formularioCreado">
+                          <br>
+                          <div class="row">
+                              <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                                  <label class="control-label h6 font-weight-bold">Folio</label>
+                                  <input formControlName="Folio" class="form-control" required minlength="4" maxlength="6"/>
+                                  <div *ngIf="formularioCreado.controls['Folio'].invalid && formularioCreado.controls['Folio'].dirty" validation="Folio" class="alert alert-danger">El Folio es Requerido de 4 a 6 Caracteres</div>
+
+                              </div>
+                              <div class="form-group col-xl col-lg col-md col-sm col-xs">
+                                  <label  class="control-label h6 font-weight-bold">Año</label>
+                                  <input type="text" formControlName="Anio" class="form-control" required minlength="4" maxlength="4"/>
+                                  <div *ngIf="formularioCreado.controls['Anio'].invalid && formularioCreado.controls['Anio'].dirty" validation="Anio" class="alert alert-danger">El Año es Requerido de 4 caracteres</div>
+                              </div>
+                              <div class="form-group col-xl col-lg col-md col-sm col-xs">
+                                  <label class="control-label h6 font-weight-bold">Libro</label>
+                                  <input formControlName="Libro" class="form-control" required minlength="4" maxlength="6"/>
+                                  <div *ngIf="formularioCreado.controls['Libro'].invalid && formularioCreado.controls['Libro'].dirty" validation="Anio" class="alert alert-danger">El Libro es Requerido de 4 a 6 caracteres</div>
+                              </div>
+                              <div class="form-group col-xl col-lg col-md col-sm col-xs">
+                                  <label class="control-label h6 font-weight-bold">Numero</label>
+                                  <input formControlName="Numero" class="form-control" required minlength="4" maxlength="6" />
+                                  <div *ngIf="formularioCreado.controls['Numero'].invalid && formularioCreado.controls['Numero'].dirty" validation="Anio" class="alert alert-danger">El Numero es Requerido de 4 a 6 caracteres</div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label h6 font-weight-bold">Circunscripcion</label>
+                              <select formControlName="Circunscripcion" class ="form-control" >
+                                <option value="1ra">1ra circunscripcion</option>
+                              </select>
+                              <div validation="Circunscripcion" *ngIf="formularioCreado.controls['Circunscripcion'].invalid && formularioCreado.controls['Anio'].dirty" class="alert alert-danger">La Circunscripcion es Requerida</div>
+                          </div>
+                          <div class="form-group">
+                              <label for="copiaDigital" class="control-label font-weight-bold">Copia Digital</label>
+                              <input type="file" name="copiaDigital" class="form-control" />
+                              <img src="..." alt="" class="rounded mx-auto d-block" name="muestra">
+                          </div>
+                          <br>
+                          <div class="form-group mx-auto">
+                            <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                              <input type="submit" value="Agregar" class="btn btn-outline-primary btn-block font-weight-bold" />
+                            </div>
+                            <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/personaDetalle'"/>
+                            </div>
+                        </div>
+                      </form>
+                  </div>
+              </div>
+      </div>
+  </div>
+</div>

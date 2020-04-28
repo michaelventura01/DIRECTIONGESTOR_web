@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+          <div class="h2 text-center">Editar Institucion</div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl col-lg col-md col-sm col-xs">
+                    <form [formGroup]="formularioInstitucion" *ngFor="let formulario of instituciones ">
+                        <div class="form-group">
+                            <label class="control-label font-weight-bold">Nombre de Institucion</label>
+                            <input formControlName="Nombre" class="form-control" required value = "{{formulario.Nombre}}"/>
+                            <div *ngIf="formularioInstitucion.controls['Nombre'].invalid && formularioInstitucion.controls['Nombre'].dirty" class="alert alert-danger">El Nombre es Requerido</div>
+                       </div>
+                        <div class="form-group">
+                            <label class="control-label font-weight-bold">Descripcion de Institucion</label>
+                            <textarea formControlName="Descripcion" cols="50" rows="3" class="form-control" required value = "{{formulario.Descripcion}}"></textarea>
+                            <div *ngIf="formularioInstitucion.controls['Descripcion'].invalid && formularioInstitucion.controls['Descripcion'].dirty" class="alert alert-danger">La Descripcion es Requerida</div>
+                          </div>
+                          <div class="row">
+                            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                              <label class="control-label font-weight-bold">Tipo Telefono </label>
+                              <select formControlName="TipoTelefono" class="form-control" >
+                                  <option required
+                                  *ngFor = "let tipo of tipoTelefonos"
+                                  value = "{{tipo.id}}"
+                                  [selected] = "formulario.Estado"
+                                >{{tipo.descripcion | uppercase}}</option>
+                              </select>
+                              <div *ngIf="formularioInstitucion.controls['TipoTelefono'].invalid && formularioInstitucion.controls['TipoTelefono'].dirty" class="alert alert-danger">El Tipo de Telefono es Requerido</div>
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <label  class="control-label font-weight-bold">Telefono</label>
+                                <input type="tel" pattern=".{10}" formControlName="Telefono" required class="form-control"  placeholder="809-000-0000" value = "{{formulario.Telefono}}"/>
+                                <div *ngIf="formularioInstitucion.controls['Telefono'].invalid && formularioInstitucion.controls['Telefono'].dirty" class="alert alert-danger">El Telefono es Requerido (0000000000)</div>
+                             </div>
+                            <div class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <label class="control-label font-weight-bold">Correo</label>
+                                <input type="email" formControlName="Correo" required class="form-control" placeholder="name@mail.com" value = "{{formulario.Correo}}"/>
+                                <div *ngIf="formularioInstitucion.controls['Correo'].invalid && formularioInstitucion.controls['Correo'].dirty" class="alert alert-danger">El Correo es Requerido (correo@mail.com)</div>
+                              </div>
+                          </div>
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Estado</label>
+                          <select formControlName="Estado" class="form-control" required >
+                            <option required
+                              *ngFor = "let estado of tenerEstadosInstituciones(estados)"
+                              value = "{{estado.id}}"
+                              selected = "{{formulario.Estado}}"
+                            >{{estado.descripcion | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioInstitucion.controls['Estado'].invalid && formularioInstitucion.controls['Estado'].dirty" class="alert alert-danger">El Estado es Requerido</div>
+                        </div>
+                        <hr>
+                        <div class="form-group mx-auto">
+                            <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                              <input type="submit" value="Editar" class="btn btn-outline-primary btn-block font-weight-bold" (click)="editarInstitucion(formulario)"/>
+                            </div>
+                            <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/institucionDetalle', idInstitucion]"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+ 

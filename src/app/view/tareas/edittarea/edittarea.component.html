@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+        <div class="h2 text-center"> Editar Tarea</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioCreado">
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Titulo</label>
+                          <input formControlName="Titulo" class="form-control" required/>
+                          <div *ngIf="formularioCreado.controls['Titulo'].invalid && formularioCreado.controls['Titulo'].dirty" class="alert alert-danger">El Titulo es Requerido</div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Descripcion</label>
+                          <textarea formControlName="Descripcion" class="form-control" rows="5" required></textarea>
+                          <div *ngIf="formularioCreado.controls['Descripcion'].invalid && formularioCreado.controls['Descripcion'].dirty" class="alert alert-danger">La Descripcion es Requerida</div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                              <label class="control-label font-weight-bold">Fecha</label>
+                              <input type="date" formControlName="Fecha" class="form-control" required>
+                              <div *ngIf="formularioCreado.controls['Fecha'].invalid && formularioCreado.controls['Fecha'].dirty" class="alert alert-danger">La Fecha es Requerida</div>
+                          </div>
+                          <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                              <label class="control-label font-weight-bold">Hora</label>
+                              <input type="time" formControlName="Hora" class="form-control" required/>
+                              <div *ngIf="formularioCreado.controls['Hora'].invalid && formularioCreado.controls['Hora'].dirty" class="alert alert-danger">La Hora es Requerida</div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                              <label class="control-label font-weight-bold">Prioridad</label>
+                              <select formControlName="Prioridad" class ="form-control" required></select>
+                              <div *ngIf="formularioCreado.controls['Prioridad'].invalid && formularioCreado.controls['Prioridad'].dirty" class="alert alert-danger">La Prioridad es Requerida</div>
+                          </div>
+                          <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                              <label class="control-label font-weight-bold">Estado</label>
+                              <select formControlName="Estado" class ="form-control" required></select>
+                              <div *ngIf="formularioCreado.controls['Estado'].invalid && formularioCreado.controls['Estado'].dirty" class="alert alert-danger">El Estado es Requerido</div>
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="form-group mx-auto">
+                        <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                          <input type="button" value="Editar" class="btn btn-outline-primary btn-block font-weight-bold" />
+                        </div>
+                        <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                          <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/tareaDetalle'"/>
+                        </div>
+                    </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

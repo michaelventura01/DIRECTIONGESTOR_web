@@ -1,0 +1,50 @@
+<div class="container" *ngFor="let asignatura of asignaturas">
+  <div class="card" *ngIf="asignatura.id == idAsignatura">
+      <div class="card-header ">
+        <div class="h2 text-center"> Editar Asignatura</div>
+      </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl col-lg col-md col-sm col-xs">
+                    <form [formGroup]="formularioEditar">
+                      <div class="row">
+                        <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                          <label class="control-label h4 font-weight-bold">Codigo</label>
+                          <input formControlName="Codigo" [value]="asignatura.Codigo" class="form-control" required/>
+                        </div>
+                        <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                          <label for="Descripcion" class="control-label h4 font-weight-bold">Asignatura</label>
+                          <input Type="text" [value]="asignatura.Descripcion" formControlName="Descripcion" class="form-control" required/>
+                        </div>
+                        <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                          <label class="control-label h4 font-weight-bold">Duracion en Semanas</label>
+                          <input formControlName="Tiempo" [value]="asignatura.Tiempo" class ="form-control" >
+                        </div>
+                        <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                          <label class="control-label h4 font-weight-bold">Estado</label>
+                          <select formControlName="Estado" class ="form-control" required *ngIf="esEstado">
+                            <option *ngFor="let estado of tenerEstadosAsignaturas()" [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+                          </select>
+                          <a *ngFor="let estado of estados">
+                            <a *ngIf="estado.id == asignatura.Estado">
+                              <input type="text" (click)="cambiarEstado()" *ngIf="!esEstado"  [value] = "estado.descripcion | uppercase" class="form-control">
+                            </a>
+                          </a>
+                        </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="form-group mx-auto col-xl-8 col-lg-8  col-md-8 col-sm-10 col-xs-10">
+              <input type="submit" value="Editar" (click)="editarAsignatura(asignatura)" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-4 col-lg-4  col-md-4 col-sm-10 col-xs-10">
+              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/asignaturaDetalle', idAsignatura]"/>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

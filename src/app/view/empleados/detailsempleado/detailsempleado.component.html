@@ -1,0 +1,161 @@
+<div class="container" *ngFor="let empleado of empleados">
+  <div class="card" *ngIf="empleado.id === idEmpleado">
+      <div class="card-header ">
+        <div class="h2 text-center">
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === empleado.Persona">Empleado |  
+              {{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}
+            </a>
+          </a>
+        </div>
+      </div>
+          <div class="card-body" >
+              <div class="row">
+                <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" >
+                  <a *ngFor="let persona of personas">
+                    <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="empleado.Persona === persona.id">
+                      <img [src]="persona.Foto"  class=" img-thumbnail rounded-circle mx-auto img-fluid mt-2 mb-2">
+                    </div>
+                  </a>
+                </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                    Codigo Empleado
+                </div>
+                <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                    {{empleado.Codigo}}
+                </div>
+                <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                    Puesto de Trabajo
+                </div>
+                <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                  <a *ngFor="let puesto of puestosTrabajos">
+                    <a *ngIf="puesto.id === empleado.PuestoTrabajo" >{{puesto.descripcion}}</a>
+                  </a>
+
+                </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Edad:
+                  </div>
+                    <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                      <a *ngFor="let persona of personas">
+                        <a *ngIf="persona.id === empleado.Persona">{{tenerEdad(persona.FechaNacimiento).edad}}</a>
+                      </a>
+                    </div>
+                    <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Cumpleaños:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                    <a *ngFor="let persona of personas">
+                      <a *ngIf="persona.id === empleado.Persona">{{tenerEdad(persona.FechaNacimiento).birthdate}}</a>
+                    </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                    Sexo:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                    <a *ngFor="let persona of personas">
+                      <a *ngIf="persona.id === empleado.Persona">
+                        <a *ngFor="let sexo of sexos">
+                          <a *ngIf="sexo.id === persona.Sexo">{{sexo.descripcion}}</a>
+                        </a>
+                      </a>
+                    </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Nacionalidad:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                    <a *ngFor="let persona of personas">
+                      <a *ngIf="persona.id === empleado.Persona">
+                        <a *ngFor="let nacionalidad of paises">
+                          <a *ngIf="nacionalidad.id === persona.Nacionalidad">{{nacionalidad.nacionalidad}}</a>
+                        </a>
+                      </a>
+                    </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                    Direccion:
+                </div>
+                <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                  <a *ngFor="let persona of personas">
+                    <a *ngIf="persona.id === empleado.Persona">{{persona.Direccion}} , </a>
+                  </a>
+                  <a *ngFor="let persona of personas">
+                    <a *ngIf="persona.id === empleado.Persona">
+                      <a *ngFor="let ciudad of ciudades">
+                        <a *ngIf="ciudad.id === persona.Ciudad"> {{ciudad.descripcion}} , </a>
+                      </a>
+                    </a>
+                  </a>
+                  <a *ngFor="let persona of personas">
+                    <a *ngIf="persona.id === empleado.Persona">
+                      <a *ngFor="let pais of paises">
+                        <a *ngIf="pais.id === persona.Pais"> {{pais.descripcion}}</a>
+                      </a>
+                    </a>
+                  </a>
+                </div>
+                <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                    Contacto:
+                </div>
+                <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6">
+                  <a *ngFor="let persona of personas">
+                    <a *ngIf="persona.id === empleado.Persona">
+                      <a *ngFor="let tipo of tiposTelefonos">
+                        <a *ngIf="tipo.id === persona.TipoTelefono">{{tipo.descripcion | uppercase}} </a>
+                      </a>
+                    </a>
+                  </a>
+                  <a *ngFor="let persona of personas">
+                    <a *ngIf="persona.id === empleado.Persona"> {{persona.Telefono}} | </a>
+                  </a>
+                  <a *ngFor="let persona of personas">
+                    <a *ngIf="persona.id === empleado.Persona"> {{persona.Correo}}</a>
+                  </a>
+
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Sueldo
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                {{empleado.Sueldo  | currency:'$'}}
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Fecha de Inicio:
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                {{tenerEdad(empleado.fechaInicio).fechaNacimiento}}
+              </div>
+              <div *ngIf="empleado.Estado!=01" class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                Fecha de Finalizacion:
+              </div>
+              <div *ngIf="empleado.Estado!=01" class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                {{tenerEdad(empleado.fechaFin).fechaNacimiento}}
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Estado:
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                <a *ngFor="let estado of estados">
+                  <a *ngIf="estado.id === empleado.Estado">{{estado.descripcion}}</a>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer form-group">
+              <div class="row">
+                  <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5">
+                    <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" (click)="editarEmpleado(empleado.id)"/>
+                  </div>
+                  <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4" >
+                    <a *ngFor="let persona of personas">
+                      <input type="submit" value="Ver Persona" *ngIf="persona.id === empleado.Persona" class="btn btn-warning btn-block font-weight-bold" (click)="verPersona(persona.id)"/>
+                    </a>
+                  </div>
+                  <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                      <input type="submit" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/empleados'"/>
+                    </div>
+              </div>
+          </div>
+  </div>
+</div>

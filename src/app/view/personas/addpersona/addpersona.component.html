@@ -1,0 +1,115 @@
+<div class="container" *ngIf="!esEmpleado">
+  <progressbar [value]=50 type="primary" [striped] ="false" *ngIf="accion === 'Encargado'" class="mb-5"></progressbar>
+  <div class="card">
+      <div class="card-header">
+        <div class="h2 text-center">Agregar {{accion}}</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioPersona">
+                      <div class="form-group row">
+                          <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                              <label class="control-label font-weight-bold">Nombre</label>
+                              <input formControlName="Nombre" class="form-control" placeholder="Nombres" required/>
+                              <div *ngIf="formularioPersona.controls['Nombre'].invalid && formularioPersona.controls['Nombre'].dirty" class="alert alert-danger">El Nombre es Requerido</div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                              <label class="control-label font-weight-bold">Apellido</label>
+                              <input formControlName="Apellido" class="form-control" placeholder="Apellidos" required/>
+                              <div *ngIf="formularioPersona.controls['Apellido'].invalid && formularioPersona.controls['Apellido'].dirty" class="alert alert-danger">El Apellido es Requerido</div>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                              <label class="control-label font-weight-bold">Fecha de Nacimiento</label>
+                              <input formControlName="FechaNacimiento" class="form-control" type="date" required (change) = "revisarFechaNacimiento()"/>
+                              <div *ngIf="formularioPersona.controls['FechaNacimiento'].invalid && formularioPersona.controls['FechaNacimiento'].dirty" class="alert alert-danger">La fecha de Nacimiento es Requerido</div>
+                              <div *ngIf="!esMenorAnioActual" class="alert alert-danger">Esta Fecha no es aceptada</div>
+                            </div>
+                          <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                              <label for="Sexo" class="control-label font-weight-bold">Sexo</label>
+                              <select formControlName="Sexo" class ="form-control" required>
+                                <option *ngFor ="let sexo of sexos" value="{{sexo.id}}"> {{sexo.descripcion | uppercase}}</option>
+                              </select>
+                              <div *ngIf="formularioPersona.controls['Sexo'].invalid && formularioPersona.controls['Sexo'].dirty" class="alert alert-danger">El Sexo es Requerido</div>
+                          </div>
+                          <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                              <label class="control-label font-weight-bold">Nacionalidad</label>
+                              <select formControlName="Nacionalidad" class ="form-control" required>
+                                <option *ngFor ="let pais of paises" value="{{pais.id}}"> {{pais.nacionalidad | uppercase}}</option>
+                              </select>
+                              <div *ngIf="formularioPersona.controls['Nacionalidad'].invalid && formularioPersona.controls['Nacionalidad'].dirty" class="alert alert-danger">El Nacionalidad es Requerido</div>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                              <label class="control-label font-weight-bold">Pais</label>
+                              <select formControlName="Pais" class ="form-control" required (change) = "tenerCiudades()">
+                                <option *ngFor ="let pais of paises" value="{{pais.id}}"> {{pais.descripcion | uppercase}}</option>
+                              </select>
+                              <div *ngIf="formularioPersona.controls['Pais'].invalid && formularioPersona.controls['Pais'].dirty" class="alert alert-danger">El Pais es Requerido</div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                              <label class="control-label font-weight-bold">Ciudad</label>
+                              <select formControlName="Ciudad" class ="form-control" required>
+                                <option *ngFor ="let ciudad of ciudades" value="{{ciudad.id}}"> {{ciudad.descripcion | uppercase}}</option>
+                              </select>
+                              <div *ngIf="formularioPersona.controls['Ciudad'].invalid && formularioPersona.controls['Ciudad'].dirty" class="alert alert-danger">La Ciudad es Requerida</div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Direccion</label>
+                          <input formControlName="Direccion" class="form-control" placeholder="calle #00, barrio" required/>
+                          <div *ngIf="formularioPersona.controls['Direccion'].invalid && formularioPersona.controls['Direccion'].dirty" class="alert alert-danger">El Direccion es Requerido tipo calle, barrio</div>
+                      </div>
+
+                      <div class="form-group row">
+                        <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                          <label class="control-label font-weight-bold">Tipo Telefono </label>
+                          <select formControlName="TipoTelefono" class="form-control" >
+                              <option required
+                              *ngFor = "let tipo of tipoTelefonos"
+                              value = "{{tipo.id}}"
+                            >{{tipo.descripcion | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioPersona.controls['TipoTelefono'].invalid && formularioPersona.controls['TipoTelefono'].dirty" class="alert alert-danger">El Tipo de Telefono es Requerido</div>
+                        </div>
+                          <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                              <label  class="control-label font-weight-bold">Telefono</label>
+                              <input type="tel" pattern=".{10}" formControlName="Telefono" class="form-control"  placeholder="809-000-0000" required/>
+                              <div *ngIf="formularioPersona.controls['Telefono'].invalid && formularioPersona.controls['Telefono'].dirty" class="alert alert-danger">El Telefono es Requerido tipo 8090001234</div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                              <label for="Correo" class="control-label font-weight-bold">Correo</label>
+                              <input type="email" formControlName="Correo" class="form-control" placeholder="name@mail.com" required/>
+                              <div *ngIf="formularioPersona.controls['Correo'].invalid && formularioPersona.controls['Correo'].dirty" class="alert alert-danger">El Correo es Requerido tipo correo@mail.com</div>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" >
+                          <label class="control-label font-weight-bold">Foto</label>
+                          <input type="file" Name="foto" class="form-control-file" formControlName="Foto" accept=".png, .jpg" (change)="subirImagen($event)"/>
+                          <progressbar [value]='carga' type="success" [striped] ="true" *ngIf="carga != 0 || carga > 99" class="mt-2"><b>{{carga}} %</b></progressbar>
+                          <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="esImagen">
+                            <img [src]="imagen" alt="" class=" img-thumbnail mx-auto img-fluid mt-2 mb-2">
+                          </div>
+                          <div *ngIf="formularioPersona.controls['Foto'].invalid && formularioPersona.controls['Foto'].dirty" class="alert alert-danger">La Foto es Requerida</div>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                            <input type="submit"  [disabled]="!formularioPersona.valid || carga>0" value="Agregar" (click) ="agregarPersona(personas)" class="btn btn-outline-primary btn-block font-weight-bold" />
+                        </div>
+                        <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10" *ngIf="accion != 'Encargado'">
+                            <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/personas']"/>
+                        </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<app-addempleado *ngIf="esEmpleado" accion="{{accion}}" instituto="{{instituto}}" persona ="{{persona}}"></app-addempleado>

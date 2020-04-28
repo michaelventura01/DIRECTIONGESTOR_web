@@ -1,0 +1,70 @@
+<div class="container">
+  <progressbar [value]=90 type="success" [striped] ="false" *ngIf="accion === 'Encargado'" class="mb-5"></progressbar>
+  <div class="card">
+      <div class="card-header">
+        <div class="h2 text-center">Agregar Usuario</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioUsuario">
+
+                      <div class="form-group" *ngIf="!esEncargado">
+                          <label class="control-label font-weight-bold">Persona</label>
+                          <div class="form-group row">
+                              <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                  <input type="text" formControlName="personaBuscar" class="form-control mb-3" placeholder="Escribir para filtrar Personas" (change)="cargarPersonas(formularioUsuario.value.personaBuscar, personas, empleados, estudiantes)"/>
+                                  <select formControlName="Persona" class ="form-control" required (click)="cargarPersonas(formularioUsuario.value.personaBuscar, personas, empleados, estudiantes)">
+                                    <option *ngFor="let persona of cargarPersonas(formularioUsuario.value.personaBuscar, personas, empleados, estudiantes)" [value]="persona.id" >{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{tenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}</option>
+                                  </select>
+                                  <div *ngIf="esPersona" class="alert alert-danger">La Persona es Requerida</div>
+                                </div>
+                              <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
+                                  <button type="button" class="btn btn-secondary " (click)="cargarPersonas(formularioUsuario.value.personaBuscar, personas, empleados, estudiantes)"><div class="h4"><i class="fas fa-search "></i></div></button>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                          <div class="form-group">
+                            <label class="control-label font-weight-bold">Usuario</label>
+                            <input formControlName="Usuario" class="form-control" [value]="Usuario"  (click)="asignarUsuario(obtenerUsuario(formularioUsuario.value.Persona, empleados, estudiantes, personas))" placeholder="Ingresa algun usuario"  required/>
+                            <div *ngIf="esUsuario" class="alert alert-danger">Un Usuario valido es Requerido</div>
+                          </div>
+                          <div class="form-group">
+                            <label asp-for="Rol" class="control-label font-weight-bold">Rol</label>
+                            <select formControlName="Rol" class ="form-control" required>
+                              <option *ngFor="let rol of roles" [value]="rol.id">{{rol.descripcion | uppercase}}</option>
+                            </select>
+                            <div *ngIf="esRol" class="alert alert-danger">El Rol es Requerido</div>
+                          </div>
+
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                          <div class="form-group">
+                            <label class="control-label font-weight-bold">Contraseña</label>
+                            <input formControlName="Password" type="password" class="form-control mb-3"  placeholder="Ingresa Contraseña" required/>
+                            <div *ngIf="formularioUsuario.controls['Password'].invalid && formularioUsuario.controls['Password'].dirty" class="alert alert-danger">La Contraseña es Requerida con 6 caracteres minimo con Mayusculas y minusculas</div>
+
+                            <input formControlName="rePassword"  type="password" class="form-control" placeholder="Repite la Contraseña" required/>
+                            <div *ngIf="formularioUsuario.value.Password != formularioUsuario.value.rePassword && formularioUsuario.controls['rePassword'].dirty" class="alert alert-danger">La Repeticion de la Contraseña debe ser igual</div>
+                            <div *ngIf="esPassword" class="alert alert-danger">La Contraseña es Requerida</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr>
+                      <div class="form-group mx-auto">
+                          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                            <input type="submit" value="Agregar" (click)="guardarUsuario(this.obtenerPersona().Persona, usuarios)" class="btn btn-outline-primary btn-block font-weight-bold" />
+                          </div>
+                          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                            <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/usuarios'" *ngIf="accion != 'Encargado'"/>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

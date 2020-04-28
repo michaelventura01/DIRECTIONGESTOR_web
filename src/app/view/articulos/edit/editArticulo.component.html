@@ -1,0 +1,97 @@
+<div class="container" *ngFor="let articulo of articulos">
+  <div class="card" *ngIf="articulo.id == idArticulo">
+      <div class="card-header">
+        <div class="h1 text-center">Editar Articulo</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioEditar">
+                    <div class="row">
+                      <div class="form-group form-groupcol-xl-8 col-lg-8  col-md-8 col-sm-8 col-xs-8">
+                        <label class="control-label h4 font-weight-bold">Articulo</label>
+                        <input formControlName="Articulo" class="form-control" [value]='articulo.Articulo' required />
+                        <div *ngIf="formularioEditar.controls['Articulo'].invalid && formularioEditar.controls['Articulo'].dirty" class="alert alert-danger">La Articulo es Requerida</div>
+                      </div>
+                      <div class="form-groupcol-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 ">
+                          <label class="control-label h4 font-weight-bold">Codigo</label>
+                          <input formControlName="Codigo" [value]='articulo.Codigo' class="form-control" required/>
+                          <div *ngIf="formularioEditar.controls['Codigo'].invalid && formularioEditar.controls['Codigo'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
+                      </div>
+                      <div class="form-groupcol-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
+                        <label class="control-label h4 font-weight-bold">Descripcion</label>
+                        <textarea formControlName="Descripcion" [value]='articulo.Descripcion' class="form-control" cols="20" rows="4" required></textarea>
+                        <div *ngIf="formularioEditar.controls['Descripcion'].invalid && formularioEditar.controls['Descripcion'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
+                      </div>
+                      <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 ">
+                        <label class="control-label h4 font-weight-bold">Edificio</label>
+                        <select  formControlName="Edificio" class="form-control" *ngIf="esEdificio" required>
+                          <option *ngFor="let edificio of tenerEdificios()" [value]="edificio.id">{{edificio.Nombre | uppercase}}</option>
+                        </select>
+                        <a *ngFor="let edificio of edificios">
+                          <a *ngIf="edificio.id === articulo.Edificio">
+                            <input type="text" [value]='edificio.Nombre | uppercase' *ngIf="!esEdificio" (click)='cambiarEdifiio()' class="form-control">
+                          </a>
+                        </a>
+                        <div *ngIf="formularioEditar.controls['Edificio'].invalid && formularioEditar.controls['Edificio'].dirty" class="alert alert-danger">La Edificio es Requerida</div>
+                      </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 ">
+                            <label class="control-label h4 font-weight-bold">Cantidad</label>
+                            <input Type="number" [value]='articulo.Cantidad' formControlName="Cantidad" class="form-control" required/>
+                            <div *ngIf="formularioEditar.controls['Cantidad'].invalid && formularioEditar.controls['Cantidad'].dirty" class="alert alert-danger">La Cantidad es Requerida</div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                            <label class="control-label h4 font-weight-bold">Precio</label>
+                            <input type="number" [value]="articulo.Precio" formControlName="Precio" class="form-control" required/>
+                            <div *ngIf="formularioEditar.controls['Precio'].invalid && formularioEditar.controls['Precio'].dirty" class="alert alert-danger">El Precio es Requerido</div>
+                        </div>
+
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                            <label class="control-label h4 font-weight-bold">Fecha de Registro</label>
+                            <input type="date" formControlName="Fecha" *ngIf="esFechaInicio" class="form-control" required/>
+                            <input type="text" [value]='obtenerFecha(articulo.Fecha).fecha' *ngIf="!esFechaInicio" (click)="cambiarFechaInicio()" class="form-control">
+                            <div *ngIf="formularioEditar.controls['Fecha'].invalid && formularioEditar.controls['Fecha'].dirty" class="alert alert-danger">La Fecha es Requerida</div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label h4 font-weight-bold">Estado</label>
+                          <select  formControlName="Estado" class="form-control" *ngIf="esEstado" (change)='cambiarEstado()' required>
+                            <option *ngFor="let estado of tenerEstados()" [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+                          </select>
+                          <a *ngFor="let estado of estados">
+                            <a *ngIf="estado.id === articulo.Estado">
+                              <input type="text" [value]='estado.descripcion | uppercase' *ngIf="!esEstado" (click)="cambiarEstado()" class="form-control">
+                            </a>
+                          </a>
+
+                          <div *ngIf="formularioEditar.controls['Edificio'].invalid && formularioEditar.controls['Edificio'].dirty" class="alert alert-danger">La Edificio es Requerida</div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4" *ngIf="esFechaFin || articulo.FechaFin">
+                          <label class="control-label h4 font-weight-bold">Fecha de Retiro</label>
+                          <input type="date" formControlName="FechaFin" *ngIf="esFechaFin" class="form-control" required/>
+                          <input type="text" class="form-control" *ngIf="!esFechaFin && articulo.FechaFin" (click)="cambiarFechaFin()" [value]="obtenerFecha(articulo.FechaFin).fecha">
+                          <div *ngIf="esFechaFin && formularioEditar.value.FechaFin == '' && !articulo.FechaFin" class="alert alert-danger">La Fecha es Requerida</div>
+                      </div>
+                        <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" >
+                          <label class="control-label font-weight-bold">Foto</label>
+                          <input type="file" Name="foto" class="form-control-file" formControlName="Foto" accept=".png, .jpg" (change)="subirImagen($event)"/>
+                          <progressbar [value]='carga' type="success" [striped] ="true" *ngIf="carga != 0 || carga > 99" class="mt-2"><b>{{carga}} %</b></progressbar>
+                          <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="articulo.Foto!='' || esImagen">
+                            <img [src]="imagen" alt="" class=" img-thumbnail mx-auto img-fluid mt-2 mb-2" src="{{articulo.Foto}}" >
+                          </div>
+                        </div>
+                    </div>
+                      <hr>
+                      <div class="row">
+                          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                              <input type="button" value="Editar" (click)="editarArticulo(articulo)" class="btn btn-outline-primary btn-block font-weight-bold" />
+                          </div>
+                          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                              <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/articuloDetalle', idArticulo]" />
+                          </div>
+                        </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

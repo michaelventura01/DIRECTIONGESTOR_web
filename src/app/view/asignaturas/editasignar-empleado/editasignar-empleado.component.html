@@ -1,0 +1,68 @@
+<div class="container" *ngFor="let asignacion of asignaturasEmpleados">
+  <div class="card" *ngIf="asignacion.id === idAsignacion">
+      <div class="card-header ">
+        <div class="h2 text-center">Editar Asignacion de Asignatura</div>
+      </div>
+      <div class="card-body">
+        <div class="row" [formGroup]="formularioEditar">
+          <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+            <label class="control-label h4 font-weight-bold">Asignatura de Curso</label>
+            <a *ngFor="let asignaturacurso of tenerAsignaturaCursos()">
+              <a *ngIf="asignaturacurso.id == asignacion.AsignaturaCurso">
+                <input type="text" [value]="asignaturacurso.Opcion | uppercase" formControlName="Asignatura" class="form-control" >
+              </a>
+            </a>
+          </div>
+          <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+            <label class="control-label h4 font-weight-bold">Profesor</label>
+            <select formControlName="Profesor" class="form-control" *ngIf="esProfesor" required>
+              <option *ngFor="let profesor of tenerProfesores()" [value]="profesor.id">{{profesor.Opcion | uppercase}} </option>
+            </select>
+
+            <a *ngFor="let profesor of tenerProfesores()">
+              <a *ngIf="profesor.id === asignacion.Profesor">
+                <input type="text" class="form-control" *ngIf="!esProfesor" [value]="profesor.Opcion | uppercase" (click)="cambiarProfesor()">
+              </a>
+            </a>
+
+            <div *ngIf="formularioEditar.controls['Profesor'].invalid && formularioEditar.controls['Profesor'].dirty" class="alert alert-danger">El Profesor es Requerido</div>
+          </div>
+          <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+            <label class="control-label h4 font-weight-bold">Edificio</label>
+            <select formControlName="Edificio" class ="form-control" *ngIf="esEdificio" required>
+              <option *ngFor="let edificio of tenerEdificios()" [value]="edificio.id">{{edificio.Nombre | uppercase}}</option>
+            </select>
+            <a *ngFor="let edificio of tenerEdificios()">
+              <a *ngIf="edificio.id === asignacion.Edificio">
+                <input type="text" class="form-control" *ngIf="!esEdificio" [value]="edificio.Nombre | uppercase" (click)="cambiarEdificio()">
+              </a>
+            </a>
+
+            <div *ngIf="formularioEditar.controls['Edificio'].invalid && formularioEditar.controls['Edificio'].dirty" class="alert alert-danger">El Estado es Requerido</div>
+          </div>
+          <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label h4 font-weight-bold">Estado</label>
+            <select formControlName="Estado" *ngIf="esEstado" class ="form-control" required>
+              <option *ngFor="let estado of tenerEstados()" [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+            </select>
+            <a *ngFor="let estado of tenerEstados()">
+              <a *ngIf="estado.id == asignacion.Estado">
+                <input type="text" class="form-control" *ngIf="!esEstado"  [value]="estado.descripcion | uppercase" (click)="cambiarEstado()">
+              </a>
+            </a>
+            <div *ngIf="formularioEditar.controls['Edificio'].invalid && formularioEditar.controls['Edificio'].dirty" class="alert alert-danger">El Estado es Requerido</div>
+        </div>
+      </div>
+      </div>
+      <div class='card-footer'>
+        <div class="row">
+          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+              <input type="button" value="Editar" (click)="editarAsignacion(asignacion)" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+              <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/asignacionDetalle'"/>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="container" *ngFor="let periodo of periodos">
+    <div class="card" *ngIf="idPeriodo == periodo.id">
+        <div class="card-header">
+          <div class="h2 text-center">Agregar Periodo</div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl col-lg col-md col-sm col-xs">
+                    <form [formGroup]="formularioEditar">
+                      <div class="row">
+                        <div class="form-group col-xl-8 col-lg-8  col-md-8 col-sm-8 col-xs-8">
+                          <label class="control-label font-weight-bold">Periodo</label>
+                          <input formControlName="Descripcion" [value] = "periodo.Descripcion"[value] = "periodo.Descripcion" class="form-control" placeholder="Nombre de Periodo" required/>
+                          <div *ngIf="formularioEditar.controls['Descripcion'].invalid && formularioEditar.controls['Descripcion'].dirty" class="alert alert-danger">El Periodo es Requerido</div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label font-weight-bold">Codigo</label>
+                          <input formControlName="Codigo" [value] = "periodo.Codigo" class="form-control" placeholder="Codigo de Periodo" required/>
+                          <div *ngIf="formularioEditar.controls['Codigo'].invalid && formularioEditar.controls['Codigo'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                            <label class="control-label font-weight-bold">Inicio de Periodo</label>
+                            <input type="date" (change)=" tenerCantidadSemanas()" *ngIf="esRango" formControlName="Inicio" class="form-control" required/>
+                            <input [value]="obtenerFecha(periodo.fechaInicio).fecha" (click)="cambiarRango()" *ngIf="!esRango" type="text" class="form-control">
+                            <div  *ngIf="formularioEditar.controls['Inicio'].invalid && formularioEditar.controls['Inicio'].dirty" class="alert alert-danger">El Inicio de Periodo es Requerido</div>
+                            <div *ngIf="0>tiempo && formularioEditar.controls['Fin'].dirty" class="alert alert-danger">Intervalo de Fechas Erroneo</div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label font-weight-bold">Fin de Periodo</label>
+                          <input type="date" formControlName="Fin" *ngIf="esRango" (change)="tenerCantidadSemanas()" class="form-control" required />
+                          <input type="text" [value]="obtenerFecha(periodo.fechaFin).fecha" (click)="cambiarRango()" *ngIf="!esRango" class="form-control">
+                          <div *ngIf="formularioEditar.controls['Fin'].invalid && formularioEditar.controls['Fin'].dirty" class="alert alert-danger">El Fin de Periodo es Requerido</div>
+                          <div *ngIf="0>tiempo && formularioEditar.controls['Fin'].dirty" class="alert alert-danger">Intervalo de Fechas Erroneo</div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label font-weight-bold">Duracion en Semanas</label>
+                          <input type="number" [value] = "tenerCantidadSemanas(periodo)" formControlName="Tiempo"  class="form-control" required />
+                          <div *ngIf="formularioEditar.controls['Fin'].invalid && formularioEditar.controls['Fin'].dirty" class="alert alert-danger">El Fin de Periodo es Requerido</div>
+                        </div>
+                      </div>
+
+                        <div class="form-group">
+                          <label class="control-label">Estado</label>
+                          <select formControlName="Estado" class ="form-control" *ngIf="esEstado" required>
+                            <option *ngFor="let estado of tenerEstadosPeriodos()" [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+                          </select>
+
+                          <a *ngFor="let estado of tenerEstadosPeriodos()">
+                            <a *ngIf="estado.id == periodo.Estado">
+                              <input type="text" class="form-control" *ngIf="!esEstado" (click)="cambiarEstado()" [value]="estado.descripcion | uppercase">
+                            </a>
+                          </a>
+                          <div *ngIf="formularioEditar.controls['Estado'].invalid && formularioEditar.controls['Estado'].dirty" class="alert alert-danger">El Estado es Requerido</div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                <input type="submit" (click)="editarPeriodo(periodo)" value="Agregar" class="btn btn-outline-primary btn-block font-weight-bold" />
+            </div>
+            <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/periodoDetalle',idPeriodo]"/>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>

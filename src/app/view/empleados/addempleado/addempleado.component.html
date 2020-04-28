@@ -1,0 +1,69 @@
+<div class="container" *ngIf="!esUsuario">
+  <progressbar [value]=70 type="primary" [striped] ="false" *ngIf="accion === 'Encargado'" class="mb-5"></progressbar>
+  <div class="card">
+      <div class="card-header">
+        <div class="h2 text-center">Agregar {{accion}}</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioEmpleado">
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Persona</label>
+                          <div class="row">
+                              <div class="col-xl-9 col-lg-9  col-md-9 col-sm-9 col-xs-9">
+                                  <input type="text" formControlName="buscarPersona" class="form-control" (change)="filtrarPersonas(formularioEmpleado.value.buscarPersona)" placeholder="{{mensaje}}" size="20">
+                                  <select formControlName="Persona" class ="form-control mt-3 mb-3" required >
+                                    <option></option>
+                                    <option *ngFor="let persona of filtrarPersonas(formularioEmpleado.value.buscarPersona)" [value]="persona.id">{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{tenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}</option>
+                                  </select>
+                                  <div *ngIf="formularioEmpleado.controls['Persona'].invalid && formularioEmpleado.controls['Persona'].dirty" class="alert alert-danger">La Persona es Requerida</div>
+                              </div>
+                              <div class=" col-xl-1 col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
+                                  <button type="button" class="btn btn-secondary" (click)="filtrarPersonas(formularioEmpleado.value.buscarPersona)"><div class="h4"><i class="fas fa-search "></i></div></button>
+                              </div>
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                          <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                              <label class="control-label font-weight-bold">Codigo de Empleado</label>
+                              <input  type="text" formControlName="Codigo" class="form-control" required [value]="codigoEmpleado | uppercase"/>
+                              <div *ngIf="formularioEmpleado.controls['Codigo'].invalid && formularioEmpleado.controls['Codigo'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
+                          </div>
+                          <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                              <label class="control-label font-weight-bold" >Puesto de Trabajo</label>
+                              <select formControlName="PuestoTrabajo" class ="form-control" required >
+                                <option *ngFor="let puesto of puestosTrabajos" [value]="puesto.id">{{puesto.descripcion | uppercase}}</option>
+                              </select>
+                              <div *ngIf="formularioEmpleado.controls['PuestoTrabajo'].invalid && formularioEmpleado.controls['PuestoTrabajo'].dirty" class="alert alert-danger">El Puesto de Trabajo es Requerido</div>
+                          </div>
+                          <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                            <label class="control-label font-weight-bold">Sueldo</label>
+                            <input type="number" formControlName="Sueldo" class="form-control" required/>
+                            <div *ngIf="formularioEmpleado.controls['Sueldo'].invalid && formularioEmpleado.controls['Sueldo'].dirty" class="alert alert-danger">El Sueldo es Requerido</div>
+                          </div>
+                          <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                            <label class="control-label font-weight-bold">Fecha de Inicio</label>
+                            <input type="date" formControlName="FechaInicio" class="form-control" required/>
+                            <div *ngIf="formularioEmpleado.controls['FechaInicio'].invalid && formularioEmpleado.controls['FechaInicio'].dirty" class="alert alert-danger">El Sueldo es Requerido</div>
+                          </div>
+                      </div>
+                      <hr>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+              <input type="button" value="Agregar" [disabled]='formularioEmpleado.invalid' (click)="agregarEmpleado(verInstitucionId(instituto))" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+              <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/empleados'" *ngIf="accion!='Encargado'"/>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<app-addusuario *ngIf="esUsuario" accion="{{accion}}" instituto="{{instituto}}" persona="{{persona}}"></app-addusuario>

@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+          <div class="h1 text-center">Agregar Articulo</div>
+        </div>
+      <div class="card-body">
+        <form [formGroup]="formularioCreado">
+            <div class="row">
+              <div class="form-group form-groupcol-xl-8 col-lg-8  col-md-8 col-sm-8 col-xs-8">
+                <label class="control-label h4 font-weight-bold">Articulo</label>
+                <input formControlName="Articulo" class="form-control" required />
+                <div *ngIf="formularioCreado.controls['Articulo'].invalid && formularioCreado.controls['Articulo'].dirty" class="alert alert-danger">La Articulo es Requerida</div>
+              </div>
+              <div class="form-groupcol-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 ">
+                  <label class="control-label h4 font-weight-bold">Codigo</label>
+                  <input formControlName="Codigo" class="form-control" required/>
+                  <div *ngIf="formularioCreado.controls['Codigo'].invalid && formularioCreado.controls['Codigo'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
+              </div>
+              <div class="form-groupcol-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
+                <label class="control-label h4 font-weight-bold">Descripcion</label>
+                <textarea formControlName="Descripcion" class="form-control" cols="20" rows="4" required></textarea>
+                <div *ngIf="formularioCreado.controls['Descripcion'].invalid && formularioCreado.controls['Descripcion'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
+              </div>
+              <div class="form-groupcol-xl col-lg  col-md col-sm col-xs ">
+                <label class="control-label h4 font-weight-bold">Edificio</label>
+                <select  formControlName="Edificio" class="form-control" required>
+                  <option *ngFor="let edificio of tenerEdificios()" [value]="edificio.id">{{edificio.Nombre | uppercase}}</option>
+                </select>
+                <div *ngIf="formularioCreado.controls['Edificio'].invalid && formularioCreado.controls['Edificio'].dirty" class="alert alert-danger">La Edificio es Requerida</div>
+              </div>
+                <div class="form-groupcol-xl col-lg  col-md col-sm col-xs ">
+                    <label class="control-label h4 font-weight-bold">Cantidad</label>
+                    <input Type="number" formControlName="Cantidad" class="form-control" required/>
+                    <div *ngIf="formularioCreado.controls['Cantidad'].invalid && formularioCreado.controls['Cantidad'].dirty" class="alert alert-danger">La Cantidad es Requerida</div>
+                </div>
+                <div class="form-groupcol-xl col-lg  col-md col-sm col-xs ">
+                    <label class="control-label h4 font-weight-bold">Precio</label>
+                    <input type="number" formControlName="Precio" class="form-control" required/>
+                    <div *ngIf="formularioCreado.controls['Precio'].invalid && formularioCreado.controls['Precio'].dirty" class="alert alert-danger">El Precio es Requerido</div>
+                </div>
+
+                <div class="form-group col-xl col-lg  col-md col-sm col-xs ">
+                    <label class="control-label h4 font-weight-bold">Fecha de Registro</label>
+                    <input type="date" formControlName="Fecha" class="form-control" required/>
+                    <div *ngIf="formularioCreado.controls['Fecha'].invalid && formularioCreado.controls['Fecha'].dirty" class="alert alert-danger">La Fecha es Requerida</div>
+                </div>
+                <div class="Form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 " >
+                  <label class="control-label font-weight-bold">Foto</label>
+                  <input type="file" class="form-control-file" formControlName="Foto" accept=".png, .jpg" (change)="subirImagen($event)"/>
+                  <progressbar [value]='carga' type="success" [striped] ="true" *ngIf="carga != 0 || carga > 99" class="mt-2"><b>{{carga}} %</b></progressbar>
+                  <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="esImagen">
+                    <img [src]="imagen" alt="" class=" img-thumbnail mx-auto img-fluid mt-2 mb-2">
+                  </div>
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+              <input type="button" [disabled]="formularioCreado.invalid || esCarga" (click)="agregarArticulo(buscarArticulo())" value="Agregar" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+              <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold " [routerLink]="'/articulos'"/>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

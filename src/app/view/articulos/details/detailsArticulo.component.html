@@ -1,0 +1,99 @@
+<div class="container" *ngFor="let articulo of articulos">
+  <div class="card" *ngIf="articulo.id === idArticulo">
+      <div class="card-header">
+        <div class="text-center h1">Articulo</div>
+      </div>
+          <div class="card-body">
+              <div class="row">
+                  <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" *ngIf="articulo.Foto != '' ">
+                    <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" >
+                      <img [src]="articulo.Foto" alt="" class=" img-thumbnail rounded-circle mx-auto img-fluid mt-2 mb-2">
+                    </div>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
+                      Articulo:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h5 text-uppercase">
+                      {{articulo.Articulo | uppercase}}
+                  </div>
+
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
+                      Detalles:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h5 text-uppercase">
+                      {{articulo.Descripcion | uppercase}}
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
+                    Cantidad:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h5 text-uppercase">
+                    {{articulo.Cantidad}} <a *ngIf="articulo.Cantidad > 1">UNIDADES</a><a *ngIf="2 > articulo.Cantidad ">UNIDAD</a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
+                      Precio de Adquisicion:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h5 text-uppercase">
+                      {{articulo.Precio | currency}}
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
+                      Ubicacion de Pertenencia:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h5 text-uppercase">
+                      <a *ngFor="let edificio of edificios">
+                        <a *ngIf="edificio.id == articulo.Edificio">{{edificio.Nombre | uppercase}}</a>
+                      </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
+                      Direccion de Ubicacion:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h5 text-uppercase">
+                      <a *ngFor="let edificio of edificios">
+                        <a *ngIf="edificio.id == articulo.Edificio">{{edificio.Direccion | uppercase}} ,
+                          <a *ngFor="let ciudad of ciudades">
+                            <a *ngIf="edificio.Ciudad == ciudad.id">{{ciudad.descripcion | uppercase}} , </a>
+                          </a>
+                          <a *ngFor="let pais of paises">
+                            <a *ngIf="edificio.Pais == pais.id">{{pais.descripcion | uppercase}}</a>
+                          </a>
+                        </a>
+                      </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
+                      Fecha de Ingreso:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h5 text-uppercase">
+                      {{obtenerFecha(articulo.Fecha).fechaNacimiento}}
+                  </div>
+
+                      <div *ngIf="articulo.FechaFin" class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
+                        Fecha de Removida:
+                    </div>
+                    <div *ngIf="articulo.FechaFin" class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h5 text-uppercase">
+                        {{obtenerFecha(articulo.FechaFin).fechaNacimiento}}
+                    </div>
+
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
+                      Estado:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h5 text-uppercase">
+                    <a *ngFor="let estado of estados">
+                      <a *ngIf="estado.id == articulo.Estado">{{estado.descripcion | uppercase}}</a>
+                    </a>
+                  </div>
+              </div>
+          </div>
+          <div class="card-footer form-group">
+              <div class="row">
+                <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                  <input type="button" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="['/articuloEditar', articulo.id]"/>
+                </div>
+                <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                  <input type="button" value="Eliminar" class="btn btn-warning btn-block font-weight-bold" />
+                </div>
+                <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                    <input type="button" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/articulos']"/>
+                  </div>
+              </div>
+          </div>
+  </div>
+</div>

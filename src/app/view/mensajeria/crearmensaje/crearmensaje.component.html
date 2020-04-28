@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+          <div class="h2 text-center">Enviar Mensaje</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioCreado">
+
+                      <div class="form-group">
+                          <div class="row">
+
+                              <div class="col-xl-8 col-lg-8  col-md-8 col-sm-8 col-xs-8">
+                                  <label class="control-label font-weight-bold">Seleccionar Destinatario</label>
+                                  <input Name="buscar" class="form-control" placeholder="Ingresa Nombre de Destinatario a Buscar"/>
+                              </div>
+                              <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
+                                  <button type="button" class="btn btn-secondary " ><div class="h4"><i class="fas fa-search "></i></div></button>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <select formControlName="Receptor" class ="form-control" required></select>
+                          <div *ngIf="formularioCreado.controls['Receptor'].invalid && formularioCreado.controls['Receptor'].dirty" class="alert alert-danger">El que recibira es Requerido</div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Asunto</label>
+                          <input formControlName="Titulo" class="form-control" placeholder="Asunto de Mensaje" required/>
+                          <div *ngIf="formularioCreado.controls['Titulo'].invalid && formularioCreado.controls['Titulo'].dirty" class="alert alert-danger">El Titulo del mensaje es Requerido</div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Cuerpo</label>
+                          <textarea formControlName="Descripcion" rows="5"class="form-control" required placeholder="Cuerpo del mensaje"></textarea>
+                          <div *ngIf="formularioCreado.controls['Descripcion'].invalid && formularioCreado.controls['Descripcion'].dirty" class="alert alert-danger">El Cuerpo del mensaje es Requerido</div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Cargar Documento</label>
+                          <input type="file" Name="Documento" class="form-control" placeholder="Asunto de Mensaje"/>
+                          <img src="..." alt="" class="rounded mx-auto d-block" name="muestra">
+                      </div>
+                      <hr>
+                      <div class="row">
+                          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                              <input type="submit" value="Enviar" class="btn btn-outline-primary btn-block font-weight-bold" />
+                          </div>
+                          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/mensajes'"/>
+                          </div>
+                        </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

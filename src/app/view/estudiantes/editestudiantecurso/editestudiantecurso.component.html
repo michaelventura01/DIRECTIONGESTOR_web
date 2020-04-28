@@ -1,0 +1,82 @@
+<div class="container" *ngFor="let cursosestudiante of cursosEstudiantes">
+  <div class="card" *ngIf="cursosestudiante.id ===  idEstudianteCurso">
+      <div class="card-header">
+        <div class="h2 text-center">Editar Estudiante a Curso</div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xl col-lg col-md col-sm col-xs">
+              <form [formGroup]="formularioEditar">
+                  <div class="form-group">
+                      <label  class="control-label font-weight-bold">Estudiante</label>
+                      <div class="form-group row">
+                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                          <a *ngFor="let estudiante of estudiantes">
+                            <a *ngIf="estudiante.id === cursosestudiante.Estudiante">
+                              <a *ngFor="let persona of personas">
+                                <a *ngIf="persona.id === estudiante.Persona">
+                                  <input type="text" formControlName="Estudiante" value="{{estudiante.Codigo | uppercase}} | {{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{tenerFecha(persona.FechaNacimiento).edad}}" class="form-control mb-4" placeholder="Escribir para filtrar Estudiantes" />
+                                </a>
+                              </a>
+                            </a>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                        <label class="control-label font-weight-bold">Curso</label>
+                        <select formControlName="Curso" *ngIf="esCurso" class ="form-control" required>
+                          <option></option>
+                          <option [value]="curso.id" *ngFor="let curso of tenerCursos()">{{curso.Descripcion | uppercase}} | {{curso.Codigo | uppercase}}</option>
+                        </select>
+                        <a *ngFor="let curso of cursos">
+                          <a *ngIf="curso.id === cursosestudiante.Curso">
+                            <input type="text" *ngIf="!esCurso" (click)="cambiarCurso()" value="{{curso.Descripcion | uppercase}} | {{curso.Codigo | uppercase}}" class="form-control">
+                          </a>
+                        </a>
+                        <div *ngIf="formularioEditar.controls['Curso'].invalid && formularioEditar.controls['Curso'].dirty" class="alert alert-danger">El Curso es Requerido </div>
+                    </div>
+                    <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                      <label class="control-label font-weight-bold">Periodo</label>
+                      <select formControlName="Periodo"  *ngIf="esPeriodo" class ="form-control" required>
+                        <option></option>
+                        <option [value]="periodo.id" *ngFor="let periodo of tenerPeriodos()">{{periodo.Descripcion | uppercase}} | {{periodo.Codigo | uppercase}}</option>
+                      </select>
+                      <a *ngFor="let periodo of periodos">
+                        <a *ngIf="periodo.id === cursosestudiante.Periodo">
+                          <input type="text" (click)="cambiarPeriodo()" *ngIf="!esPeriodo" value="{{periodo.Descripcion | uppercase}} | {{periodo.Codigo | uppercase}}" class="form-control">
+                        </a>
+                      </a>
+                      <div *ngIf="formularioEditar.controls['Periodo'].invalid && formularioEditar.controls['Periodo'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
+                  </div>
+                  <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                    <label class="control-label font-weight-bold">Estado</label>
+                    <select formControlName="Estado" *ngIf="esEstado" class ="form-control" required>
+                      <option></option>
+                      <option [value]="estado.id" *ngFor="let estado of tenerEstados()">{{estado.descripcion | uppercase}} </option>
+                    </select>
+                    <a *ngFor="let estado of estados">
+                      <a *ngIf="estado.id === cursosestudiante.Estado">
+                        <input type="text" (click)="cambiarEstado()" *ngIf="!esEstado" value="{{estado.descripcion | uppercase}}" class="form-control">
+                      </a>
+                    </a>
+                    <div *ngIf="formularioEditar.controls['Estado'].invalid && formularioEditar.controls['Estado'].dirty" class="alert alert-danger">El Estado es Requerido </div>
+                  </div>
+                </div>
+              </form>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+          <div class="row mx-auto">
+            <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+              <input type="submit" value="Editar" (click)="editarEstudianteCurso(cursosestudiante)" class="btn btn-outline-primary btn-block font-weight-bold" />
+            </div>
+            <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/estudianteCursoDetalle', idEstudianteCurso]"/>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>

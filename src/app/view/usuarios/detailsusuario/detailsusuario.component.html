@@ -1,0 +1,62 @@
+<div class="container" *ngFor="let usuario of usuarios">
+  <div class="card" *ngIf="usuario.id === idUsuario">
+      <div class="card-header">
+        <div class="h2 text-center">
+          <a *ngFor="let persona of personas">
+            <a *ngIf="usuario.Persona === persona.id">
+              {{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}
+            </a>
+          </a>
+        </div>
+      </div>
+        <div class="card-body">
+          <div class="row">
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Usuario
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 uppercase">
+                  {{usuario.Usuario | uppercase}}
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Rol
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                  <a *ngFor="let rol of roles">
+                    <a *ngIf="rol.id === usuario.Rol">
+                      {{rol.descripcion}}
+                    </a>
+                  </a>
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Fecha de Creacion
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                {{obtenerFecha(usuario.fechaInicio).fechaNacimiento}}
+              </div>
+              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                  Estado
+              </div>
+              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                  <a *ngFor="let estado of estados">
+                    <a *ngIf="estado.id === usuario.Estado">
+                      {{estado.descripcion}}
+                    </a>
+                  </a>
+              </div>
+          </div>
+        </div>
+        <div class="card-footer form-group">
+          <div class="row text-center">
+              <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" (click)="editarUsuario(usuario.id)"/>
+              </div>
+              <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                <input type="submit" *ngIf="esRol" value="Ver Usuarios" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/usuarios'"/>
+              </div>
+              <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                <input type="submit" value="Menu" class="btn btn-outline-dark btn-block font-weight-bold" [routerLink]="'/menu'"/>
+              </div>
+          </div>
+        </div>
+  </div>
+</div>

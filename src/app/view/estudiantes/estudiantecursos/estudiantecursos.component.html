@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+          <div class="row">
+              <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <div class="h1 text-center">Estudiantes de Cursos</div>
+              </div>
+              <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2 ">
+                  <button type="button" class="btn btn-success" [routerLink]="'/estudianteCursoAgregar'"><div class="h1"><i class=" far fa-plus-square "></i></div></button>
+              </div>
+          </div>
+      </div>
+      <div class="card-body">
+          <div class="card-title">
+              <div class="row" [formGroup]="formularioBuscar">
+                  <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                    <input type="text" formControlName="Buscador" (change)='filtrarCursosEstudiantes()' class="form-control " placeholder="Escribe Para Filtrar los Estudiantes">
+                  </div>
+                  <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2">
+                    <select type="date" formControlName="Curso" (change)='asignarCurso()' class="form-control " >
+                        <option></option>
+                        <option *ngFor="let curso of tenerCursos()" [value]='curso.id'>{{curso.Codigo | uppercase}} | {{curso.Descripcion | uppercase}}</option>
+                    </select>
+                  </div>
+                  <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2">
+                    <select type="date" formControlName="Periodo" (change)='asignarPeriodo()' class="form-control " >
+                      <option></option>
+                      <option *ngFor="let periodo of tenerPeriodos()" [value]='periodo.id'>{{periodo.Codigo | uppercase}} | {{periodo.Descripcion | uppercase}} </option>
+                    </select>
+                  </div>
+                  <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2">
+                    <select type="date" formControlName="Estado" (change)='asignarEstado()' class="form-control " >
+                      <option></option>
+                      <option *ngFor="let estado of tenerEstados()" [value]='estado.id'>{{estado.descripcion | uppercase}}</option>
+                    </select>
+                </div>
+                  <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
+                      <button type="button" class="btn btn-secondary " (click)="filtrarCursosEstudiantes()" ><div class="h4"><i class="fas fa-search "></i></div></button>
+                  </div>
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+
+
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngFor="let cursoestudiante of filtrarCursosEstudiantes()">
+                  <div class="card ">
+                      <div class="card-header"><div class="h4">{{cursoestudiante.Nombre | uppercase}} {{cursoestudiante.Apellido | uppercase}}</div></div>
+                      <div class="card-body h8">
+                          <div class="row">
+                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h4 font-weight-bold">
+                                  Curso Estudiante
+                              </div>
+                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase">
+                                {{cursoestudiante.Curso}}
+                              </div>
+                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h4 font-weight-bold">
+                                  Estado
+                              </div>
+                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase">
+                                 <a *ngFor="let estado of estados">
+                                   <a *ngIf="estado.id === cursoestudiante.Estado">{{estado.descripcion | uppercase}}</a>
+                                 </a>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-footer">
+                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h8 font-weight-bold">
+                              <input type="button" class="btn btn-outline-secondary btn-block" value="Ver" [routerLink]="['/estudianteCursoDetalle', cursoestudiante.id]">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+
+          </div>
+      </div>
+      <div class="card-footer"></div>
+  </div>
+</div>

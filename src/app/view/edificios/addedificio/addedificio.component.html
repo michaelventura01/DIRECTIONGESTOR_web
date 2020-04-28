@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+        <div class="h2 text-center">Agregar Edificio</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioEdificio">
+                      <div class="form-group">
+                        <label class="control-label font-weight-bold">Nombre de Edificio</label>
+                        <input formControlName="Descripcion" class="form-control" required/>
+                        <div *ngIf="formularioEdificio.controls['Descripcion'].invalid && formularioEdificio.controls['Descripcion'].dirty" class="alert alert-danger">El Edificio es Requerido</div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 ">
+                          <label for="Pais" class="control-label font-weight-bold">Pais</label>
+                          <select formControlName="Pais" class ="form-control" (change)="tenerCiudades(formularioEdificio.value.Pais)" required>
+                            <option *ngFor="let pais of paises" [value]="pais.id">{{pais.descripcion | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioEdificio.controls['Pais'].invalid && formularioEdificio.controls['Pais'].dirty"  class="alert alert-danger">El Pais es Requerido</div>
+                        </div>
+                        <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 ">
+                          <label class="control-label font-weight-bold">Ciudad</label>
+                          <select formControlName="Ciudad" class ="form-control" required>
+                            <option *ngFor="let ciudad of ciudades" [value]="ciudad.id">{{ciudad.descripcion | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioEdificio.controls['Ciudad'].invalid && formularioEdificio.controls['Ciudad'].dirty"  class="alert alert-danger">La Ciudad es Requerida</div>
+                        </div>
+                        <div class="form-group  col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 ">
+                          <label class="control-label font-weight-bold">Direccion</label>
+                          <input formControlName="Direccion" class="form-control" required/>
+                          <div *ngIf="formularioEdificio.controls['Direccion'].invalid && formularioEdificio.controls['Direccion'].dirty"  class="alert alert-danger">La Direccion es Requerida</div>
+                        </div>
+                      </div>
+                      <div class="Form-group" >
+                        <label class="control-label font-weight-bold">Foto</label>
+                        <input type="file" class="form-control-file" formControlName="Foto" accept=".png, .jpg" (change)="subirImagen($event)"/>
+                        <progressbar [value]='carga' type="success" [striped] ="true" *ngIf="carga != 0 || carga > 99" class="mt-2"><b>{{carga}} %</b></progressbar>
+                        <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="esImagen">
+                          <img [src]="imagen" alt="" class=" img-thumbnail mx-auto img-fluid mt-2 mb-2">
+                        </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+            <input type="submit" [disabled]="formularioEdificio.invalid || esCarga" value="Agregar" (click)="agregarEdificio()" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+            <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/edificios'"/>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

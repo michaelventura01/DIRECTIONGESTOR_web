@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+        <div class="h2 text-center">Editar Movimeinto</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioCreado">
+                          <div class="form-group">
+                              <label class="control-label font-weight-bold">Descripcion</label>
+                              <input formControlName="Descripcion" class="form-control" placeholder="Descripcion del Movimiento" required/>
+                              <div *ngIf="formularioCreado.controls['Descripcion'].invalid && formularioCreado.controls['Descripcion'].dirty" class="alert alert-danger">La Descripcion es Requerida</div>
+                          </div>
+                          <div class="row">
+                            <div class="form-group  col-xl col-lg col-md col-sm col-xs">
+                                <label class="control-label font-weight-bold">Tipo de Movimiento</label>
+                                <select formControlName="Tipo" class="form-control" required>
+                                    <option value="0">Ingreso</option>
+                                    <option value="1">Gasto</option>
+                                </select>
+                                <div *ngIf="formularioCreado.controls['Tipo'].invalid && formularioCreado.controls['Tipo'].dirty" class="alert alert-danger">El Tipo de Movimiento es Requerido</div>
+                            </div>
+                            <div class="form-group  col-xl col-lg col-md col-sm col-xs">
+                                <label class="control-label font-weight-bold">Monto</label>
+                                <input type="number" formControlName="Monto" required class="form-control" placeholder="123.00" required/>
+                                <div *ngIf="formularioCreado.controls['Monto'].invalid && formularioCreado.controls['Monto'].dirty" class="alert alert-danger">El Monto es Requerido</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group  col-xl col-lg col-md col-sm col-xs">
+                                <label class="control-label font-weight-bold">Fecha</label>
+                                <input type="date" formControlName="Fecha" class="form-control" required/>
+                                <div *ngIf="formularioCreado.controls['Fecha'].invalid && formularioCreado.controls['Fecha'].dirty" class="alert alert-danger">La Fecha es Requerida</div>
+                            </div>
+                            <div class="form-group  col-xl col-lg col-md col-sm col-xs">
+                                <label class="control-label font-weight-bold">Hora</label>
+                                <input type="time" formControlName="Hora" class="form-control" required/>
+                                <div *ngIf="formularioCreado.controls['Hora'].invalid && formularioCreado.controls['Hora'].dirty" class="alert alert-danger">La Hora es Requerida</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label font-weight-bold">Estado</label>
+                            <select formControlName="Estado" class ="form-control" required></select>
+                            <div *ngIf="formularioCreado.controls['Estado'].invalid && formularioCreado.controls['Estado'].dirty" class="alert alert-danger">El Estado es Requerido</div>
+                        </div>
+                      <hr>
+                      <div class="row">
+                        <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                            <input type="submit" value="Agregar" class="btn btn-outline-primary btn-block font-weight-bold" />
+                        </div>
+                        <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                            <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/movimientoDetalle'"/>
+                        </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

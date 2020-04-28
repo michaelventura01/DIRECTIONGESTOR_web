@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header ">
+        <div class="h2 text-center">Inscribir Estudiante a una Asignatura</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioCreado">
+                      <div class="row">
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label">Periodo</label>
+                          <select formControlName="Periodo" class ="form-control" required>
+                            <option></option>
+                            <option *ngFor="let periodo of tenerPeriodos()" [value]="periodo.id">{{periodo.Codigo}} | {{periodo.Descripcion | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioCreado.controls['Periodo'].invalid && formularioCreado.controls['Periodo'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label">Curso</label>
+                          <select formControlName="Curso" class ="form-control" required>
+                            <option></option>
+                            <option *ngFor="let curso of tenerCursos()" [value]="curso.id">{{curso.Codigo | uppercase}} | {{curso.Descripcion | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioCreado.controls['Curso'].invalid && formularioCreado.controls['Curso'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label">Asignatura</label>
+                          <select formControlName="Asignatura" class ="form-control" required>
+                            <option></option>
+                            <option *ngFor="let asignatura of tenerAsignaturas()" [value]="asignatura.id">{{asignatura.Codigo | uppercase}} | {{asignatura.Descripcion | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioCreado.controls['Asignatura'].invalid && formularioCreado.controls['Asignatura'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                          <label class="control-label h6 font-weight-bold">Estudiante y Curso</label>
+                          <select formControlName="EstudianteCurso" class ="form-control">
+                            <option></option>
+                            <option *ngFor="let estudiante of tenerCursosEstudiantes()" [value]="estudiante.id">{{estudiante.Estudiante | uppercase}} ___ {{estudiante.CodigoEstudiante | uppercase}} ||| {{estudiante.Curso | uppercase}} ___ {{estudiante.CodigoCurso | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioCreado.controls['EstudianteCurso'].invalid && formularioCreado.controls['EstudianteCurso'].dirty" class="alert alert-danger">El Estudiante es Requerido </div>
+                        </div>
+
+                        <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                          <label class="control-label h6 font-weight-bold">Asignatura y Encargado</label>
+                          <select formControlName="AsignaturaProfesor" class="form-control" required>
+                            <option></option>
+                            <option *ngFor="let asignatura of tenerAsignaturasEmpleados()" value="asignatura.id">{{asignatura.Asignatura | uppercase}} __ {{asignatura.CodigoAsignatura | uppercase}} ||| {{asignatura.Profesor | uppercase}} ||| {{asignatura.Curso | uppercase}}</option>
+                          </select>
+                          <div *ngIf="formularioCreado.controls['AsignaturaProfesor'].invalid && formularioCreado.controls['AsignaturaProfesor'].dirty" class="alert alert-danger">La Asignatura es Requerida </div>
+                        </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="form-group mx-auto col-xl-8 col-lg-8  col-md-8 col-sm-10 col-xs-10">
+              <input type="button" [disabled] = 'formularioCreado.invalid'  value="Agregar" (click)="agregarInscripcionEstudiante(buscarInscripcionEstudiante())" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-4 col-lg-4  col-md-4 col-sm-10 col-xs-10">
+              <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/inscripciones']"/>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>

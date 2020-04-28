@@ -1,0 +1,56 @@
+<div class="container" *ngIf="visibleComponente">
+  <progressbar [value]=20 type="primary" [striped] ="false" *ngIf="estatus === 'Encargado'" class="mb-5"></progressbar>
+  <div class="card">
+      <div class="card-header">
+        <div class="h2 text-center">Agregar Institucion</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioInstitucion">
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Nombre de Institucion</label>
+                          <input formControlName="Nombre" class="form-control" required (change)="buscarInstitucion(formularioInstitucion.value.Nombre)"/>
+                          <div *ngIf="formularioInstitucion.controls['Nombre'].invalid && formularioInstitucion.controls['Nombre'].dirty" class="alert alert-danger">El Nombre es Requerido</div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label font-weight-bold">Descripcion de Institucion</label>
+                          <textarea formControlName="Descripcion" cols="50" rows="3" class="form-control" required></textarea>
+                          <div *ngIf="formularioInstitucion.controls['Descripcion'].invalid && formularioInstitucion.controls['Descripcion'].dirty" class="alert alert-danger">La Descripcion es Requerida</div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                              <label class="control-label font-weight-bold">Tipo Telefono</label>
+                              <select formControlName="TipoTelefono" class="form-control" >
+                                  <option required *ngFor = "let tipo of tipoTelefono" value="{{tipo.id}}">{{tipo.descripcion | uppercase}}</option>
+                              </select>
+                              <div *ngIf="formularioInstitucion.controls['TipoTelefono'].invalid && formularioInstitucion.controls['TipoTelefono'].dirty" class="alert alert-danger">El TipoTelefono es Requerido</div>
+                          </div>
+                          <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                              <label  class="control-label font-weight-bold">Telefono</label>
+                              <input type="tel" pattern=".{10}" formControlName="Telefono" required class="form-control"  placeholder="809-000-0000"/>
+                              <div *ngIf="formularioInstitucion.controls['Telefono'].invalid && formularioInstitucion.controls['Telefono'].dirty" class="alert alert-danger">El Telefono es Requerido (0000000000)</div>
+                          </div>
+                          <div class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                              <label class="control-label font-weight-bold">Correo</label>
+                              <input type="email" formControlName="Correo" required class="form-control" placeholder="name@mail.com"/>
+                              <div *ngIf="formularioInstitucion.controls['Correo'].invalid && formularioInstitucion.controls['Correo'].dirty" class="alert alert-danger">El Correo es Requerido (correo@mail.com)</div>
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="form-group mx-auto">
+                          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                            <input type="submit" value="Agregar" (click)="agregarInstitucion()" [disabled]="!formularioInstitucion.valid" class="btn btn-outline-primary btn-block font-weight-bold" />
+                          </div>
+                          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                            <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/'"/>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<app-addpersona *ngIf="!visibleComponente" accion = "{{estatus}}" instituto = "{{instituto}}"></app-addpersona>
+

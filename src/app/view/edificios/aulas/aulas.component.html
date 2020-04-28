@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10"><div class="h1 text-center">Aulas de Edificios</div></div>
+          <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2 ">
+              <button type="button" class="btn btn-success" [routerLink]="'/aulaAgregar'"><div class="h1"><i class=" far fa-plus-square "></i></div></button>
+          </div>
+      </div>
+      </div>
+      <div class="card-body">
+          <div class="card-title">
+            <div class="card-title" >
+              <div class="row" [formGroup]="formularioBuscar" >
+                  <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5">
+                    <input type="text" formControlName="Aula"  class="form-control " (change)="filtrarAulas()" placeholder="Escribe Para Filtrar las Aulas">
+                  </div>
+                  <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                    <select type="text" formControlName="Edificio" (change)="asignarEdificio()"  class="form-control ">
+                      <option *ngFor="let edificio of  tenerEdificios()" [value]="edificio.id">{{edificio.Nombre | uppercase}}</option>
+                    </select>
+                  </div>
+                  <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2">
+                    <select type="text" formControlName="Estado" (change)="asignarEstado()"  class="form-control ">
+                      <option *ngFor="let estado of tenerEstadosAulas()" [selected]=1  [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+                    </select>
+                  </div>
+                  <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
+                      <button type="button" class="btn btn-secondary " (click)="filtrarAulas()" ><div class="h4"><i class="fas fa-search "></i></div></button>
+                  </div>
+              </div>
+          </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngFor="let aula of filtrarAulas()">
+                  <div class="card mb-2">
+                      <div class="card-header"><div class="h4">{{aula.Descripcion | uppercase}}</div></div>
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h7 font-weight-bold">
+                                Edificio
+                              </div>
+                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h8 text-uppercase">
+                                <a *ngFor="let edificio of edificios">
+                                  <a *ngIf="aula.Edificio == edificio.id">{{edificio.Nombre | uppercase}}</a>
+                                </a>
+                              </div>
+                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h7 font-weight-bold">
+                                  Estado
+                              </div>
+                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h8 text-uppercase">
+                                <a *ngFor="let estado of estados">
+                                  <a *ngIf="aula.Estado == estado.id">{{estado.descripcion | uppercase}}</a>
+                                </a>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-footer">
+                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h8 font-weight-bold">
+                              <input type="button" class="btn btn-outline-secondary btn-block" value="Ver" [routerLink]="['/aulaDetalle',aula.id]" >
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer"></div>
+  </div>
+</div>

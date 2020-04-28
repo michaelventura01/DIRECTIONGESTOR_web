@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="card border-info">
+    <div class="card-header bg-info ">
+      <div class="h1 text-uppercase text-center text-white font-weight-bold">Sistema De Gestion Escolar</div>
+    </div>
+    <div class="card-body ">
+      <div class="row">
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-5 btn-light m-2">
+          <div class="container ">
+            <div class=" h2 text-center font-weight-bold"><i class="fas fa-school"></i> | Direction Gestor</div>
+            <div class="container  text-justify h3 text-secondary">
+              Solución de gestión de procesos de la institución educativa acoplada a operaciones internas con el fin de automatizar funciones manuales diarias en las operaciones recurrentes de una institución educativa.
+              <hr>
+            </div>
+          </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6 m-2">
+        <div class="text-center text-uppercase text-secondary h2 m-5" *ngIf="!esUsuario">
+          Empecemos Ya:
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 text-center mb-2" *ngIf="!esUsuario">
+            <div class="btn btn-outline-primary btn-lg btn-block" [routerLink]="['/institucionAgregar']"><a class="h1"><i class="fas fa-school"></i><br><br> Crear Institucion</a></div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="!esUsuario">
+            <div class=" btn btn-outline-success btn-lg btn-block" (click)="asignarLogin()"><a class="h1"><i class="fas fa-users"></i><br><br>Ingresar Usuario</a></div>
+          </div>
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center " *ngIf="esUsuario">
+            <div class=" btn btn-outline-danger btn-lg btn-block" (click)="salirUsuario()"><a class="h1"><i class="fas fa-sign-out-alt"></i><br><br>Finalizar Session</a></div>
+          </div>
+        </div>
+        <hr><br>
+        <app-ingresarusuario *ngIf="esLogin"></app-ingresarusuario>
+        <hr>
+      </div>
+    </div>
+  </div>
+</div>

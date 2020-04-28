@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+          <div class="row">
+              <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <div class="h2 text-center">Calificaciones de Asignaturas</div>
+              </div>
+              <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2 ">
+                  <button type="button" class="btn btn-success" [routerLink]="'/calificacionAgregar'">
+                    <div class="h1">
+                      <i class=" far fa-plus-square "></i>
+                    </div>
+                  </button>
+              </div>
+          </div>
+      </div>
+      <div class="card-body">
+          <div class="card-title">
+              <div class="row">
+                  <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5">
+                      <input type="text" name="buscar" class="form-control " placeholder="Escribe Para Filtrar las Calificaciones">
+                  </div>
+                  <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                      <select type="date" name="periodoCalificacion" class="form-control " ></select>
+                  </div>
+                  <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                      <select type="date" name="asignatura" class="form-control " ></select>
+                  </div>
+                  <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
+                      <button type="button" class="btn btn-secondary " ><div class="h4"><i class="fas fa-search "></i></div></button>
+                  </div>
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                  <div class="card ">
+                      <div class="card-header h4">Asignatura</div>
+                      <div class="card-body h8">
+                          <div class="form-group col-xl-10 col-lg-10  col-md-10 col-sm-10 col-xs-10 h8 font-weight-bold">
+                              Estudiante
+                          </div>
+                          <div class="form-group col-xl-10 col-lg-10  col-md-10 col-sm-10 col-xs-10 h9 text-uppercase">
+                              Nombre Apellido
+                          </div>
+                          <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12">
+                              <div class="row">
+                                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h8 font-weight-bold">
+                                      Calificacion
+                                  </div>
+                                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h9 text-uppercase">
+                                      00
+                                  </div>
+                                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h9 font-weight-bold">
+                                      Estado
+                                  </div>
+                                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 col-xs-7 h9 text-uppercase">
+                                      Estatus
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-footer">
+                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h8 font-weight-bold">
+                              <input type="button" class="btn btn-outline-secondary btn-block" value="Ver" [routerLink]="'/calificacionDetalle'">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer">
+
+      </div>
+  </div>
+</div>

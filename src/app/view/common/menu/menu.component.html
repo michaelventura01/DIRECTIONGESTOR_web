@@ -1,0 +1,89 @@
+<div class="container ">
+  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Procesando... </p></ngx-spinner>
+  <div class="card border-secondary">
+      <div class="card-header bg-info text-white border-secondary">
+          <div class="row">
+              <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 font-weight-bold container text-center">
+                <div class="h1 "> <i class="far fa-clock"></i> | {{hora}}:{{minuto}}:{{segundo}} {{meridiano | uppercase}} </div>
+              </div>
+              <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 font-weight-bold container  text-center">
+                <label class="h1"><i class="far fa-calendar-alt"></i> | {{dia | uppercase}}, {{fecha | uppercase}} {{anio}} </label>
+              </div>
+              <hr>
+              <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 font-weight-bold">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 font-weight-bold ">
+                      <div class='text-left h2'>pais</div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 font-weight-bold">
+                      <div class='text-left h2'>clima</div>
+                    </div>
+                </div>
+              </div>
+            </div>
+      </div>
+      <div class="card-body">
+          <div class="row container justify-content-md-center">
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 ">
+                <div class="card card-title h1 text-center text-primary border-primary">MENU </div>
+              </div>
+              <div class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" *ngIf="esUsuario && tenerPersona" [routerLink]="['/personas']" >
+                <div>
+                  <div class="h1"><i class="fas fa-user-circle"></i></div>
+                  <div class="h4">PERSONAS</div>
+                </div>
+              </div>
+              <div *ngIf="esUsuario && tenerEstudiante" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/estudiantes']" >
+                <div>
+                  <div class="h1"><i class="fas fa-users"></i></div>
+                  <div class="h4">ESTUDIANTES</div>
+                </div>
+              </div>
+              <div *ngIf="esUsuario && tenerEmpleado" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/empleados']">
+                <div>
+                  <div class="h1"><i class="fas fa-chalkboard-teacher"></i></div>
+                  <div class="h4">EMPLEADOS</div>
+                </div>
+              </div>
+              <div *ngIf="esUsuario && tenerAsignatura" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/asignaturas']">
+                  <div class="h1"><i class="fas fa-book-open"></i></div>
+                <div class="h4">ASIGNATURAS</div>
+              </div>
+              <div *ngIf="esUsuario && tenerAula" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/aulas']">
+                <div class=" h1"><i class="fas fa-chalkboard"></i></div>
+                <div class="h4">AULA</div>
+              </div>
+              <div *ngIf="esUsuario && tenerCurso" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/cursos']">
+                <div class=" h1"><i class="fab fa-buffer"></i></div>
+                <div class="h4">CURSOS</div>
+              </div>
+              <div *ngIf="esUsuario" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/mensajes']">
+                <div class=" h1"><i class="fas fa-envelope"></i></div>
+                <div class="h4">MENSAJERIA</div>
+              </div>
+              <div *ngIf="esUsuario && tenerArticulo" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/articulos']">
+                <div class=" h1"><i class="fas fa-boxes"></i></div>
+                <div class="h4">ARTICULOS</div>
+              </div>
+              <div *ngIf="esUsuario && tenerEmpleado" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/tareas']">
+                <div class="h1"><i class="far fa-calendar "></i></div>
+                <div class="h4">TAREAS</div>
+              </div>
+              <div *ngIf="esUsuario && tenerFinanza" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/movimientos']">
+                <div class="h1"><i class="fas fa-file-invoice-dollar"></i></div>
+                <div class="h4">FINANZAS</div>
+              </div>
+              <div *ngIf="esUsuario && tenerCuenta" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/cuentas']">
+                <div class="h1"><i class="fas fa-book"></i></div>
+                  <div class="h4">CUENTAS</div>
+                </div>
+              <div *ngIf="esUsuario && tenerUsuario" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/usuarios']">
+                <div class="h1"><i class="fas fa-user "></i></div>
+                <div class="h4">USUARIOS</div>
+              </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="card-footer bg-info border-dark"></div>
+    </div>

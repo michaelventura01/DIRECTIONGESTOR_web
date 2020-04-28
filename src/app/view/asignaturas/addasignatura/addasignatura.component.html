@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+        <div class="h1 text-center">Agregar Asignatura</div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioCreado" >
+                    <div class="row">
+                      <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                        <label for="Descripcion" class="control-label h5 font-weight-bold">Asignatura</label>
+                        <input Type="text" formControlName="Descripcion" class="form-control" required/>
+                        <div *ngIf="formularioCreado.controls['Descripcion'].invalid && formularioCreado.controls['Descripcion'].dirty" class="alert alert-danger">La Asignatura es Requerida</div>
+                      </div>
+                        <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                            <label for="Codigo" class="control-label h5 font-weight-bold">Codigo de Asignatura</label>
+                            <input formControlName="Codigo" class="form-control" required/>
+                            <div *ngIf="formularioCreado.controls['Codigo'].invalid && formularioCreado.controls['Codigo'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
+                        </div>
+
+                        <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                          <label for="Descripcion" class="control-label h5 font-weight-bold">Duracion en Semanas</label>
+                          <input Type="number" formControlName="Tiempo" class="form-control" required/>
+                          <div *ngIf="formularioCreado.controls['Tiempo'].invalid && formularioCreado.controls['Tiempo'].dirty" class="alert alert-danger">La Asignatura es Requerida</div>
+                      </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="form-group mx-auto col-xl-8 col-lg-8  col-md-8 col-sm-10 col-xs-10">
+              <input type="submit" [disabled] = "formularioCreado.invalid" value="Agregar" (click)="agregarAsignatura(buscarAsignaturas())" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-4 col-lg-4  col-md-4 col-sm-10 col-xs-10">
+              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/asignaturas'"/>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

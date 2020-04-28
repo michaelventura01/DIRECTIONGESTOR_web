@@ -1,0 +1,86 @@
+  <div class=" bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar-brand" [routerLink]="['/']"  ><div class="h3"><i class="fas fa-school"></i> | Direction Gestor</div></div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      <div class="collapse navbar-collapse row" id="navbarSupportedContent">
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/menu']" *ngIf="esUsuario && tenerInicio" ><div class="h4"><i class="fas fa-home"></i> | Inicio  </div></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" *ngIf="esUsuario"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="h4"><i class="fas fa-school"></i> | Institucion</div>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-item h5" *ngIf="esUsuario && tenerAula"><i class="fas fa-chalkboard"></i> | Aulas</div>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerAula" [routerLink]="['/aulas']"><i class="fas fa-angle-right"></i> Ver Aulas</a>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerAula" [routerLink]="['/edificios']"><i class="fas fa-angle-right"></i> Ver Edificios</a>
+                <div class="dropdown-divider" *ngIf="esUsuario && tenerAula"></div>
+                <div class="dropdown-item h5" *ngIf="esUsuario && tenerCurso"><i class="fab fa-buffer"></i> | Cursos</div>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerCurso"[routerLink]="['/cursos']"><i class="fas fa-angle-right"></i> Ver Cursos</a>
+                <div class="dropdown-divider" *ngIf="esUsuario && tenerCurso"></div>
+                <div class="dropdown-item h5" *ngIf="esUsuario && tenerEstudiante"><i class="fas fa-users"></i> | Estudiantes</div>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerEstudiante" [routerLink]="['/estudiantes']"><i class="fas fa-angle-right"></i> Ver Estudiantes</a>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerEstudiante" [routerLink]="['/calificaciones']"><i class="fas fa-angle-right"></i> Ver Calificaciones</a>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerEstudiante" [routerLink]="['/estudianteCursos']"><i class="fas fa-angle-right"></i> Ver Estudiantes en Cursos</a>
+                <div class="dropdown-divider" *ngIf="esUsuario && tenerEstudiante"></div>
+                <div class="dropdown-item h5" *ngIf="esUsuario && tenerEmpleado"><i class="fas fa-chalkboard-teacher"></i> | Empleados</div>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerEmpleado"[routerLink]="['/empleados']" ><i class="fas fa-angle-right"></i> Ver Empleados</a>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerEmpleado"[routerLink]="['/asignaciones']" ><i class="fas fa-angle-right"></i> Ver Asignaciones</a>
+                <div class="dropdown-divider" *ngIf="esUsuario && tenerEmpleado"></div>
+                <div class="dropdown-item h5" *ngIf="esUsuario && tenerPersona"><i class="fas fa-user-circle"></i> | Personas</div>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerPersona" [routerLink]="['/personas']" ><i class="fas fa-angle-right"></i> Ver Personas</a>
+                <div class="dropdown-divider" *ngIf="esUsuario && tenerPersona"></div>
+                <div class="dropdown-item h5" *ngIf="esUsuario && tenerAsignatura"><i class="fas fa-book-open"></i> | Asignaturas</div>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerAsignatura" [routerLink]="['/asignaturas']"><i class="fas fa-angle-right"></i> Ver Asignaturas</a>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerAsignatura" [routerLink]="['/periodos']"><i class="fas fa-angle-right"></i> Ver Periodos</a>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerAsignatura" [routerLink]="['/inscripciones']"><i class="fas fa-angle-right"></i> Ver Inscripciones</a>
+                <a class="dropdown-item h5" *ngIf="esUsuario && tenerAsignatura" [routerLink]="['/asignaturaCursos']"><i class="fas fa-angle-right"></i> Ver Asignaturas de Cursos</a>
+                <div class="dropdown-divider" *ngIf="esUsuario && tenerAsignatura"></div>
+              </div>
+            </li>
+            <li class="nav-item dropdown" *ngIf="esUsuario && tenerOtrasOpciones">
+                <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="h4"><i class="fas fa-bars"></i> | Otras Opciones</div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerArticulo"><i class="fas fa-boxes" ></i> | Articulos</a>
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerArticulo" [routerLink]="['/articulos']"><i class="fas fa-angle-right"></i> Ver Articulos</a>
+                  <div class="dropdown-divider" *ngIf="esUsuario && tenerArticulo"></div>
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerFinanza"><i class="fas fa-file-invoice-dollar"></i> | Finanzas</a>
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerFinanza" [routerLink]="['/movimientos']" ><i class="fas fa-angle-right"></i> Ver Movientos</a>
+                  <div class="dropdown-divider" *ngIf="esUsuario && tenerFinanza"></div>
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerCuenta"><i class="fas fa-book"></i> | Cuentas</a>
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerCuenta" [routerLink]="['/cuentas']" ><i class="fas fa-angle-right"></i> Ver Cuentas</a>
+                  <div class="dropdown-divider" *ngIf="esUsuario && tenerCuenta"></div>
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerUsuario"><i class="fas fa-user "></i> | Usuarios</a>
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerUsuario" [routerLink]="['/usuarios']" ><i class="fas fa-angle-right"></i> Ver Usuarios</a>
+                  <div class="dropdown-divider" *ngIf="esUsuario && tenerUsuario"></div>
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerTarea"><i class="far fa-calendar "></i> | Tareas</a>
+                  <a class="dropdown-item h5" *ngIf="esUsuario && tenerTarea" [routerLink]="['/tareas']"><i class="fas fa-angle-right"></i> Ver Tareas</a>
+                  <div class="dropdown-divider"></div>
+                </div>
+            </li>
+          </ul>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-10 col-xs-10">
+            <div class="nav-item dropdown" *ngIf="esUsuario">
+                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <div class="h4"><i class="fas fa-user "></i> | {{tituloUsuario | uppercase}}</div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item h5" [routerLink]="['/institucionDetalle',instituto]"><i class="fas fa-school"></i> | {{nombreInstitucion | uppercase}}</a>
+                  <a class="dropdown-item h5" [routerLink]="['/usuarioDetalle', idUsuario]"><i class="fas fa-user "></i> | {{usuario | uppercase}}</a>
+                  <a class="dropdown-item h5" [routerLink]="['/mensajes']"><i class="fas fa-envelope"></i> | Ver Mensajes</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item h4 "  (click)="salirUsuario()"><i class="fas fa-sign-out-alt"></i> | Finalizar Session</a>
+                </div>
+              </div>
+          </div>
+      </div>
+    </nav>
+  </div>
+<br>

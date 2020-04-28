@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="card" *ngFor="let usuario of tenerUsuario()">
+      <div class="card-header">
+        <div class="h2 text-center">Editar Usuario</div>
+      </div>
+      <div class="card-body" >
+          <div class="row">
+              <div class="col-xl col-lg col-md col-sm col-xs">
+                  <form [formGroup]="formularioEditar">
+
+
+
+                    <div class="form-group" >
+                      <label class="control-label font-weight-bold" >Persona</label>
+                      <div class="form-group row">
+                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                          <a *ngFor="let persona of personas">
+                            <input type="text" disabled *ngIf="persona.id === usuario.Persona" value='{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{tenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}' class="form-control mb-3" placeholder="Escribir para filtrar Personas" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                          <label class="control-label font-weight-bold">Usuario</label>
+                          <input disabled class="form-control" [value]="usuario.Usuario | uppercase"   placeholder="Ingresa algun usuario"  required/>
+                          <div *ngIf="esUsuario" class="alert alert-danger">Un Usuario valido es Requerido</div>
+                        </div>
+                        <div class="form-group">
+                          <label asp-for="Rol" class="control-label font-weight-bold">Rol</label>
+                          <select formControlName="Rol" *ngIf="esEditarRol" class ="form-control" required>
+                            <option *ngFor="let rol of roles"  [value]="rol.id">{{rol.descripcion | uppercase}}</option>
+                          </select>
+                          <a *ngFor="let rol of roles">
+                            <a *ngIf="rol.id === usuario.Rol">
+                              <input type="text" class="form-control" [disabled] = 'usuario.Usuario === this.user' *ngIf="!esEditarRol" (click)="asignarCambioRol(usuario)"  [value]="rol.descripcion | uppercase">
+                            </a>
+                          </a>
+                          <div *ngIf="esRol && esEditarRol" class="alert alert-danger">El Rol es Requerido</div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label font-weight-bold">Estado</label>
+                            <select formControlName="Estado" *ngIf="esEditarEstado" class ="form-control" (click)="tenerEstados()" required>
+                              <option *ngFor="let estado of  tenerEstados()"  [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+                            </select>
+                          <a *ngFor="let estado of estados">
+                            <a *ngIf="estado.id === usuario.Estado">
+                              <input type="text" class="form-control" *ngIf="!esEditarEstado" (click)="asignarCambioEstado()" [value] = 'estado.descripcion | uppercase'>
+                            </a>
+                          </a>
+                          <div *ngIf="esEstado && esEditarEstado" class="alert alert-danger">El Estado es Requerido</div>
+                        </div>
+                      </div>
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6" *ngIf="usuario.Usuario === user">
+                        <div class="form-group" >
+                          <label class="control-label font-weight-bold">Contraseña</label>
+                          <input formControlName="Password" type="password" class="form-control mb-3"  placeholder="Ingresa Contraseña" required/>
+                          <div *ngIf="esPassword" class="alert alert-danger">La Contraseña es Requerida con 6 caracteres minimo con Mayusculas y minusculas</div>
+                          <input formControlName="rePassword"  type="password" class="form-control" placeholder="Repite la Contraseña" required/>
+                          <div *ngIf="esRePassword" class="alert alert-danger">La Repeticion de la Contraseña debe ser igual</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr>
+                    <div class="form-group mx-auto">
+                        <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+                          <input type="submit" value="Agregar" (click)="editarUsuario(usuario)" class="btn btn-outline-primary btn-block font-weight-bold" />
+                        </div>
+                        <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+                          <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/usuarioDetalle', usuario.id]" />
+                        </div>
+                    </div>
+
+
+
+
+
+
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

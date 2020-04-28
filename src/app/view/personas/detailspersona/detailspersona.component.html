@@ -1,0 +1,106 @@
+<div class="container">
+  <div class="card" *ngFor="let persona of personas">
+      <div class="card card-header" >
+        <div class="h1 text-center">{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}</div>
+      </div>
+          <div class="card card-body">
+              <div class="row" >
+                  <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" *ngIf="persona.Foto != '' ">
+                    <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" >
+                      <img [src]="persona.Foto" alt="" class=" img-thumbnail rounded-circle mx-auto img-fluid mt-2 mb-2">
+                    </div>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Fecha de Nacimiento:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                    {{obtenerFecha(persona.FechaNacimiento).fechaNacimiento}}
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right text-right">
+                      Edad:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                    {{obtenerFecha(persona.FechaNacimiento).edad}}
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Sexo:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                      <a *ngFor="let sexo of sexos">
+                        <a *ngIf="sexo.id === persona.Sexo">{{sexo.descripcion}}</a>
+                      </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Nacionalidad:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                    <a *ngFor="let nacionalidad of paises">
+                      <a *ngIf="nacionalidad.id === persona.Nacionalidad">{{nacionalidad.nacionalidad}}</a>
+                    </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Direccion:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                      {{persona.Direccion}}
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Ciudad:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                    <a *ngFor="let ciudad of ciudades">
+                      <a *ngIf="ciudad.id === persona.Ciudad">{{ciudad.descripcion}}</a>
+                    </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Pais:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                    <a *ngFor="let pais of paises">
+                      <a *ngIf="pais.id === persona.Pais">{{pais.descripcion}}</a>
+                    </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Telefono:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                      {{persona.Telefono}}
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Correo:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 ">
+                      {{persona.Correo}}
+                  </div>
+                  <!--div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Relacionado:
+                      <input value="+" type="button" class="btn btn-info">
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h6 text-uppercase">
+                      nombre apellido (relacion)
+                  </div>
+                  <div class="form-group col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1 h6 text-uppercase">
+                      <input value="Editar" type="button" class="btn btn-secondary">
+                  </div-->
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Estado:
+                  </div>
+                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
+                    <a *ngFor="let estado of estados">
+                      <a *ngIf="estado.id === persona.Estado">{{estado.descripcion}}</a>
+                    </a>
+                  </div>
+              </div>
+          </div>
+          <div class="card card-footer form-group">
+              <div class="row">
+                  <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7">
+                    <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" (click)="verPersona()"/>
+                  </div>
+                  <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5">
+                      <input type="submit" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/personas'"/>
+                    </div>
+              </div>
+          </div>
+  </div>
+</div>
