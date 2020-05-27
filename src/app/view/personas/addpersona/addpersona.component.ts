@@ -27,9 +27,9 @@ export class AddpersonaComponent implements OnInit {
   paises: Array<any> = new Array<any>();
   sexos: Array<any> = new Array<any>();
   tipoTelefonos: Array<any> = new Array<any>();
+  visibleComponente: boolean;
   imagen: string;
   esImagen: boolean;
-  visibleComponente: boolean;
   carga: number;
   esEmpleado: boolean;
   esEstudiante: boolean;
@@ -47,7 +47,6 @@ export class AddpersonaComponent implements OnInit {
     private direccionServicio: DireccionService,
     private personaServicio: PersonaService,
     private contactoServicio: ContactoService,
-
     private router: Router,
     private mensajeServicio: MensajeService ) {
 
@@ -58,18 +57,17 @@ export class AddpersonaComponent implements OnInit {
 
     if(this.accion!='Encargado'){
       this.accion = 'Persona';
-    }else{
-
     }
 
     this.esEmpleado = false;
 
     this.estados = this.estadoServicio.verEstados();
-    this.paises = this.direccionServicio.verPaises();
+
 
     this.sexos = this.personaServicio.verSexos();
     this.tipoTelefonos = this.contactoServicio.tipoTelefonos();
     this.personas = this.personaServicio.verPersonas();
+    this.paises = this.direccionServicio.verPaises();
 
     this.esImagen =false;
     this.carga = 0;
@@ -93,6 +91,7 @@ export class AddpersonaComponent implements OnInit {
   }
 
   agregarPersona(data){
+    let fecha = new Date();
     this.buscarPersona(data);
     this.persona = this.formularioPersona.value.Nombre+' '+this.formularioPersona.value.Apellido;
     if(!this.esExistente){
@@ -110,6 +109,7 @@ export class AddpersonaComponent implements OnInit {
           Sexo: this.formularioPersona.value.Sexo,
           FechaNacimiento: new Date(this.formularioPersona.value.FechaNacimiento),
           TipoTelefono: this.formularioPersona.value.TipoTelefono,
+          FechaAgregacion: fecha,
           Estado: '01'
         });
 
@@ -129,6 +129,7 @@ export class AddpersonaComponent implements OnInit {
             Sexo: this.formularioPersona.value.Sexo,
             FechaNacimiento: new Date(this.formularioPersona.value.FechaNacimiento),
             TipoTelefono: this.formularioPersona.value.TipoTelefono,
+            FechaAgregacion: fecha,
             Estado: '01'
           }).then(()=>{
           this.mensajeServicio.exito('Guardado','Persona ha sido agregada con exito');
@@ -165,8 +166,6 @@ export class AddpersonaComponent implements OnInit {
         this.esPersona = true;
         this.router.navigate(['/personas']);
       }
-
-
     }
   }
 
@@ -178,7 +177,8 @@ export class AddpersonaComponent implements OnInit {
         this.formularioPersona.value.Apellido === elementos.Apellido &&
         this.formularioPersona.value.Nombre === elementos.Nombre &&
         this.formularioPersona.value.Sexo === elementos.Sexo &&
-        this.formularioPersona.value.Nacionalidad === elementos.Nacionalidad){
+        this.formularioPersona.value.Nacionalidad === elementos.Nacionalidad &&
+        this.tenerFecha(elementos.FechaNacimiento).fecha === this.tenerTiempo().fecha){
           people.push(elementos);
           this.esExistente = true;
         }else{
@@ -188,6 +188,33 @@ export class AddpersonaComponent implements OnInit {
 
     this.personas = people;
     return this.personas;
+  }
+
+  tenerFecha(data){
+    return this.personaServicio.obtenerFecha(data);
+  }
+
+  tenerTiempo(){
+    let tiempo = new Date();
+    if(this.formularioPersona.value.Fecha!=''){
+      tiempo = new Date(this.formularioPersona.value.FechaNacimiento);
+    }
+    let dia: string;
+    let mes: string;
+    if (tiempo.getDate() < 10 ) {
+      dia = '0' + tiempo.getDate().toString();
+    } else {
+      dia = tiempo.getDate().toString();
+    }
+    if ((tiempo.getMonth() + 1) < 10 ) {
+      mes = '0' + (tiempo.getMonth() + 1).toString();
+    } else {
+      mes = (tiempo.getMonth() + 1).toString();
+    }
+    return  {
+      mesAno: mes + '-' + tiempo.getFullYear(),
+      fecha: mes + '/' + dia + '/' + tiempo.getFullYear()
+    };
   }
 
 
@@ -211,8 +238,6 @@ export class AddpersonaComponent implements OnInit {
           this.esImagen = true;
         });
       });
-
-
     }
   }
 
@@ -225,7 +250,7 @@ export class AddpersonaComponent implements OnInit {
     {
       Nombre  : ['', Validators.compose([Validators.required])],
       Apellido  : ['', Validators.compose([Validators.required])],
-      Foto  : ['', Validators.compose([Validators.required])],
+      Foto  : [''],
       Correo  : ['', Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')

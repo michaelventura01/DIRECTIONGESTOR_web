@@ -46,34 +46,19 @@ export class EstudiantesComponent implements OnInit {
 
     let cadena = this.buscarFormulario.value.Persona.toLowerCase();
     let people = new Array<any>();
-    if(cadena !== '') {
-      this.personas.forEach(
-        (data) => {
-          let nombreapellido = data.Nombre + ' ' + data.Apellido;
-          if(nombreapellido.indexOf(cadena, 0) !== -1 ){
-            this.estudiantes.forEach(contenido => {
-              if(data.id === contenido.Persona && contenido.Estado === this.Estado && this.institucion === contenido.institucion){
-                people.push(contenido);
+    this.personas.forEach(
+      (data) => {
+        let nombreapellido = data.Nombre + ' ' + data.Apellido;
+        if(nombreapellido.indexOf(cadena, 0) !== -1 ){
+          this.estudiantes.forEach(contenido => {
+            if(data.id === contenido.Persona && contenido.Estado === this.Estado && this.institucion === contenido.institucion){
+              people.push(contenido);
+            }
+          });
+        }
+      }
+    );
 
-              }
-            });
-          }
-        }
-      );
-    } else {
-      this.personas.forEach(
-        (data) => {
-          let nombreapellido = data.Nombre + ' ' + data.Apellido;
-          if(nombreapellido.indexOf(cadena, 0) !== -1 ){
-            this.estudiantes.forEach(contenido => {
-              if(data.id === contenido.Persona && contenido.Estado === this.Estado && this.institucion === contenido.institucion){
-                people.push(contenido);
-              }
-            });
-          }
-        }
-      );
-    }
     return people;
   }
 

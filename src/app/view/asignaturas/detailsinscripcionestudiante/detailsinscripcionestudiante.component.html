@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="card">
+<div class="container" *ngFor="let inscripcion of asignaturasEmpleadosEstudiantes">
+  <div class="card" *ngIf="inscripcion.id === idInscripcion">
       <div class="card card-header">
         <div class="h2 text-center">Estudiante Inscrito a Asignatura</div>
       </div>
@@ -9,56 +9,111 @@
                       Estudiante:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      Nombre apellido
+                    <a *ngFor="let asignado of estudiantesCursos">
+                       <a *ngIf="asignado.id === inscripcion.EstudianteCurso">
+                        <a *ngFor="let estudiante of estudiantes">
+                          <a *ngIf="estudiante.id === asignado.Estudiante">
+                            <a *ngFor="let persona of personas">
+                              <a *ngIf="persona.id === estudiante.Persona">{{persona.Nombre | uppercase}}  {{persona.Apellido | uppercase}} | {{estudiante.Codigo}}</a>
+                            </a>
+                          </a>
+                        </a>
+                       </a>
+                    </a>
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Codigo Estudiante:
-                  </div>
-                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      000000
-                  </div>
+                    Curso:
+                </div>
+                <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                  <a *ngFor="let asignado of estudiantesCursos">
+                    <a *ngIf="asignado.id === inscripcion.EstudianteCurso">
+                      <a *ngFor="let curso of cursos">
+                        <a *ngIf="curso.id === asignado.Curso">{{curso.Descripcion | uppercase}} | {{curso.Codigo | uppercase}}</a>
+                      </a>
+                    </a>
+                  </a>
+                </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
                       Asignatura:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      asignatura
+                    <a *ngFor="let asignado of asignaturasEmpleados">
+                      <a *ngIf ="asignado.id === inscripcion.AsignaturaEncargado">
+                        <a *ngFor="let asignacion of cursosAsignaturas">
+                          <a *ngIf="asignacion.id === asignado.AsignaturaCurso">
+                            <a *ngFor="let asignatura of asignaturas">
+                              <a *ngIf="asignatura.id === asignacion.Asignatura">{{asignatura.Descripcion | uppercase}} | {{asignatura.Codigo | uppercase}}</a>
+                            </a>
+                          </a>
+                        </a>
+                      </a>
+                    </a>
                   </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Codigo Asignatura:
-                  </div>
-                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      codigo
-                  </div>
+
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
                       Profesor:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      nombre apellido
+                    <a *ngFor="let asignado of asignaturasEmpleados">
+                      <a *ngIf ="asignado.id === inscripcion.AsignaturaEncargado">
+                        <a *ngFor="let profesor of profesores">
+                          <a *ngIf="profesor.id === asignado.Profesor">
+                            <a *ngFor="let persona of personas">
+                              <a *ngIf="persona.id === profesor.Persona">{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{profesor.Codigo | uppercase}}</a>
+                            </a>
+                          </a>
+                        </a>
+                      </a>
+                    </a>
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Codigo Profesor:
+                    Periodo:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      codigo
+                    <a *ngFor="let periodo of periodos">
+                      <a *ngIf="periodo.id === inscripcion.Periodo">{{periodo.Descripcion | uppercase}} | {{periodo.Codigo | uppercase}}</a>
+                    </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                    Aula:
+                  </div>
+                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                    <a *ngFor="let aula of aulas">
+                      <a *ngIf="aula.id === inscripcion.Aula">{{aula.Descripcion | uppercase}}</a>
+                    </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                    Edificio:
+                  </div>
+                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                    <a *ngFor="let aula of aulas">
+                      <a *ngIf="aula.id === inscripcion.Aula">
+                        <a *ngFor="let edificio of edificios">
+                          <a *ngIf="edificio.id === aula.Edificio">{{edificio.Nombre | uppercase}}</a>
+                        </a>
+                      </a>
+                    </a>
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
                       Estado:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      estatus
+                    <a *ngFor="let estado of estados">
+                      <a *ngIf="estado.id === inscripcion.Estado">{{estado.descripcion | uppercase}}</a>
+                    </a>
                   </div>
               </div>
           </div>
           <div class="card card-footer form-group">
               <div class="row">
                   <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
-                    <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="'/inscripcionEditar'"/>
+                    <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="['/inscripcionEditar',idInscripcion]"/>
                   </div>
                   <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
                     <input type="submit" value="Eliminar" class="btn btn-warning btn-block font-weight-bold" />
                   </div>
                   <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                      <input type="submit" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/inscripciones'"/>
+                      <input type="submit" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/inscripciones']"/>
                     </div>
               </div>
           </div>

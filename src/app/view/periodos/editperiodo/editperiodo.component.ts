@@ -128,8 +128,6 @@ export class EditperiodoComponent implements OnInit {
       this.fechaFin = new Date(this.formularioEditar.value.Fin);
     }
 
-
-
     this.database.doc('periodos/' + this.idPeriodo).update({
       Descripcion: this.periodo,
       fechaInicio: this.fechaInicio,
@@ -144,8 +142,6 @@ export class EditperiodoComponent implements OnInit {
       this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
       this.router.navigate(['/periodoDetalle', this.idPeriodo]);
     });
-
-
 
   }
 

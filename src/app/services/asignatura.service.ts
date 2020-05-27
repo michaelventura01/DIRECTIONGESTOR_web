@@ -51,5 +51,19 @@ export class AsignaturaService {
     return asignaturas;
   }
 
+  verCalificaciones() {
+    let calificaciones = new Array<any>();
+    this.database.collection('calificaciones').get().subscribe( (respuesta) => {
+      respuesta.forEach((contenido) => {
+        let calificacion = contenido.data();
+        calificacion.id = contenido.id;
+        calificacion.ref = contenido.ref;
+        calificaciones.push(calificacion);
+      });
+    });
+
+    return calificaciones;
+  }
+
 
 }

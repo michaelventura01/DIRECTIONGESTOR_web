@@ -1,62 +1,74 @@
-<div class="container">
-  <div class="card">
+<div class="container" *ngFor="let calificacion of calificados">
+  <div class="card" *ngIf="calificacion.id === idCalificacion">
       <div class="card-header">
         <div class="h2 text-center">Editar Calificacion</div>
       </div>
       <div class="card-body">
           <div class="row">
               <div class="col-xl col-lg col-md col-sm col-xs">
-                  <form [formGroup]="formularioCreado">
-                      <div class="form-group row">
-                          <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
-                              <label for="periodo" class="control-label font-weight-bold">Periodo de Calificacion</label>
-                              <select formControlName="Periodo" class="form-control" required></select>
-                              <div *ngIf="formularioCreado.controls['Periodo'].invalid && formularioCreado.controls['Periodo'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
-                          </div>
-                          <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
-                              <label class="control-label font-weight-bold">Fecha de Calificacion</label>
-                              <input type="date" formControlName="Fecha" class="form-control" disabled required/>
-                              <div *ngIf="formularioCreado.controls['Fecha'].invalid && formularioCreado.controls['Fecha'].dirty" class="alert alert-danger">La fecha es Requerida </div>
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <label class="control-label font-weight-bold">Asignatura de Profesor</label>
-                          <select formControlName="Asignatura" class="form-control" required>
-                              <option value="1">Asignatura - Profesor</option>
-                          </select>
-                          <div *ngIf="formularioCreado.controls['Asignatura'].invalid && formularioCreado.controls['Asignatura'].dirty" class="alert alert-danger">La Asignatura de Profesor es Requerido </div>
-                      </div>
-                      <div class="form-group">
-                          <label class="control-label font-weight-bold">Estudiante</label>
-                          <select formControlName="Estudiante" class="form-control">
-                              <option value="1">Nombre Apellido</option>
-                          </select>
-                          <div *ngIf="formularioCreado.controls['Estudiante'].invalid && formularioCreado.controls['Estudiante'].dirty" class="alert alert-danger">El Estudiante de la Asignatura es Requerido </div>
-                      </div>
-                      <div class="form-group row">
-                          <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
-                              <label  for="Calificacion" class="control-label font-weight-bold">Calificacion</label>
-                              <input type="number" formControlName="Calificacion" class="form-control" />
-                              <div *ngIf="formularioCreado.controls['Calificacion'].invalid && formularioCreado.controls['Calificacion'].dirty" class="alert alert-danger">La calificacion de la Asignatura es Requerida </div>
-                          </div>
-                          <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
-                              <label for="Estado" class="control-label font-weight-bold">Estado</label>
-                              <select formControlName="Estado" class="form-control" ></select>
-                              <div *ngIf="formularioCreado.controls['Estado'].invalid && formularioCreado.controls['Estado'].dirty" class="alert alert-danger">El Estado es Requerido </div>
-                          </div>
-                      </div>
-                      <hr>
+                  <form [formGroup]="formularioEditar">
                       <div class="row">
-                          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
-                              <input type="submit" value="Editar" class="btn btn-outline-primary btn-block font-weight-bold" />
-                          </div>
-                          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
-                              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/calificacionDetalle'"/>
-                          </div>
+                        <div class="form-group  col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label for="periodo" class="control-label font-weight-bold">Periodo de Calificacion</label>
+                          <input formControlName="Periodo" [value]='tenerCalificacion(calificacion).Periodo | uppercase' class="form-control" type="text">
+                          <div *ngIf="formularioEditar.controls['Periodo'].invalid && formularioEditar.controls['Periodo'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
                         </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label font-weight-bold">Curso</label>
+                          <input class="form-control" [value]='tenerCalificacion(calificacion).Curso | uppercase'  formControlName="Curso" type="text">
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label font-weight-bold">Asignatura</label>
+                          <input class="form-control" [value]='tenerCalificacion(calificacion).Asignatura | uppercase' formControlName="Asignatura" type="text">
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                          <label class="control-label h6 font-weight-bold">Asignatura y Encargado</label>
+                          <input class="form-control" [value]='tenerCalificacion(calificacion).ProfesorAsignatura | uppercase'  formControlName="AsignaturaProfesor" type="text">
+                          <div *ngIf="formularioEditar.controls['AsignaturaProfesor'].invalid && formularioEditar.controls['AsignaturaProfesor'].dirty" class="alert alert-danger">La Asignatura es Requerida </div>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                          <label class="control-label font-weight-bold">Estudiante y Curso</label>
+                          <input class="form-control" [value]='tenerCalificacion(calificacion).EstudianteCurso | uppercase' formControlName="EstudianteAsignatura" type="text">
+                          <div *ngIf="formularioEditar.controls['EstudianteAsignatura'].invalid && formularioEditar.controls['EstudianteAsignatura'].dirty" class="alert alert-danger">El Estudiante de la Asignatura es Requerido </div>
+                        </div>
+                        <div class="form-group  col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label class="control-label font-weight-bold">Fecha de Calificacion</label>
+                          <input class="form-control" [value] ="tenerFecha(calificacion.FechaCalificacion).fecha" formControlName="Fecha" type="text">
+                          <div *ngIf="formularioEditar.controls['Fecha'].invalid && formularioEditar.controls['Fecha'].dirty" class="alert alert-danger">La fecha es Requerida </div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label  for="Calificacion" class="control-label font-weight-bold">Calificacion</label>
+                          <input type="text" formControlName="Calificacion" [value]='calificacion.Calificacion' class="form-control" />
+                          <div *ngIf="formularioEditar.controls['Calificacion'].invalid && formularioEditar.controls['Calificacion'].dirty" class="alert alert-danger">La calificacion de la Asignatura es Requerida </div>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                          <label for="Estado" class="control-label font-weight-bold">Estado</label>
+                          <select formControlName="Estado" class="form-control" *ngIf="esEstado">
+                            <option></option>
+                            <option *ngFor="let estado of tenerEstados()" [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+                          </select>
+                          <a *ngFor="let estado of tenerEstados()">
+                            <a *ngIf="estado.id === calificacion.Estado">
+                              <input type="text" [value]="estado.descripcion | uppercase" *ngIf="!esEstado" (click)="cambiarEstado()" class="form-control" />
+                            </a>
+                          </a>
+
+                          <div *ngIf="formularioEditar.controls['Estado'].invalid && formularioEditar.controls['Estado'].dirty" class="alert alert-danger">El Estado es Requerido </div>
+                      </div>
+                      </div>
                   </form>
               </div>
           </div>
+      </div>
+      <div class="card-footer">
+        <div class="row ">
+          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+            <input type="submit" value="Editar" (click)="editarCalificacion(calificacion)" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/calificaciones'"/>
+          </div>
+        </div>
       </div>
   </div>
 </div>

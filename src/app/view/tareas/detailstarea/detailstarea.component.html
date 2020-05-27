@@ -1,52 +1,68 @@
-<div class="container">
-  <div class="card">
+<div class="container" *ngFor="let tarea of tareas">
+  <div class="card" *ngIf="tarea.id === idTarea">
     <div class="card-header">
       <div class="h2 text-center"> Tarea</div>
     </div>
-          <div class="card card-body">
+          <div class="card-body">
               <div class="row">
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Titulo
+                      Titulo:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      Titulo
+                      {{tarea.Titulo | uppercase}}
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Descripcion
+                      Descripcion:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      Descripcion
+                    {{tarea.Descripcion | uppercase}}
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Fecha de Tarea
+                    {{buscarPersona(tarea.Asignado).Rol }}:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      00/00/0000
+                    {{buscarPersona(tarea.Asignado).Persona}} | {{tarea.Asignado | uppercase}}
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Hora de Tarea
+                      Fecha de Tarea:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      00:00:00
+                      {{tenerFecha(tarea.FechaHora).fechaNacimiento}}
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Prioridad
+                      Hora de Tarea:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      Prioridad
+                    {{tenerFecha(tarea.FechaHora).tiempo}}
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Estado
+                    Fecha Cuando se Asigno:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      Estatus
+                    {{tenerFecha(tarea.FechaHoraCreacion).fechaNacimiento}}
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Prioridad:
+                  </div>
+                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                    <a *ngFor = "let prioridad of prioridades">
+                      <a *ngIf = "prioridad.id === tarea.Prioridad">{{prioridad.descripcion | uppercase}}</a>
+                    </a>
+                  </div>
+                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
+                      Estado:
+                  </div>
+                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
+                    <a *ngFor = "let estado of estados">
+                      <a *ngIf = "estado.id === tarea.Estado">{{estado.descripcion | uppercase}}</a>
+                    </a>
                   </div>
               </div>
           </div>
-          <div class="card card-footer form-group">
+          <div class="card-footer form-group">
             <div class="row">
                 <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
-                  <input type="button" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="'/tareaEditar'"/>
+                  <input type="button" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="['/tareaEditar', idTarea]"/>
                 </div>
                 <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
                   <input type="button" value="Eliminar" class="btn btn-warning btn-block font-weight-bold" />

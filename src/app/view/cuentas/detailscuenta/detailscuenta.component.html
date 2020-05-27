@@ -1,60 +1,65 @@
-<div class="container">
-  <div class="card">
-      <div class="card card-header">
+<div class="container" *ngFor="let cuenta of cuentas">
+  <div class="card" *ngIf="cuenta.id === idCuenta">
+      <div class=" card-header">
         <div class="h2 text-center">Cuenta</div>
       </div>
-          <div class="card card-body">
+          <div class="card-body">
               <div class="row">
 
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Persona
+                      Persona:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      nombre apellido
+                      <a *ngFor="let persona of personas">
+                        <a *ngIf = "persona.id === cuenta.Persona">{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}</a>
+                      </a>
                   </div>
-
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Tipo de Cuenta
+                      Tipo de Cuenta:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      tipo cuenta
+                      <a *ngFor ="let tipo of tipos">
+                        <a *ngIf = "tipo.id === cuenta.Tipo">{{tipo.descripcion | uppercase}}</a>
+                      </a>
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Descripcion
+                      Descripcion:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 ">
-                      descripcion
+                      {{cuenta.Descripcion | uppercase}}
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Monto
+                      Monto:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      00.00
+                      {{cuenta.Monto | currency}}
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Fecha de Cuenta
+                      Fecha de Cuenta:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      00/00/00
+                      {{tenerFecha(cuenta.Fecha).fechaNacimiento}}
                   </div>
                   <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Estado
+                      Estado:
                   </div>
                   <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                      estatus
+                      <a *ngFor = "let estado of estados">
+                        <a *ngIf = "estado.id === cuenta.Estado">{{estado.descripcion}}</a>
+                      </a>
                   </div>
               </div>
           </div>
-          <div class="card card-footer form-group">
+          <div class="card-footer ">
             <div class="row">
-                <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
-                  <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="'/cuentaEditar'"/>
+                <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                  <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="['/cuentaEditar', idCuenta]"/>
                 </div>
-                <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
                   <input type="submit" value="Eliminar" class="btn btn-warning btn-block font-weight-bold" />
                 </div>
-                <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                    <input type="submit" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/cuentas'"/>
+                <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                    <input type="submit" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/cuentas']"/>
                 </div>
             </div>
         </div>

@@ -6,8 +6,8 @@
               <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 font-weight-bold container text-center">
                 <div class="h1 "> <i class="far fa-clock"></i> | {{hora}}:{{minuto}}:{{segundo}} {{meridiano | uppercase}} </div>
               </div>
-              <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 font-weight-bold container  text-center">
-                <label class="h1"><i class="far fa-calendar-alt"></i> | {{dia | uppercase}}, {{fecha | uppercase}} {{anio}} </label>
+              <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 font-weight-bold container  text-center btn-info" >
+                <label  [routerLink]="['/tareas']" class="h1"><i class="far fa-calendar-alt"></i> | {{dia | uppercase}}, {{fecha | uppercase}} {{anio}} </label>
               </div>
               <hr>
               <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 font-weight-bold">

@@ -1,56 +1,141 @@
-<div class="container">
-  <div class="card">
+<div class="container" *ngFor="let inscripcion of asignaturasEmpleadosEstudiantes">
+  <div class="card" *ngIf="inscripcion.id === idInscripcion">
       <div class="card-header ">
         <div class="h2 text-center">Modificar Estudiante Inscrito a una Asignatura</div>
       </div>
       <div class="card-body">
-          <div class="row">
-              <div class="col-xl col-lg col-md col-sm col-xs">
-                  <form [formGroup]="formularioCreado">
-                      <div class="form-group">
-                          <label class="control-label h6 font-weight-bold">Estudiante</label>
-                          <select formControlName="Estudiante" class ="form-control">
-                                  <option value="1">codigo - nombre</option>
-                          </select>
-                          <div *ngIf="formularioCreado.controls['Estudiante'].invalid && formularioCreado.controls['Estudiante'].dirty" class="alert alert-danger">El Estudiante es Requerido </div>
-                      </div>
-                      <div class="form-group">
-                          <label class="control-label h6 font-weight-bold">Asignatura</label>
-                          <select formControlName="Asignatura" class="form-control" required>
-                              <option value="1">codigo - nombre</option>
-                          </select>
-                          <div *ngIf="formularioCreado.controls['Asignatura'].invalid && formularioCreado.controls['Asignatura'].dirty" class="alert alert-danger">La Asignatura es Requerida </div>
-                      </div>
-                      <div class="form-group">
-                          <label for="Profesor" class="control-label h6 font-weight-bold">Profesor</label>
-                          <select formControlName="Profesor" class="form-control" required>
-                                  <option value="1">codigo - nombre</option>
-                          </select>
-                          <div *ngIf="formularioCreado.controls['Profesor'].invalid && formularioCreado.controls['Profesor'].dirty" class="alert alert-danger">El Profesor es Requerido </div>
-                     </div>
-                      <div class="form-group">
-                          <label asp-for="Periodo" class="control-label">Periodo</label>
-                          <select formControlName="Periodo" class ="form-control" required></select>
-                          <div *ngIf="formularioCreado.controls['Periodo'].invalid && formularioCreado.controls['Periodo'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
-                      </div>
-                      <div class="form-group">
-                          <label for="Estado" class="control-label h6 font-weight-bold">Estado</label>
-                          <select formControlName="Estado" class ="form-control" required></select>
-                          <div *ngIf="formularioCreado.controls['Estado'].invalid && formularioCreado.controls['Estado'].dirty" class="alert alert-danger">El Estado es Requerido </div>
+        <div class="row">
+          <div class="col-xl col-lg col-md col-sm col-xs">
+              <form [formGroup]="formularioEditar">
+                  <div class="row">
+                    <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                      <label class="control-label">Periodo</label>
+                      <a *ngFor="let periodo of periodos">
+                        <a *ngIf="inscripcion.Periodo == periodo.id">
+                          <input type="text" formControlName="Periodo" [value]="periodo.Descripcion | uppercase" class="form-control">
+                        </a>
+                      </a>
+                      <div *ngIf="formularioEditar.controls['Periodo'].invalid && formularioEditar.controls['Periodo'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
+                    </div>
+                    <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                      <label class="control-label">Curso</label>
+                      <a *ngFor="let asignar of estudiantesCursos">
+                        <a *ngIf="asignar.id === inscripcion.EstudianteCurso">
+                          <a *ngFor="let curso of cursos">
+                            <a *ngIf="curso.id === asignar.Curso">
+                              <input type="text" formControlName="Curso" [value]='curso.Descripcion | uppercase' class="form-control">
+                            </a>
+                          </a>
+                        </a>
+                      </a>
+                      <div *ngIf="formularioEditar.controls['Curso'].invalid && formularioEditar.controls['Curso'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
+                    </div>
+                    <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                      <label class="control-label">Asignatura</label>
+                      <a *ngFor="let asignado of asignaturasEmpleados">
+                        <a *ngIf="asignado.id === inscripcion.AsignaturaEncargado">
+                          <a *ngFor="let asignacion of cursosAsignaturas">
+                            <a *ngIf="asignacion.id === asignado.AsignaturaCurso">
+                              <a *ngFor="let asignatura of asignaturas">
+                                <a *ngIf="asignatura.id === asignacion.Asignatura">
+                                  <input type="text" formControlName="Asignatura" [value]='asignatura.Descripcion | uppercase' class="form-control">
+                                </a>
+                              </a>
+                            </a>
+                          </a>
+                        </a>
+                      </a>
+                      <div *ngIf="formularioEditar.controls['Asignatura'].invalid && formularioEditar.controls['Asignatura'].dirty" class="alert alert-danger">El Periodo es Requerido </div>
+                    </div>
+                    <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                      <label class="control-label h6 font-weight-bold">Estudiante y Curso</label>
 
-                      </div>
-                      <hr>
-                      <div class="row">
-                          <div class="form-group mx-auto col-xl-8 col-lg-8  col-md-8 col-sm-10 col-xs-10">
-                              <input type="button" value="Editar" class="btn btn-outline-primary btn-block font-weight-bold" />
-                          </div>
-                          <div class="form-group mx-auto col-xl-4 col-lg-4  col-md-4 col-sm-10 col-xs-10">
-                              <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/inscripcionDetalle']"/>
-                          </div>
-                      </div>
-                  </form>
-              </div>
+                      <a *ngFor="let asignar of estudiantesCursos">
+                        <a *ngIf='inscripcion.EstudianteCurso === asignar.id'>
+                          <a *ngFor="let estudiante of estudiantes">
+                            <a *ngIf="estudiante.id === asignar.Estudiante">
+                              <a *ngFor ='let persona of personas'>
+                                <a *ngIf="persona.id === estudiante.Persona" >
+                                  <a *ngFor="let curso of cursos">
+                                    <a *ngIf="curso.id === asignar.Curso">
+                                      <input type="text" value='{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{curso.Descripcion | uppercase}}' formControlName="EstudianteCurso" class="form-control">
+                                    </a>
+                                  </a>
+                                </a>
+                              </a>
+                            </a>
+                          </a>
+                        </a>
+                      </a>
+
+                      <div *ngIf="formularioEditar.controls['EstudianteCurso'].invalid && formularioEditar.controls['EstudianteCurso'].dirty" class="alert alert-danger">El Estudiante es Requerido </div>
+                    </div>
+                    <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                      <label class="control-label h6 font-weight-bold">Asignatura y Encargado</label>
+
+                      <a *ngFor="let asignado of asignaturasEmpleados">
+                        <a *ngIf="asignado.id === inscripcion.AsignaturaEncargado">
+                          <a *ngFor="let asignacion of cursosAsignaturas">
+                            <a *ngIf="asignacion.id === asignado.AsignaturaCurso">
+                              <a *ngFor="let asignatura of asignaturas">
+                                <a *ngIf="asignatura.id === asignacion.Asignatura">
+                                  <a *ngFor="let empleado of profesores">
+                                    <a *ngIf="empleado.id === asignado.Profesor">
+                                      <a *ngFor="let persona of personas">
+                                        <a *ngIf="persona.id === empleado.Persona">
+                                          <input type="text" formControlName="AsignaturaProfesor" value='{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{asignatura.Descripcion | uppercase}}' class="form-control">
+                                        </a>
+                                      </a>
+                                    </a>
+                                  </a>
+                                </a>
+                              </a>
+                            </a>
+                          </a>
+                        </a>
+                      </a>
+
+                      <div *ngIf="formularioEditar.controls['AsignaturaProfesor'].invalid && formularioEditar.controls['AsignaturaProfesor'].dirty" class="alert alert-danger">La Asignatura es Requerida </div>
+                    </div>
+                    <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
+                      <label class="control-label">Aula</label>
+                      <select *ngIf="esAula" formControlName="Aula" class ="form-control" required>
+                        <option></option>
+                        <option *ngFor="let aula of tenerAulas(inscripcion.AsignaturaEncargado)" [value]="aula.id">{{aula.Descripcion | uppercase}}</option>
+                      </select>
+                      <a *ngFor=" let aula of aulas">
+                        <a *ngIf = "aula.id === inscripcion.Aula">
+                          <input type="text" *ngIf="!esAula" (click)="cambiarAula()" [value]='aula.Descripcion | uppercase' class="form-control">
+                        </a>
+                      </a>
+
+                      <div *ngIf="formularioEditar.controls['Aula'].invalid && formularioEditar.controls['Aula'].dirty" class="alert alert-danger">El Aula es Requerida </div>
+                    </div>
+                    <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12">
+                      <label class="control-label">Estado</label>
+                      <select formControlName="Estado" *ngIf="esEstado" class ="form-control" required>
+                        <option></option>
+                        <option *ngFor="let estado of tenerEstados()" [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+                      </select>
+                      <a *ngFor=" let estado of estados">
+                        <a *ngIf = "estado.id === inscripcion.Estado">
+                          <input type="text" *ngIf="!esEstado" (click)="cambiarEstado()" [value]='estado.descripcion | uppercase' class="form-control">
+                        </a>
+                      </a>
+                      <div *ngIf="formularioEditar.controls['Estado'].invalid && formularioEditar.controls['Estado'].dirty" class="alert alert-danger">El Aula es Requerida </div>
+                    </div>
+                  </div>
+              </form>
           </div>
+      </div>
+      </div>
+      <div class="card-footer row">
+        <div class="form-group mx-auto col-xl-8 col-lg-8  col-md-8 col-sm-10 col-xs-10">
+            <input type="button" value="Editar" (click)="editarInscripcion(inscripcion)" class="btn btn-outline-primary btn-block font-weight-bold" />
+        </div>
+        <div class="form-group mx-auto col-xl-4 col-lg-4  col-md-4 col-sm-10 col-xs-10">
+            <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/inscripcionDetalle', idInscripcion]"/>
+        </div>
       </div>
   </div>
 </div>

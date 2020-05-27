@@ -1,22 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Tareas } from 'src/model/tareas';
 import { Instituciones } from 'src/model/instituciones';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TareaService {
-  tarea: Tareas = new Tareas();
-  institucion: Instituciones = new Instituciones();
 
-  constructor() {
-    this.tarea.titulo = 'titulo tarea';
-    this.tarea.descripcion = 'descripcion de la tarea en cuestion';
-    this.tarea.fecha = '02/03/2020';
-    this.tarea.hora = '02:50:16';
-    this.tarea.id = '01';
-    this.tarea.idEstado = '01';
-    this.tarea.idInstitucion = this.institucion.id;
-    this.tarea.idPrioridad = '01';
+  constructor(private database: AngularFirestore) { }
+
+  verTareas() {
+    let tareas = new Array<Tareas>();
+    this.database.collection<Tareas>('tareas').get().subscribe( (respuesta) => {
+      respuesta.forEach((contenido) => {
+        let tarea = contenido.data() as Tareas;
+        tarea.id = contenido.id;
+        tarea.ref = contenido.ref;
+        tareas.push(tarea);
+      });
+    });
+    return tareas;
+  }
+
+  verPrioridades() {
+    let prioridades = new Array<any>();
+    this.database.collection('prioridades').get().subscribe( (respuesta) => {
+      respuesta.forEach((contenido) => {
+        let prioridad = contenido.data();
+        prioridad.id = contenido.id;
+        prioridad.ref = contenido.ref;
+        prioridades.push(prioridad);
+      });
+    });
+    return prioridades;
   }
 }

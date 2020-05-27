@@ -1,0 +1,104 @@
+<div class="container" *ngFor="let documento of documentos">
+  <div class="card" *ngIf="documento.id === idDocumento">
+      <div class="card-header ">
+        <div class="h1 text-center"><a class="h2"><i class=" far fa-edit"></i></a><a class="h1"><i class="far fa-file-alt"></i></a> | Editar Documento</div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formularioCreado">
+          <div class="row overflow-auto m-1" style="height: 500px;">
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12">
+              <label class="control-label font-weight-bold h5">Persona</label>
+              <a *ngFor = "let persona of personas">
+                <input type="text" *ngIf="persona.id === documento.Persona"  value="{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{obtenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}" style="font-size: 15px;" name="Persona" class="form-control" disabled/>
+              </a>
+            </div>
+            <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <label class="control-label font-weight-bold h5">Tipo de Documento</label>
+              <select formControlName="TipoDocumento" *ngIf="esTipo" style="font-size: 15px;" class ="form-control" >
+                <option *ngFor="let tipo of tipoDocumentos" [value]="tipo.id">{{tipo.descripcion | uppercase}}</option>
+              </select>
+              <a *ngFor = "let tipo of tipoDocumentos">
+                <a *ngIf = "tipo.id === documento.TipoDocumento">
+                  <input type="text" *ngIf="!esTipo" (click) = "cambiarTipo()" [value] = "tipo.descripcion | uppercase" style="font-size: 15px;" class="form-control">
+                </a>
+              </a>
+              <div *ngIf="formularioCreado.controls['TipoDocumento'].invalid && formularioCreado.controls['TipoDocumento'].dirty" class="alert alert-danger">La Circunscripcion es Requerida</div>
+            </div>
+
+            <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <label class="control-label  font-weight-bold h5">Numero de Documento</label>
+              <input formControlName="Numero" [value] = "documento.Numero" style="font-size: 15px;" class="form-control" required minlength="4" maxlength="12" />
+              <div *ngIf="formularioCreado.controls['Numero'].invalid && formularioCreado.controls['Numero'].dirty" class="alert alert-danger h5">El Numero es Requerido</div>
+            </div>
+
+            <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <label class="control-label font-weight-bold h5">Nacionalidad</label>
+              <select  style="font-size: 15px;" *ngIf="esNacionalidad" formControlName="Nacionalidad" class ="form-control" required>
+                <option *ngFor ="let pais of paises" [value]="pais.id"> {{pais.nacionalidad | uppercase}}</option>
+              </select>
+              <a *ngFor = "let nacionalidad of paises">
+                <a *ngIf = "nacionalidad.id === documento.Nacionalidad">
+                  <input type="text" *ngIf="!esNacionalidad" (click)="cambiarNacionalidad()" [value] = "nacionalidad.nacionalidad | uppercase" style="font-size: 15px;" class="form-control">
+                </a>
+              </a>
+              <div *ngIf="formularioCreado.controls['Nacionalidad'].invalid && formularioCreado.controls['Nacionalidad'].dirty" class="alert alert-danger">La Circunscripcion es Requerida</div>
+            </div>
+            <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 mb-4">
+              <label class="h5 control-label font-weight-bold">Pais: </label>
+              <select style="font-size: 15px;" formControlName="Pais" [value]="documento.Pais" class ="form-control" required (change) = "tenerCiudades()" >
+                <option *ngFor ="let pais of paises" [value]="pais.id" [selected]="documento.Pais"> {{pais.descripcion | uppercase}}</option>
+              </select>
+              <div *ngIf="formularioCreado.controls['Pais'].invalid && formularioCreado.controls['Pais'].dirty" class="alert alert-danger">El Pais es Requerido</div>
+            </div>
+            <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 mb-4">
+              <label class="h5 control-label font-weight-bold">Ciudad</label>
+              <select style="font-size: 15px;" formControlName="Ciudad" class ="form-control" required *ngIf="esCiudad">
+                <option></option>
+                <option *ngFor ="let ciudad of ciudades" [selected]="documento.Ciudad" [value]="ciudad.id" > {{ciudad.descripcion | uppercase}}</option>
+              </select>
+              <div *ngIf="!esCiudad">
+                <div *ngFor="let ciudad of ciudades">
+                  <input type="text" style="font-size: 15px;" *ngIf="ciudad.id === documento.Ciudad" disabled  class="form-control" [value]="ciudad.descripcion | uppercase">
+                </div>
+              </div>
+              <div *ngIf="formularioCreado.controls['Ciudad'].invalid && formularioCreado.controls['Ciudad'].dirty" class="alert alert-danger">La Ciudad es Requerida</div>
+            </div>
+            <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <label class="control-label font-weight-bold h5">Estado: </label>
+              <select  style="font-size: 15px;"  formControlName="Estado" *ngIf="esEstado" class ="form-control" required>
+                <option *ngFor ="let estado of tenerEstados()" [value]="estado.id"> {{estado.descripcion | uppercase}}</option>
+              </select>
+              <a *ngFor = "let estado of estados">
+                <a *ngIf = "estado.id === documento.Estado">
+                  <input type="text" style="font-size: 15px;" (click)="cambiarEstado()" *ngIf="!esEstado" [value]="estado.descripcion | uppercase" class="form-control">
+                </a>
+              </a>
+              <div *ngIf="formularioCreado.controls['Ciudad'].invalid && formularioCreado.controls['Ciudad'].dirty" class="alert alert-danger">La Circunscripcion es Requerida</div>
+            </div>
+            <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 mb-3" >
+              <label class="h5 control-label font-weight-bold">Copia Digital: </label>
+              <input type="file" Name="foto" class="form-control-file" style="font-size: 15px;" formControlName="Foto" accept=".png, .jpg" (change)="subirImagen($event)"/>
+              <progressbar [value]='carga' type="success" [striped] ="true" *ngIf="carga != 0 || carga > 99" class="mt-2"><b>{{carga}} %</b></progressbar>
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="documento.Foto!=''">
+                <img src="{{documento.Foto}}" [src]="imagen" alt="" class=" img-thumbnail mx-auto img-fluid mt-2 mb-2"  >
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="row form-group mx-auto">
+          <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 mb-3">
+            <button class="btn btn-outline-info btn-block"  (click) ="editarDocumento(documento)">
+              <a class="h3 font-weight-bold"><i class="far fa-edit"></i> | Editar</a>
+            </button>
+          </div>
+          <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 mb-3">
+            <button class="btn btn-outline-danger btn-block " [routerLink]="['/personaDetalle', documento.Persona]" >
+              <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+            </button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

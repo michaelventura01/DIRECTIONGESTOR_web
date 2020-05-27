@@ -1,75 +1,120 @@
 <div class="container">
   <div class="card">
       <div class="card-header ">
+        <div class="container">
           <div class="row">
-              <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10 text-center h1">Personas</div>
-              <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2 "  >
-                  <button type="button" class="btn btn-success" [routerLink]="'/personaAgregar'"><div class="h1"><i class=" far fa-plus-square "></i></div></button>
-              </div>
+            <div class="col col-xl-11 col-lg-11 col-md-11 col-sm-11 col-xs-11 text-center h1"><i class="fas fa-user-circle "></i> | Personas</div>
+            <div class="col col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1 ">
+              <button type="button" class="btn btn-success float-right" [routerLink]="'/personaAgregar'"><div class="h1"><i class=" fas fa-plus "></i></div></button>
+            </div>
           </div>
+        </div>
       </div>
       <div class="card-body" [formGroup] = "buscarFormulario">
           <div class="card-title">
-              <div class="row" >
-                  <div class="col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10 h4">
-                      <input type="text"  class="form-control " (keyup)="filtrarPersonas($event)" formControlName = "Persona" placeholder="Escribe Para Filtrar las Personas">
-                  </div>
-                  <div class=" col-xl-3 col-lg-3  col-md-3 col-sm-10 col-xs-10 h4">
-                      <select name="estado"   class="form-control" formControlName = "Estado" (click)="tenerEstadosPersonas(estados)" (change)="tenerSoloEstado($event)">
-                        <option *ngFor="let estado of estados"   value="{{estado.id}}">{{estado.descripcion | uppercase}}</option>
-                      </select>
-                  </div>
-                  <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
-                      <button type="button" class="btn btn-secondary" (click)="tenerSoloEstado(buscarFormulario.value.Persona)"><div class="h4"><i class="fas fa-search "></i></div></button>
-                  </div>
+            <div class="row" >
+              <div class="col-xl-10 col-lg-10  col-md-10 col-sm-10 col-xs-10 mb-3">
+                <p class="font-weight-bold mb-0 h5" >Persona:</p>
+                <input type="text" style="font-size: 15px;"  class="form-control input-lg"   formControlName = "Persona" placeholder="Escribe Para Filtrar las Personas">
               </div>
+              <div class="col col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2  text-center">
+                <div class="row">
+                  <div class="col col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 ">
+                    <button class = "btn btn-outline-danger" (click)="listadoPersonaPDF()">
+                      <p class = "h1"><i class="fas fa-print"></i></p>
+                    </button>
+                  </div>
+                  <div class="col col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 ">
+                    <button class = "btn btn-outline-primary" (click)="cambiarPresentacion()">
+                      <p class = "h1" *ngIf="!presentacion"><i class="fas fa-list"></i></p>
+                      <p class = "h1" *ngIf="presentacion"><i class="fas fa-table"></i></p>
+                    </button>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
           </div>
           <hr>
-          <div class="row">
-              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-3" *ngFor="let persona of personas">
-                  <div class="card" *ngIf = "persona.Estado === Estado">
-                      <div class="card-header">
-                        <div class="h6">{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}</div>
+          <div class="row overflow-auto m-1" style="height: 500px; width: 100%;">
+            <div *ngIf="presentacion">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-3 " *ngFor="let persona of filtrarPersonas(buscarFormulario.value.Persona)">
+                <div class="card">
+                    <div class="card-header">
+                      <div class="h4">{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}</div>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group h5 text-uppercase ">
+                        <p class="font-weight-bold">Cumpleaños:</p>
+                        {{obtenerFecha(persona.FechaNacimiento).fechaNacimiento}}
                       </div>
-                      <div class="card-body h8">
-                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h9 font-weight-bold">
-                              Cumpleaños
-                          </div>
-                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h9 text-uppercase">
-                            {{obtenerFecha(persona.FechaNacimiento).fechaNacimiento}}
-                          </div>
-
-                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h9 font-weight-bold">
-                              Nacionalidad
-                          </div>
-                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h9 text-uppercase">
-                              <a *ngFor="let nacionalidad of paises">
-                                <a value="nacionalidad.id" *ngIf="nacionalidad.id === persona.Nacionalidad">{{nacionalidad.nacionalidad}}</a>
-                              </a>
-                          </div>
-                          <br>
-                          <div class="row">
-                              <div class="form-group col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 h9 font-weight-bold">
-                                  Sexo
-                              </div>
-                              <div class="form-group col-xl col-lg  col-md col-sm col-xs h9 text-uppercase">
-                                  <a *ngFor="let sexo of sexos">
-                                    <a value="sexo.id" *ngIf="sexo.id === persona.Sexo">{{sexo.descripcion}}</a>
-                                  </a>
-                              </div>
-                          </div>
-                          <hr>
-
-                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h6 font-weight-bold">
-                              <input type="button" class="btn btn-outline-secondary btn-block" value="Ver" (click)="verPersona(persona.id)">
-                          </div>
+                      <div class="form-group h5 text-uppercase ">
+                        <p class="font-weight-bold">Nacionalidad:</p>
+                        <a *ngFor="let nacionalidad of paises">
+                          <a value="nacionalidad.id" *ngIf="nacionalidad.id === persona.Nacionalidad">{{nacionalidad.nacionalidad}}</a>
+                        </a>
                       </div>
-                  </div>
+                      <div class="form-group h5 text-uppercase ">
+                        <p class="font-weight-bold">Sexo:</p>
+                        <a *ngFor="let sexo of sexos">
+                          <a value="sexo.id" *ngIf="sexo.id === persona.Sexo">{{sexo.descripcion}}</a>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <button class="btn btn-outline-secondary btn-block" value="Ver" [routerLink]="['/personaDetalle', persona.id]" routerLinkActive="router-link-active" >
+                        <a class="h4"><i class="far fa-eye"></i> Ver</a>
+                      </button>
+                    </div>
+                </div>
               </div>
-
-
+            </div>
+            <table class="table table-hover h5" id="tbPersonas" *ngIf="!presentacion">
+              <thead class="h4">
+                <tr>
+                  <th scope="col" width = "30%">Nombre</th>
+                  <th scope="col" width = "30%">Cumpleaños</th>
+                  <th scope="col" width = "20%">Nacionalidad</th>
+                  <th scope="col" width = "10%">Sexo</th>
+                  <th scope="col" width = "10%"></th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let persona of filtrarPersonas(buscarFormulario.value.Persona)">
+                <tr>
+                  <td>
+                    {{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}
+                  </td>
+                  <td>
+                    {{obtenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}
+                  </td>
+                  <td>
+                    <a *ngFor="let nacionalidad of paises">
+                      <a value="nacionalidad.id" *ngIf="nacionalidad.id === persona.Nacionalidad">{{nacionalidad.nacionalidad | uppercase}}</a>
+                    </a>
+                  </td>
+                  <td>
+                    <a *ngFor="let sexo of sexos">
+                      <a value="sexo.id" *ngIf="sexo.id === persona.Sexo">{{sexo.descripcion | uppercase}}</a>
+                    </a>
+                  </td>
+                  <td>
+                    <table >
+                      <tr>
+                        <td>
+                          <button type="button" class="btn btn-warning" [routerLink]="['/personaDetalle',persona.id]"><a class="h4"><i class="far fa-eye"></i></a></button>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-secondary" [routerLink]="['/personaEditar',persona.id]"><a class="h4"><i class="far fa-edit"></i></a></button>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-      </div>
+        </div>
       <div class="card-footer"></div>
   </div>
 </div>

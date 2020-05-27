@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
-
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ErrorComponent } from './view/error/error.component';
@@ -117,6 +117,14 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InicioComponentComponent } from './view/inicio-component/inicio-component.component';
+import { AdddocumentoComponent } from './view/personas/adddocumento/adddocumento.component';
+import { AddreacionComponent } from './view/personas/addrelacion/addreacion.component';
+import { DetaildocumentoComponent } from './view/personas/detaildocumento/detaildocumento.component';
+import { DetailreacionComponent } from './view/personas/detailrelacion/detailreacion.component';
+import { EditdocumentoComponent } from './view/personas/editdocumento/editdocumento.component';
+import { EditreacionComponent } from './view/personas/editrelacion/editreacion.component';
+import { TelPipe } from './pipes/tel.pipe';
+import * as jsPDF from 'jspdf';
 @NgModule({
   declarations: [
     AppComponent,
@@ -206,7 +214,14 @@ import { InicioComponentComponent } from './view/inicio-component/inicio-compone
     InscripcionesestudiantesComponent,
     CursoasignaturasComponent,
     DetailestudianteComponent,
-    InicioComponentComponent
+    InicioComponentComponent,
+    AdddocumentoComponent,
+    AddreacionComponent,
+    DetaildocumentoComponent,
+    DetailreacionComponent,
+    EditdocumentoComponent,
+    EditreacionComponent,
+    TelPipe
   ],
   imports: [
     BrowserModule,
@@ -217,8 +232,8 @@ import { InicioComponentComponent } from './view/inicio-component/inicio-compone
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFontAwesomeModule,
     ProgressbarModule.forRoot()
-
   ],
   providers: [
     ActanacimientoService,

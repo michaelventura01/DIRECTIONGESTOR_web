@@ -87,13 +87,26 @@ import { InscripcionesestudiantesComponent } from './view/asignaturas/inscripcio
 import { CursoasignaturasComponent } from './view/cursos/cursoasignaturas/cursoasignaturas.component';
 import { DetailestudianteComponent } from './view/estudiantes/detailestudiante/detailestudiante.component';
 import { InicioComponentComponent } from './view/inicio-component/inicio-component.component';
+import { AdddocumentoComponent } from './view/personas/adddocumento/adddocumento.component';
+import { AddreacionComponent } from './view/personas/addrelacion/addreacion.component';
+import { DetaildocumentoComponent } from './view/personas/detaildocumento/detaildocumento.component';
+import { DetailreacionComponent } from './view/personas/detailrelacion/detailreacion.component';
+import { EditdocumentoComponent } from './view/personas/editdocumento/editdocumento.component';
+import { EditreacionComponent } from './view/personas/editrelacion/editreacion.component';
+
 
 const routes: Routes = [
   {path: '', component: InicioComponentComponent },
   {path: 'login', component: IngresarusuarioComponent},
   {path: 'menu', component: MenuComponent },
+  {path: 'documentoAgregar/:persona', component: AdddocumentoComponent},
+  {path: 'relacionAgregar/:persona', component:  AddreacionComponent},
+  {path: 'documentoDetalle/:id', component: DetaildocumentoComponent},
+  {path: 'relacionDetalle/:id', component: DetailreacionComponent},
+  {path: 'documentoEditar/:id', component: EditdocumentoComponent},
+  {path: 'relacionEditar/:id', component: EditreacionComponent},
   {path: 'actanacimientoDetalle/:id', component: DetailsactanacimientoComponent },
-  {path: 'actanacimientoAgregar', component: AddActaNacimientoComponent },
+  {path: 'actanacimientoAgregar/:persona', component: AddActaNacimientoComponent },
   {path: 'actanacimientoEditar/:id', component: EditActaNacimientoComponent },
   {path: 'articulos', component: ArticulosComponent },
   {path: 'articuloDetalle/:id', component: DetailsArticuloComponent },

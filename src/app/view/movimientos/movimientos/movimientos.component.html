@@ -10,64 +10,73 @@
       </div>
       <div class="card-body">
           <div class="card-title">
-              <div class="row">
-                  <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4">
-                      <input type="text" name="buscar" class="form-control " placeholder="Escribe Para Filtrar los Movimientos">
+              <div class="row" [formGroup]="formularioBuscar">
+                  <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                      <input type="text" formContolName="Descripcion" (keyup)="asignarDescripcion($event)"  class="form-control " placeholder="Escribe Para Filtrar los Movimientos">
                   </div>
-                  <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                      <select  name="movimiento" class="form-control " >
-                          <option value="0">Movimientos</option>
-                      </select>
+                  <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2">
+                    <input type="date" formControlName="Fecha" *ngIf="esTiempo" (change)="tenerTiempo()" class="form-control ">
+                    <input type="text" class="form-control" [value]="tenerFechaActual()" *ngIf="!esTiempo" (click)="cambiarTiempo()">
                   </div>
-                  <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                      <input type="date" name="fecha" class="form-control ">
+                  <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2">
+                    <select  formControlName="Tipo" (change)='asignarTipo()' class="form-control " >
+                      <option [selected] [value]='0'>TODOS</option>
+                      <option *ngFor="let tipo of tipos" [value]="tipo.id">{{tipo.descripcion | uppercase}}S</option>
+                    </select>
                   </div>
+
                   <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
                     <button type="button" class="btn btn-secondary " ><div class="h4"><i class="fas fa-search "></i></div></button>
                 </div>
               </div>
           </div>
           <hr>
-          <div >
-
-              <table class="table table-hover">
-                  <thead>
-                      <tr>
-                      <th scope="col">Fecha</th>
-                      <th scope="col">Descripcion</th>
-                      <th scope="col">Ingreso</th>
-                      <th scope="col">Gasto</th>
-                      <th scope="col">Estado</th>
-                      <th scope="col"></th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                        <td >00/00/0000</td>
-                        <td>descripcion del movimiento</td>
-                        <td>00.00</td>
-                        <td>00.00</td>
-                        <td>estado</td>
-                        <td><input type="button" class="btn btn-info " value="Ver" [routerLink]="['/movimientoDetalle']" ></td>
-                      </tr>
-                  </tbody>
+          <div class="row">
+            <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12">
+              <table class="table table-hover ">
+                <thead>
+                  <tr>
+                    <th scope="col">FECHA</th>
+                    <th scope="col">HORA</th>
+                    <th scope="col">DESCRIPCION</th>
+                    <th scope="col">INGRESO</th>
+                    <th scope="col">GASTO</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let movimiento of tenerMovimientos()" [ngClass]="{'bg-warning': tenerTiempo().fecha === tenerFecha(movimiento.FechaHora).fecha}">
+                    <td>{{tenerFecha(movimiento.FechaHora).fecha}}</td>
+                    <td>{{tenerFecha(movimiento.FechaHora).tiempo}}</td>
+                    <td>{{movimiento.Descripcion | uppercase}}</td>
+                    <td >
+                      <a *ngIf="movimiento.Tipo === 'ing'" class="text-success font-weight-bold">+{{movimiento.Monto | currency}}</a>
+                    </td>
+                    <td>
+                      <a *ngIf="movimiento.Tipo === 'gas'" class="text-danger font-weight-bold">-{{movimiento.Monto | currency}}</a>
+                    </td>
+                    <td>
+                      <input type="button" class="btn btn-info " value="Ver" [routerLink]="['/movimientoDetalle', movimiento.id]" >
+                    </td>
+                  </tr>
+                </tbody>
               </table>
-
+            </div>
           </div>
       </div>
       <div class="card-footer">
           <div class="row container">
               <div class=" col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 card text-white bg-success mb-1">
-                  <div class="control-label h5">Total Ingresos</div>
-                  <div class="control-label h1 text-center">00.00</div>
+                  <div class="control-label h5 font-weight-bold">Total Ingresos</div>
+                  <div class="control-label h1 text-center font-weight-bold">{{ingresos | currency }}</div>
               </div>
               <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 card text-white bg-danger mb-1">
-                  <div class="control-label h5">Total Gastos</div>
-                  <div class="control-label h1 text-center">00.00</div>
+                  <div class="control-label h5 font-weight-bold">Total Gastos</div>
+                  <div class="control-label h1 text-center font-weight-bold">{{gastos | currency }}</div>
               </div>
               <div class="col-xl-4 col-lg-4  col-md-4 col-sm-4 col-xs-4 card text-white bg-primary mb-1">
-                  <div class="control-label h5">Total Ganancias</div>
-                  <div class="control-label h1 text-center">00.00</div>
+                  <div class="control-label h5 font-weight-bold">Total Ganancias</div>
+                  <div class="control-label h1 text-center font-weight-bold" [ngClass]="{'text-danger': 0>ganancias, 'text-success':ganancias>0}">{{ganancias | currency }}</div>
               </div>
           </div>
       </div>

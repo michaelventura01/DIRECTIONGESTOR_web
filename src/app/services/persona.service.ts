@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore} from '@angular/fire/firestore';
-import { EstadoService } from 'src/app/services/estado.service';
-import { ContactoService } from 'src/app/services/contacto.service';
-import { FormGroup } from '@angular/forms';
 import { Personas } from 'src/model/personas';
 
 @Injectable({
@@ -20,85 +17,124 @@ export class PersonaService {
   }
 
   verSexos() {
-    this.sexos = new Array<any>();
+    let sexos = new Array<any>();
     this.database.collection('sexos').get().subscribe( (respuesta) => {
       respuesta.forEach((contenido) => {
-        this.sexos.push({
+        sexos.push({
           id: contenido.id,
           descripcion: contenido.data().descripcion
         });
       });
     });
-    return this.sexos;
+    return sexos;
   }
 
   verPersonas() {
-    this.personas = new Array<Personas>();
+    let personas = new Array<Personas>();
     this.database.collection<Personas>('personas').get().subscribe( (respuesta) => {
       respuesta.forEach((contenido) => {
         let persona = contenido.data() as Personas;
         persona.id = contenido.id;
         persona.ref = contenido.ref;
-        this.personas.push(persona);
+        personas.push(persona);
       });
     });
-    return this.personas;
+    return personas;
+  }
+
+  verRelaciones() {
+    let relaciones = new Array<any>();
+    this.database.collection('relaciones').get().subscribe( (respuesta) => {
+      respuesta.forEach((contenido) => {
+        let relacion = contenido.data();
+        relacion.id = contenido.id;
+        relacion.ref = contenido.ref;
+        relaciones.push(relacion);
+      });
+    });
+    return relaciones;
+  }
+
+  verTiposRelaciones() {
+    let tiposRelaciones = new Array<Personas>();
+    this.database.collection<Personas>('tiposrelaciones').get().subscribe( (respuesta) => {
+      respuesta.forEach((contenido) => {
+        let tipo = contenido.data() as Personas;
+        tipo.id = contenido.id;
+        tipo.ref = contenido.ref;
+        tiposRelaciones.push(tipo);
+      });
+    });
+    return tiposRelaciones;
+  }
+
+  verObservaciones() {
+    let observaciones = new Array<any>();
+    this.database.collection('observaciones').get().subscribe( (respuesta) => {
+      respuesta.forEach((contenido) => {
+        let observacion = contenido.data();
+        observacion.id = contenido.id;
+        observacion.ref = contenido.ref;
+        observaciones.push(observacion);
+      });
+    });
+    return observaciones;
   }
 
   verPersona(id: string) {
-    this.personas = new Array<Personas>();
+    let personas = new Array<Personas>();
     this.database.collection<Personas>('personas').get().subscribe( (respuesta) => {
       respuesta.forEach((contenido) => {
         if (id === contenido.id){
           let persona = contenido.data() as Personas;
           persona.id = contenido.id;
           persona.ref = contenido.ref;
-          this.personas.push(persona);
+          personas.push(persona);
         }
       });
     });
-    return this.personas;
+    return personas;
   }
 
   tenerMes(data){
     let mes;
 
-    switch(data){
+    switch (data) {
       case 1:
-        mes = 'enero'
+        mes = 'enero';
         break;
       case 2:
-        mes = 'febrero'
+        mes = 'febrero';
         break;
       case 3:
-        mes = 'marzo'
+        mes = 'marzo';
         break;
       case 4:
-        mes = 'abril'
+        mes = 'abril';
         break;
       case 5:
-        mes = 'mayo'
+        mes = 'mayo';
         break;
       case 6:
-        mes = 'junio'
+        mes = 'junio';
         break;
       case 7:
-        mes = 'julio'
+        mes = 'julio';
         break;
       case 8:
-        mes = 'agosto'
+        mes = 'agosto';
         break;
       case 9:
-        mes = 'septiembre'
+        mes = 'septiembre';
         break;
       case 10:
-        mes = 'octubre'
+        mes = 'octubre';
         break;
       case 11:
-        mes = 'noviembre'
+        mes = 'noviembre';
         break;
       case 12:
-        mes = 'diciembre'
+        mes = 'diciembre';
         break;
     }
     return mes;
@@ -107,16 +143,83 @@ export class PersonaService {
   obtenerFecha(data){
     let tiempo = new Date(data.seconds * 1000);
     let actual = new Date();
+    let mes: string;
+    let dia: string;
+    let hora: string;
+    let minuto: string;
+
+    if (tiempo.getMonth() + 1 < 10 ) {
+      mes = '0' + (tiempo.getMonth() + 1).toString();
+    } else {
+      mes = (tiempo.getMonth() + 1).toString();
+    }
+
+    if (tiempo.getDate() < 10 ) {
+      dia = '0' + tiempo.getDate().toString();
+    } else {
+      dia = tiempo.getDate().toString();
+    }
+
+    if ( tiempo.getHours() < 10 ) {
+      hora = '0' + tiempo.getHours().toString();
+    } else {
+      hora = tiempo.getHours().toString();
+    }
+
+    if ( tiempo.getMinutes() < 10 ) {
+      minuto = '0' + tiempo.getMinutes().toString();
+    } else {
+      minuto = tiempo.getMinutes().toString();
+    }
 
     return {
-      fechaNacimiento: this.tenerMes(tiempo.getMonth()) + ' ' + tiempo.getDay() + ', del ' + tiempo.getFullYear(),
+      fechaNacimiento: this.tenerMes(tiempo.getMonth() + 1) + ' ' + tiempo.getDate() + ', del ' + tiempo.getFullYear(),
       edad: (actual.getFullYear() - tiempo.getFullYear()) + ' años',
       age: (actual.getFullYear() - tiempo.getFullYear()),
-      fecha: tiempo.getMonth() + '/' + tiempo.getDay() + '/' + tiempo.getFullYear(),
-      date: tiempo.getFullYear() + '/' + tiempo.getMonth() + '/' + tiempo.getDay(),
+      fecha: mes + '/' + dia + '/' + tiempo.getFullYear(),
+      tiempo: hora + ' : ' + minuto,
+      date: tiempo.getFullYear() + '/' + tiempo.getMonth() + '/' + tiempo.getDate(),
       time: tiempo,
-      birthdate: tiempo.getDay() + ' de ' + this.tenerMes(tiempo.getMonth())
+      birthdate: tiempo.getDate() + ' de ' + this.tenerMes(tiempo.getMonth() + 1),
+      mesAno: mes + '-' + tiempo.getFullYear()
     };
 
+  }
+
+  obtenerFechaActual() {
+    let tiempo = new Date();
+    let mes: string;
+    let dia: string;
+    let hora: string;
+    let minuto: string;
+    if (tiempo.getMonth() + 1 < 10 ) {
+      mes = '0' + (tiempo.getMonth() + 1).toString();
+    } else {
+      mes = (tiempo.getMonth() + 1).toString();
+    }
+    if (tiempo.getDate() < 10 ) {
+      dia = '0' + tiempo.getDate().toString();
+    } else {
+      dia = tiempo.getDate().toString();
+    }
+    if ( tiempo.getHours() < 10 ) {
+      hora = '0' + tiempo.getHours().toString();
+    } else {
+      hora = tiempo.getHours().toString();
+    }
+    if ( tiempo.getMinutes() < 10 ) {
+      minuto = '0' + tiempo.getMinutes().toString();
+    } else {
+      minuto = tiempo.getMinutes().toString();
+    }
+    return {
+      fechaNacimiento: this.tenerMes(tiempo.getMonth() + 1) + ' ' + tiempo.getDate() + ', del ' + tiempo.getFullYear(),
+      fecha: mes + '/' + dia + '/' + tiempo.getFullYear(),
+      tiempo: hora + ' : ' + minuto,
+      date: tiempo.getFullYear() + '/' + tiempo.getMonth() + '/' + tiempo.getDate(),
+      time: tiempo,
+      birthdate: tiempo.getDate() + ' de ' + this.tenerMes(tiempo.getMonth() + 1),
+      mesAno: mes + '-' + tiempo.getFullYear()
+    };
   }
 }

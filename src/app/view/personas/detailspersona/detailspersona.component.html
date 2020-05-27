@@ -1,106 +1,337 @@
-<div class="container">
-  <div class="card" *ngFor="let persona of personas">
-      <div class="card card-header" >
-        <div class="h1 text-center">{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}</div>
+<div class="container" *ngFor="let persona of personas">
+  <div class="card" *ngIf="persona.id === idPersona">
+      <div class="card-header" >
+        <div class="h1 text-center"><i class="fas fa-user-circle text-left"></i> | {{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}</div>
       </div>
-          <div class="card card-body">
-              <div class="row" >
-                  <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" *ngIf="persona.Foto != '' ">
-                    <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" >
-                      <img [src]="persona.Foto" alt="" class=" img-thumbnail rounded-circle mx-auto img-fluid mt-2 mb-2">
-                    </div>
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Fecha de Nacimiento:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                    {{obtenerFecha(persona.FechaNacimiento).fechaNacimiento}}
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right text-right">
-                      Edad:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                    {{obtenerFecha(persona.FechaNacimiento).edad}}
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Sexo:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                      <a *ngFor="let sexo of sexos">
-                        <a *ngIf="sexo.id === persona.Sexo">{{sexo.descripcion}}</a>
+      <div class="card-body">
+        <div class="row overflow-auto m-1" style="max-height: 480px;"  [formGroup] = "observacionFormulario">
+            <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" *ngIf="persona.Foto != '' ">
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" >
+                <img [src]="persona.Foto" alt="" class=" img-thumbnail rounded-circle mx-auto img-fluid mt-2 mb-2">
+              </div>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+              <p class="text-center font-weight-bold mb-0">Fecha de Nacimiento:</p>
+              {{obtenerFecha(persona.FechaNacimiento).fechaNacimiento}}
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+              <p class="text-center font-weight-bold mb-0">Edad:</p>
+              {{obtenerFecha(persona.FechaNacimiento).edad}}
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+                <p class="text-center font-weight-bold mb-0">Sexo:</p>
+                <a *ngFor="let sexo of sexos">
+                  <a *ngIf="sexo.id === persona.Sexo">{{sexo.descripcion}}</a>
+                </a>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+              <p class="text-center font-weight-bold mb-0">Nacionalidad:</p>
+              <a *ngFor="let nacionalidad of paises">
+                <a *ngIf="nacionalidad.id === persona.Nacionalidad">{{nacionalidad.nacionalidad}}</a>
+              </a>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+              <p class="text-center font-weight-bold mb-0">Direccion:</p>
+              {{persona.Direccion}}
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+              <p class="text-center font-weight-bold mb-0">Ciudad:</p>
+              <a *ngFor="let ciudad of ciudades">
+                <a *ngIf="ciudad.id === persona.Ciudad">{{ciudad.descripcion}}</a>
+              </a>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+              <p class="text-center font-weight-bold mb-0">Pais:</p>
+              <a *ngFor="let pais of paises">
+                <a *ngIf="pais.id === persona.Pais">{{pais.descripcion}}</a>
+              </a>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+              <p class="text-center font-weight-bold mb-0">Telefono:</p>
+              <a class="bfh-phone">({{persona.Telefono | slice:0:3}}) {{persona.Telefono | slice:3:6}} - {{persona.Telefono | slice:6:10}}</a>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-center">
+              <p class="text-center font-weight-bold mb-0 text-uppercase">Correo:</p>
+              {{persona.Correo}}
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+              <div class=" overflow-auto" style="max-width: 100%; ">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col" width = "20%">
+                        <button [routerLink]="['/actanacimientoAgregar',idPersona]" type="button" class="btn btn-info">
+                          <a class="h5"><i class=" fas fa-plus "></i></a><a class="h4"><i class="far fa-file-alt"></i></a>
+                        </button>
+                      </th>
+                      <th scope="col" width = "10%">Folio</th>
+                      <th scope="col" width = "10%">Año</th>
+                      <th scope="col" width = "10%">Libro</th>
+                      <th scope="col" width = "10%">Numero</th>
+                      <th scope="col" width = "10%">Circunscripcion</th>
+                      <th scope="col" width = "10%">Copia Digital</th>
+                      <th scope="col" width = "20%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let acta of tenerActas()">
+                      <th>Acta Nacimiento</th>
+                      <td>{{acta.Folio | uppercase}}</td>
+                      <td>{{acta.Anio | uppercase}}</td>
+                      <td>{{acta.Libro | uppercase}}</td>
+                      <td>{{acta.Numero | uppercase}}</td>
+                      <td>
+                        <a *ngFor="let circunscripcion of circunscripciones">
+                          <a *ngIf = "circunscripcion.id === acta.Circunscripcion">{{circunscripcion.descripcion | uppercase}}</a>
+                        </a>
+                      </td>
+                      <td>
+                        <a class="h3" [ngClass]="{'text-danger': acta.Foto === '', 'text-success': acta.Foto !== ''}"><i class="fas fa-check" *ngIf="acta.Foto !== ''"></i><i class="fas fa-times" *ngIf="acta.Foto === ''" ></i></a>
+                      </td>
+                      <td>
+                        <table>
+                          <tr>
+                            <td>
+                              <button type="button" class="btn btn-secondary" [routerLink]="['/actanacimientoEditar',acta.id]" ><a class="h4"><i class="far fa-edit"></i></a></button>
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-warning" [routerLink]="['/actanacimientoDetalle',acta.id]"><a class="h4"><i class="far fa-eye"></i></a></button>
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-danger" (click)="eliminarActa(acta)"><a class="h4"><i class="fas fa-ban"></i></a></button>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+              <div class=" overflow-auto" style="max-width: 100%; ">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col" width = "20%">
+                        <button [routerLink]="['/documentoAgregar',idPersona]"  type="button" class="btn btn-info">
+                          <a class="h5"><i class=" fas fa-plus "></i></a><a class="h4"><i class="far fa-file-alt"></i></a>
+                        </button>
+                      </th>
+                      <th scope="col" width = "25%">Documento</th>
+                      <th scope="col" width = "25%">Numero</th>
+                      <th scope="col" width = "10%">Copia Digital</th>
+                      <th scope="col" width = "20%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let documento of tenerDocumentos()">
+                      <td></td>
+                      <td>
+                        <a *ngFor="let tipo of tipoDocumentos">
+                          <a *ngIf = "tipo.id === documento.TipoDocumento">{{tipo.descripcion | uppercase}}</a>
+                        </a>
+                      </td>
+                      <td>{{documento.Numero | uppercase}}</td>
+                      <td>
+                        <a class="h3" [ngClass]="{'text-danger': documento.Foto === '', 'text-success': documento.Foto !== ''}"><i class="fas fa-check" *ngIf="documento.Foto !== ''"></i><i class="fas fa-times" *ngIf="documento.Foto === ''" ></i></a>
+                      </td>
+                      <td>
+                        <table>
+                          <tr>
+                            <td>
+                              <button type="button" class="btn btn-secondary" [routerLink]="['/documentoEditar',documento.id]"><a class="h4"><i class="far fa-edit"></i></a></button>
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-warning" [routerLink]="['/documentoDetalle',documento.id]"><a class="h4"><i class="far fa-eye"></i></a></button>
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-danger" (click)="eliminarDocumento(documento)"><a class="h4"><i class="fas fa-ban"></i></a></button>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5  text-center">
+              <div class="overflow-auto" style="max-width: 100%; ">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col" width = "20%">
+                        <button type="button" [routerLink]="['/relacionAgregar',idPersona]"  class="btn btn-info">
+                          <a class="h5"><i class=" fas fa-plus "></i></a><a class="h4"><i class="fas fa-people-arrows"></i></a>
+                        </button>
+                      </th>
+                      <th scope="col" width = "15%">Relacionado</th>
+                      <th scope="col" width = "15%">Relacion</th>
+                      <th scope="col" width = "15%">Telefono</th>
+                      <th scope="col" width = "15%">Correo</th>
+                      <th scope="col" width = "20%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let relacion of tenerRelaciones()">
+                      <td></td>
+                      <td>
+                        <a *ngFor = "let persona of personas">
+                          <a *ngIf="persona.id === relacion.Relacionado">{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}</a>
+                        </a>
+                      </td>
+                      <td>
+                        <a *ngFor = "let tipo of tiposRelaciones">
+                          <a *ngIf = "tipo.id === relacion.TipoRelacion">{{tipo.descripcion | uppercase}}</a>
+                        </a>
+                      </td>
+                      <td>
+                        <a *ngFor = "let persona of personas">
+                          <a *ngIf="persona.id === relacion.Relacionado">
+                            <a *ngFor="let tipo of tipoTelefonos">
+                              <a *ngIf ="tipo.id === relacion.TipoTelefono">{{tipo.descripcion | uppercase}}</a>
+                            </a>
+                            ({{persona.Telefono | slice:0:3}}) {{persona.Telefono | slice:3:6}} - {{persona.Telefono | slice:6:10}}
+                          </a>
+                        </a>
+                      </td>
+                      <td>
+                        <a *ngFor = "let persona of personas">
+                          <a *ngIf="persona.id === relacion.Relacionado">{{persona.Correo}}</a>
+                        </a>
+                      </td>
+                      <td>
+                        <table >
+                          <tr>
+                            <td>
+                              <button type="button" class="btn btn-secondary" [routerLink]="['/relacionEditar',relacion.id]"><a class="h4"><i class="far fa-edit"></i></a></button>
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-warning" [routerLink]="['/relacionDetalle',relacion.id]"><a class="h4"><i class="far fa-eye"></i></a></button>
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-danger" (click)="eliminarRelacion(relacion)"><a class="h4"><i class="fas fa-ban"></i></a></button>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 mt-5 text-uppercase text-center">
+              <p class="text-center font-weight-bold ">OBSERVACIONES DE CONDUCTA:</p>
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card" *ngIf="esConducta">
+                <textarea formControlName= "conducta" [value] = "tenerObservacion('01').Descripcion" class="form-control m-2" style="font-size: 15px;" ></textarea>
+                <hr>
+                <div class="row form-group mx-auto">
+                  <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">
+                    <button class="btn btn-outline-info btn-block" (click)="adicionarObservacion('01', tenerObservacion('01')) ">
+                      <a class="h5 font-weight-bold">
+                        <i  class="far fa-edit" *ngIf="tenerObservacion('01').id"></i>
+                        <i class="far fa-save" *ngIf = "!tenerObservacion('01').id"></i>
+                        <a *ngIf = "!tenerObservacion('01').id"> | Agregar</a>
+                        <a *ngIf = "tenerObservacion('01').id"> | Editar</a>
                       </a>
+                    </button>
                   </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Nacionalidad:
+                  <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">
+                    <button class="btn btn-outline-danger btn-block " (click)="cambiarObservacion('01')" >
+                      <a class="h5 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+                    </button>
                   </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                    <a *ngFor="let nacionalidad of paises">
-                      <a *ngIf="nacionalidad.id === persona.Nacionalidad">{{nacionalidad.nacionalidad}}</a>
-                    </a>
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Direccion:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                      {{persona.Direccion}}
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Ciudad:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                    <a *ngFor="let ciudad of ciudades">
-                      <a *ngIf="ciudad.id === persona.Ciudad">{{ciudad.descripcion}}</a>
-                    </a>
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Pais:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                    <a *ngFor="let pais of paises">
-                      <a *ngIf="pais.id === persona.Pais">{{pais.descripcion}}</a>
-                    </a>
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Telefono:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                      {{persona.Telefono}}
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Correo:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 ">
-                      {{persona.Correo}}
-                  </div>
-                  <!--div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Relacionado:
-                      <input value="+" type="button" class="btn btn-info">
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h6 text-uppercase">
-                      nombre apellido (relacion)
-                  </div>
-                  <div class="form-group col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1 h6 text-uppercase">
-                      <input value="Editar" type="button" class="btn btn-secondary">
-                  </div-->
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Estado:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                    <a *ngFor="let estado of estados">
-                      <a *ngIf="estado.id === persona.Estado">{{estado.descripcion}}</a>
-                    </a>
-                  </div>
+                </div>
               </div>
-          </div>
-          <div class="card card-footer form-group">
-              <div class="row">
-                  <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7">
-                    <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" (click)="verPersona()"/>
-                  </div>
-                  <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5">
-                      <input type="submit" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/personas'"/>
-                    </div>
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card text-center uppercase" (click)="cambiarObservacion('01')"  *ngIf="!esConducta">
+                <p class="h5 m-2" class="text-secondary" *ngIf="!tenerObservacion('01').id">-- CLICK AGREGAR UNA OBSERVACION --</p>
+                <p class="h5 m-2" *ngIf="tenerObservacion('01').id">{{tenerObservacion('01').Descripcion}}</p>
               </div>
-          </div>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 mt-5 text-uppercase text-center">
+              <p class="text-center font-weight-bold">OBSERVACIONES DE RESPONSABILIDAD:</p>
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card" *ngIf="esResponsabilidad">
+                <textarea formControlName= "responsabilidad" [value] = "tenerObservacion('02').Descripcion" class="form-control m-2" style="font-size: 15px;" ></textarea>
+                <hr>
+                <div class="row form-group mx-auto">
+                  <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">
+                    <button class="btn btn-outline-info btn-block" (click)="adicionarObservacion('02', tenerObservacion('02')) ">
+                      <a class="h5 font-weight-bold">
+                        <i  class="far fa-edit" *ngIf="tenerObservacion('02').id"></i>
+                        <i class="far fa-save" *ngIf = "!tenerObservacion('02').id"></i>
+                        <a *ngIf = "!tenerObservacion('02').id"> | Agregar</a>
+                        <a *ngIf = "tenerObservacion('02').id"> | Editar</a>
+                      </a>
+                    </button>
+                  </div>
+                  <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">
+                    <button class="btn btn-outline-danger btn-block " (click)="cambiarObservacion('02')" >
+                      <a class="h5 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card text-center uppercase" (click)="cambiarObservacion('02')"  *ngIf="!esResponsabilidad">
+                <p class="h5 m-2" class="text-secondary" *ngIf="!tenerObservacion('02').id">-- CLICK AGREGAR UNA OBSERVACION --</p>
+                <p class="h5 m-2" *ngIf="tenerObservacion('02').id">{{tenerObservacion('02').Descripcion}}</p>
+              </div>
+            </div>
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 mt-5 text-uppercase text-center">
+              <p class="text-center font-weight-bold">OBSERVACIONES DE SALUD:</p>
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card" *ngIf="esSalud">
+                <textarea formControlName= "salud" [value] = "tenerObservacion('03').Descripcion" class="form-control m-2" style="font-size: 15px;"  ></textarea>
+                <hr>
+                <div class="row form-group mx-auto">
+                  <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3" >
+                    <button class="btn btn-outline-info btn-block" (click)="adicionarObservacion('03', tenerObservacion('03')) ">
+                      <a class="h5 font-weight-bold">
+                        <i  class="far fa-edit" *ngIf="tenerObservacion('03').id"></i>
+                        <i class="far fa-save" *ngIf = "!tenerObservacion('03').id"></i>
+                        <a *ngIf = "!tenerObservacion('03').id"> | Agregar</a>
+                        <a *ngIf = "tenerObservacion('03').id"> | Editar</a>
+                      </a>
+                    </button>
+                  </div>
+                  <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">
+                    <button class="btn btn-outline-danger btn-block " (click)="cambiarObservacion('03')" >
+                      <a class="h5 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card text-center uppercase" (click)="cambiarObservacion('03')"  *ngIf="!esSalud">
+                <p class="h5 m-2" class="text-secondary"  *ngIf="!tenerObservacion('03').id">-- CLICK AGREGAR UNA OBSERVACION --</p>
+                <p class="h5 m-2" *ngIf="tenerObservacion('03').id">{{tenerObservacion('03').Descripcion}}</p>
+              </div>
+            </div>
+        </div>
+        <div class="form-group h5 text-uppercase text-center">
+          <hr>
+          <a class="text-center font-weight-bold mb-0">Estado: </a>
+          <a *ngFor="let estado of estados">
+            <a *ngIf="estado.id === persona.Estado" class="h4">{{estado.descripcion}}</a>
+          </a>
+        </div>
+      </div>
+    <div class="card-footer ">
+      <div class="row form-group mx-auto">
+        <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">
+          <button class="btn btn-outline-info btn-block " [routerLink]="['/personaEditar', idPersona]">
+            <a class="h3 font-weight-bold"><i class="far fa-edit"></i> | Editar</a>
+          </button>
+        </div>
+        <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 mb-3">
+          <button class="btn btn-warning btn-block" (click)="eliminarPersona(persona)">
+            <a class="h3 font-weight-bold"><i class="fas fa-ban"></i> | Eliminar</a>
+          </button>
+        </div>
+        <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 mb-3">
+          <button class="btn btn-outline-danger btn-block " [routerLink]="'/personas'">
+            <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Atras</a>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

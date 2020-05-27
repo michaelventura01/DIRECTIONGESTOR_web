@@ -7,58 +7,62 @@
           <div class="row">
               <div class="col-xl col-lg col-md col-sm col-xs">
                   <form [formGroup]="formularioCreado">
-                      <div class="form-group">
-                          <label  class="control-label font-weight-bold">Tipo de Cuenta</label>
-                          <select formControlName="Tipo" class ="form-control" required></select>
+                    <div class="row">
+                      <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                        <label  class="control-label font-weight-bold">Tipo de Cuenta</label>
+                          <select formControlName="Tipo" class ="form-control" required>
+                            <option></option>
+                            <option *ngFor="let tipo of tipos" [value]="tipo.id">{{tipo.descripcion | uppercase}}</option>
+                          </select>
                           <div *ngIf="formularioCreado.controls['Tipo'].invalid && formularioCreado.controls['Tipo'].dirty" class="alert alert-danger">El Tipo de Cuenta es Requerido</div>
-                      </div>
-                      <div class="form-group">
+                        </div>
+                        <div class="form-group col-xl-9 col-lg-9  col-md-9 col-sm-9 col-xs-9">
                           <label class="control-label font-weight-bold">Descripcion</label>
-                          <input formControlName="Descripcion" class="form-control" required/>
+                          <input formControlName="Descripcion" placeholder="Escribe una descripcion de esta cuenta" class="form-control" required/>
                           <div *ngIf="formularioCreado.controls['Descripcion'].invalid && formularioCreado.controls['Descripcion'].dirty" class="alert alert-danger">La Descripcion de Cuenta es Requerida</div>
-                      </div>
-                      <div class="form-group">
+                        </div>
+                        <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
                           <label class="control-label font-weight-bold">Monto</label>
                           <input type="number" formControlName="Monto" class="form-control" required/>
                           <div *ngIf="formularioCreado.controls['Monto'].invalid && formularioCreado.controls['Monto'].dirty" class="alert alert-danger">El Monto de Cuenta es Requerido</div>
-                      </div>
-                      <div class="form-group">
+                        </div>
+                        <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
                           <label class="control-label font-weight-bold">Fecha de Cuenta</label>
                           <input type="date" formControlName="Fecha" class="form-control" required/>
                           <div *ngIf="formularioCreado.controls['Fecha'].invalid && formularioCreado.controls['Fecha'].dirty" class="alert alert-danger">La Fecha de Cuenta es Requerida</div>
-                      </div>
-                      <div class="form-group">
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
                           <label class="control-label font-weight-bold">Persona</label>
                           <div class="row">
-                              <div class="col-xl-9 col-lg-9  col-md-9 col-sm-9 col-xs-9">
-                                  <input type="text" Name="buscarPersona" class="form-control " placeholder="Filtrar Personas">
-                              </div>
-                              <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                                      <button type="button" class="btn btn-secondary " ><div class="h5"><i class="fas fa-search "></i></div></button>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <select formControlName="Persona" class ="form-control"></select>
-                          <div *ngIf="formularioCreado.controls['Persona'].invalid && formularioCreado.controls['Persona'].dirty" class="alert alert-danger">La Persona de Cuenta es Requerida</div>
-                      </div>
-                      <div class="form-group">
-                          <label class="control-label font-weight-bold">Estado</label>
-                          <select formControlName="Estado" class ="form-control"></select>
-                          <div *ngIf="formularioCreado.controls['Estado'].invalid && formularioCreado.controls['Estado'].dirty" class="alert alert-danger">El Estado de Cuenta es Requerido</div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
-                              <input type="submit" value="Agregar" class="btn btn-outline-primary btn-block font-weight-bold" />
-                          </div>
-                          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
-                              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/cuentas'"/>
+                            <div class="col-xl-10 col-lg-10  col-md-10 col-sm-10 col-xs-10">
+                              <input type="text" formControlName="buscarPersona" class="form-control" (change)="filtrarPersonas(formularioCreado.value.buscarPersona)" placeholder="Escribe para filtrar personas" size="20">
+                              <select formControlName="Persona" class ="form-control mt-3 mb-3" required >
+                                <option></option>
+                                <option *ngFor="let persona of filtrarPersonas(formularioCreado.value.buscarPersona)" [value]="persona.id">{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{tenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}</option>
+                              </select>
+                              <div *ngIf="formularioCreado.controls['Persona'].invalid && formularioCreado.controls['Persona'].dirty" class="alert alert-danger">La Persona de Cuenta es Requerida</div>
+                            </div>
+                            <div class="col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
+                              <button type="button" class="btn btn-secondary" (click)="filtrarPersonas(formularioCreado.value.buscarPersona)"><div class="h3"><i class="fas fa-search "></i></div></button>
+                            </div>
                           </div>
                         </div>
+                        <div class="form-group">
+                        </div>
+                      </div>
                   </form>
               </div>
           </div>
+      </div>
+      <div class="card-footer">
+        <div class=" row">
+          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
+            <input type="submit" value="Agregar" [disabled] = 'formularioCreado.invalid' (click)="guardarCuenta()" class="btn btn-outline-primary btn-block font-weight-bold" />
+          </div>
+          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
+            <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/cuentas'"/>
+          </div>
+        </div>
       </div>
   </div>
 </div>

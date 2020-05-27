@@ -9,6 +9,6 @@ export class Tareas {
   idInstitucion: string;
   idPrioridad: string;
   titulo: string;
-  REF: DocumentReference;
+  ref: DocumentReference;
 
 }

@@ -1,4 +1,4 @@
-  <div class=" bg-dark">
+  <div class=" bg-dark mb-5">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="navbar-brand" [routerLink]="['/']"  ><div class="h3"><i class="fas fa-school"></i> | Direction Gestor</div></div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,5 +82,13 @@
           </div>
       </div>
     </nav>
+    <div *ngFor="let tarea of tenerTareas()">
+      <div class="alert text-center font-weight-bold h5" (click)="verAsignacion(tarea.id)"
+      [ngClass]="{' alert-info ': tarea.Prioridad === '02', ' alert-warning ': tarea.Prioridad === '01', ' alert-danger ': tarea.Prioridad === '00'}"
+      *ngIf="esMensaje && (tenerFecha(tarea.FechaHora).fecha === tenerFechaActual().fecha && tarea.Estado === '01'
+      && tenerFecha(tarea.FechaHora).tiempo.substring(0,2) === tenerFechaActual().tiempo.substring(0,2))">
+        {{tenerFecha(tarea.FechaHora).tiempo}} | {{tarea.Titulo | uppercase}}
+        <div (click)="ocultarMensaje(tarea.FechaHora)" class="close" type="button"><i class="fas fa-times"></i></div>
+      </div>
+    </div>
   </div>
-<br>

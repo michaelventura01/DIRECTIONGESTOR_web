@@ -82,8 +82,14 @@ export class EditpersonaComponent implements OnInit {
     this.esMenorAnioActual = false;
   }
 
-  activarCiudad(){
+  activarCiudad() {
     this.esCiudadActiva = true;
+  }
+
+  tenerCiudades() {
+    this.ciudades = new Array<any>();
+    this.ciudades = this.direccionServicio.verCiudades(this.formularioEditar.value.Pais);
+    this.activarCiudad();
   }
 
   editarFormulario() {
@@ -135,12 +141,6 @@ export class EditpersonaComponent implements OnInit {
     }
   }
 
-  tenerCiudades(){
-    this.ciudades = new Array<any>();
-    this.ciudades = this.direccionServicio.verCiudades(this.formularioEditar.value.Pais);
-    this.activarCiudad();
-  }
-
   obtenerFecha(data){
     return this.personaServicio.obtenerFecha(data);
   }
@@ -164,8 +164,8 @@ export class EditpersonaComponent implements OnInit {
     this.router.navigate(['/personaEditar', data]);
   }
 
-  editarPersona(data){
-
+  editarPersona(data) {
+    let fecha = new Date();
     if (this.esMenorAnioActual) {
       if (this.formularioEditar.value.Nombre === '') {
         this.Nombre = data.Nombre;
@@ -252,12 +252,14 @@ export class EditpersonaComponent implements OnInit {
         Apellido: this.Apellido,
         Telefono: this.Telefono,
         TipoTelefono: this.TipoTelefono,
-        FechaNacimiento: this.FechaNacimiento
+        FechaNacimiento: this.FechaNacimiento,
+        FechaAgregacion: this.obtenerFecha(data.FechaAgregacion).time,
+        FechaEdicion: fecha
       }).then(() => {
-        this.mensajeServicio.exito('Actualizado','Institucion ha sido actualizada con exito');
+        this.mensajeServicio.exito('Actualizado', 'Persona ha sido actualizada con exito');
         this.router.navigate(['/personaDetalle', this.idPersona]);
       }).catch(() => {
-        this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
+        this.mensajeServicio.error('Error', 'Ha ocurrido un error no esperado');
         this.router.navigate(['/personaDetalle', this.idPersona]);
       });
     }

@@ -1,0 +1,63 @@
+<div class="container" *ngFor="let relacion of relaciones">
+  <div class="card" *ngIf="relacion.id === idRelacion">
+      <div class="card-header ">
+        <div class="h1 text-center"><a class="h2"><i class=" far fa-edit "></i></a><a class="h1"><i class="fas fa-people-arrows"></i></a> | Agregar Acta de Nacimiento</div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formularioCreado">
+          <div class="row overflow-auto m-1" style="height: 500px;">
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12">
+              <label class="control-label font-weight-bold h5">Persona</label>
+              <a *ngFor = "let persona of personas">
+                <input type="text" *ngIf="persona.id === relacion.Persona"  value="{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{tenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}" style="font-size: 15px;" name="Persona" class="form-control" disabled/>
+              </a>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+              <label class="control-label font-weight-bold h5">Tipo de Relacion</label>
+              <select formControlName="Relacion" *ngIf="esTipo" style="font-size: 15px;" class ="form-control" >
+                <option></option>
+                <option *ngFor="let tipo of tiposrelaciones" [value]="tipo.id">{{tipo.descripcion | uppercase}}</option>
+              </select>
+              <a *ngFor="let tipo of tiposrelaciones">
+                <a *ngIf = "tipo.id === relacion.TipoRelacion">
+                  <input type="text" *ngIf="!esTipo" (click)="cambiarTipo()" [value] = "tipo.descripcion | uppercase" style="font-size: 15px;" class="form-control">
+                </a>
+              </a>
+            </div>
+            <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <label class="control-label font-weight-bold h5">Relacionado</label>
+              <a *ngFor ="let persona of personas">
+                <a *ngIf = "persona.id === relacion.Relacionado">
+                  <input type="text" value="{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{tenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}" style="font-size: 15px;" name="Persona" class="form-control" disabled/>
+                </a>
+              </a>
+
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+              <label class="control-label font-weight-bold h5">Comparte Residencia?</label>
+              <select  style="font-size: 15px;" *ngIf="esResidencia"  formControlName="Residencia" class ="form-control" required>
+                <option [value]=1 [selected] = relacion.Residencia>SI COMPARTEN</option>
+                <option [value]=0 [selected] = !relacion.Residencia>NO COMPARTEN</option>
+              </select>
+              <input type="text" (click)="cambiarResidencia()" *ngIf="relacion.Residencia && !esResidencia" value="SI COMPARTEN" style="font-size: 15px;" class="form-control">
+              <input type="text" (click)="cambiarResidencia()" *ngIf="!relacion.Residencia && !esResidencia" value="NO COMPARTEN" style="font-size: 15px;" class="form-control">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="row form-group mx-auto">
+          <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 mb-3">
+            <button class="btn btn-outline-info btn-block" (click) ="editarRelacion(relacion)">
+              <a class="h3 font-weight-bold"><i class="far fa-edit"></i> | Editar</a>
+            </button>
+          </div>
+          <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 mb-3">
+            <button class="btn btn-outline-danger btn-block " [routerLink]="['/personaDetalle', relacion.Persona]" >
+              <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+            </button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

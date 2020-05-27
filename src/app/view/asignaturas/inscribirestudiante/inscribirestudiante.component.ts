@@ -10,6 +10,7 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { EdificioService } from 'src/app/services/edificio.service';
 
 @Component({
   selector: 'app-inscribirestudiante',
@@ -18,6 +19,7 @@ import { MensajeService } from 'src/app/services/mensaje.service';
 })
 export class InscribirestudianteComponent implements OnInit {
   estudiantes: Array<any> = new Array<any>();
+  edificios: Array<any> = new Array<any>();
   profesores: Array<any> = new Array<any>();
   asignaturas: Array<any> = new Array<any>();
   cursos: Array<any> = new Array<any>();
@@ -28,11 +30,13 @@ export class InscribirestudianteComponent implements OnInit {
   estados: Array<any> = new Array<any>();
   personas: Array<any> = new Array<any>();
   periodos: Array<any> = new Array<any>();
+  aulas: Array<any> = new Array<any>();
   institucion: string;
   formularioCreado: FormGroup;
 
   constructor(
     private estudianteServicio: EstudianteService,
+    private edificioServicio: EdificioService,
     private empleadoServicio: EmpleadoService,
     private asignaturaServicio: AsignaturaService,
     private cursoServicio: CursoService,
@@ -59,6 +63,7 @@ export class InscribirestudianteComponent implements OnInit {
     this.estados = this.estadoServicio.verEstados();
     this.estudiantes = this.estudianteServicio.verEstudiantes();
     this.periodos = this.periodoServicio.verPeriodos();
+    this.aulas = this.edificioServicio.verAulas();
   }
 
   tenerPeriodos(){
@@ -70,6 +75,21 @@ export class InscribirestudianteComponent implements OnInit {
     });
 
     return periodos;
+  }
+
+  tenerAulas(){
+    let asignaturaEmpleado = this.formularioCreado.value.AsignaturaProfesor;
+    let aulas = new Array<any>();
+    this.asignaturasEmpleados.forEach(asignado=>{
+      if(asignado.id === asignaturaEmpleado && asignado.Institucion === this.institucion){
+        this.aulas.forEach(aula => {
+          if(aula.Estado === '01' && aula.Institucion === asignado.Institucion && aula.Edificio === asignado.Edificio){
+            aulas.push(aula);
+          }
+        });
+      }
+    });
+    return aulas;
   }
 
   tenerCursos(){
@@ -177,13 +197,15 @@ export class InscribirestudianteComponent implements OnInit {
 
   buscarInscripcionEstudiante(){
     let inscripcionestudiante: any;
+    let aula = this.formularioCreado.value.Aula;
     let periodo: string = this.formularioCreado.value.Periodo;
     let estudianteCurso = this.formularioCreado.value.EstudianteCurso;
     let asignaturaEncargado = this.formularioCreado.value.AsignaturaProfesor;
 
     this.asignaturasEmpleadosEstudiantes.forEach(
       inscripcion => {
-        if(periodo == inscripcion.Periodo && asignaturaEncargado == inscripcion.AsignaturaEncargado && estudianteCurso == inscripcion.EstudianteCurso){
+        if(periodo == inscripcion.Periodo && asignaturaEncargado == inscripcion.AsignaturaEncargado
+          && estudianteCurso == inscripcion.EstudianteCurso && aula === inscripcion.Aula){
           inscripcionestudiante = inscripcion;
         }
       }
@@ -194,6 +216,7 @@ export class InscribirestudianteComponent implements OnInit {
     let periodo = this.formularioCreado.value.Periodo;
     let estudianteCurso = this.formularioCreado.value.EstudianteCurso;
     let asignaturaEncargado = this.formularioCreado.value.AsignaturaProfesor;
+    let aula = this.formularioCreado.value.Aula;
     if(!inscripcionEstudiante){
 
       this.database.collection('asignaturasempleadosestudiantes').add({
@@ -201,7 +224,8 @@ export class InscribirestudianteComponent implements OnInit {
         Estado: '01',
         EstudianteCurso: estudianteCurso,
         Institucion: this.institucion,
-        Periodo: periodo
+        Periodo: periodo,
+        Aula: aula
       }).then(()=>{
       this.mensajeServicio.exito('Guardado','Estudiante ha sido inscrito a la Asignatura con exito');
       this.router.navigate(['/inscripciones']);
@@ -212,7 +236,7 @@ export class InscribirestudianteComponent implements OnInit {
 
     });
     }else{
-      this.mensajeServicio.info('Registro','Estudiante ha sido inscrito a la Asignatura Anteriormente');
+      this.mensajeServicio.info('Registro Existente','Estudiante ha sido inscrito a la Asignatura Anteriormente');
       this.router.navigate(['/inscripciones']);
     }
   }
@@ -225,7 +249,8 @@ export class InscribirestudianteComponent implements OnInit {
         Periodo: ['', Validators.compose([Validators.required])],
         Asignatura: ['', Validators.compose([Validators.required])],
         Curso: ['', Validators.compose([Validators.required])],
-        AsignaturaProfesor: ['', Validators.compose([Validators.required])]
+        AsignaturaProfesor: ['', Validators.compose([Validators.required])],
+        Aula: ['', Validators.compose([Validators.required])]
       }
     );
   }

@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { Router } from '@angular/router';
 import { InstitucionService } from 'src/app/services/institucion.service';
+import { TareaService } from 'src/app/services/tarea.service';
+import { PersonaService } from 'src/app/services/persona.service';
+import { MenuService, Tiempo } from 'src/app/services/menu.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +13,17 @@ import { InstitucionService } from 'src/app/services/institucion.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+  tiempoActual$: Observable<Tiempo>;
+  tiempo: Date = new Date();
+  hora: number;
+  minuto: string;
+  segundo: string;
+  dia: string;
+  fecha: string;
+  meridiano: string;
+  anio: string;
   instituciones: Array<any> = new Array<any>();
+  tareas: Array<any> = new Array<any>();
   usuario: string;
   instituto: string;
   tituloUsuario: string;
@@ -31,20 +44,23 @@ export class HeaderComponent implements OnInit {
   tenerOtrasOpciones: boolean;
   idUsuario: string;
   nombreInstitucion: string;
-
-
-
-
+  esMensaje: boolean;
+  hour: number;
 
   constructor(
     private mensajeServicio: MensajeService,
     private institucionServicio: InstitucionService,
+    private tareaServicio: TareaService,
+    private personaServicio: PersonaService,
+    private menuServicio: MenuService,
     private router: Router) { }
 
   ngOnInit() {
     this.instituciones = this.institucionServicio.verInstituciones();
+    this.esMensaje = false;
 
-    if(localStorage.getItem('usuario')){
+    if (localStorage.getItem('usuario')) {
+      this.esMensaje = true;
       this.tituloUsuario = localStorage.getItem('tituloUsuario');
       this.usuario = localStorage.getItem('usuario');
       this.instituto = localStorage.getItem('instituto');
@@ -52,9 +68,29 @@ export class HeaderComponent implements OnInit {
       this.idUsuario = localStorage.getItem('iusuariod');
       this.esUsuario = true;
       this.nombreInstitucion = localStorage.getItem('tituloFooter');
+      this.tareas = this.tareaServicio.verTareas();
+
+      this.tiempoActual$ = this.menuServicio.getInfoReloj();
+      this.tiempoActual$.subscribe(x => {
+        this.hora = x.horA;
+        this.minuto = x.minutO;
+
+        if (!this.esMensaje) {
+          if ((this.hour % 12).toString() !== this.hora.toString()) {
+            this.esMensaje = true;
+          }else{
+            this.esMensaje = false;
+          }
+        }
 
 
-      switch(this.rol){
+      });
+
+
+
+
+
+      switch (this.rol) {
         case 'adm': {
           this.tenerAula = true;
           this.tenerCurso = true;
@@ -185,11 +221,44 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  ocultarMensaje(tiempo) {
+    let time = new Date(tiempo.seconds * 1000);
+    this.hour = time.getHours();
+    this.esMensaje = false;
+  }
+
+  tenerFecha(data){
+    return this.personaServicio.obtenerFecha(data);
+  }
+
+  tenerFechaActual() {
+    return this.personaServicio.obtenerFechaActual() ;
+  }
+
+  tenerTareas() {
+    let tareas = new Array<any>();
+    this.tareas.forEach(tarea => {
+      if ( tarea.Institucion === this.instituto && tarea.Asignado === this.usuario
+        && this.tenerFechaActual().mesAno === this.tenerFecha(tarea.FechaHora).mesAno) {
+        tareas.push(tarea);
+      }
+    });
+
+    return tareas;
+  }
+
+
+
+  verAsignacion(id){
+    this.esMensaje = false;
+    this.router.navigate(['/tareaDetalle', id] );
+  }
+
   tenerInstitucion(){
     let instituto: any;
     this.instituciones.forEach(
       data => {
-        if(data.id === this.instituto){
+        if (data.id === this.instituto) {
           instituto = data.Nombre;
         }
       }

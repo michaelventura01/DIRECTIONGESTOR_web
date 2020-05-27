@@ -198,12 +198,12 @@ export class MenuComponent implements OnInit {
 
     this.tiempoActual$=this.fechaTiempo.getInfoReloj();
     this.tiempoActual$.subscribe(x => {
-    this.hora = x.horA;
-    this.minuto = x.minutO;
-    this.dia = x.diaSemanA;
-    this.fecha = x.diaMeS;
-    this.meridiano = x.meridianO;
-    this.segundo = x.segundO;
+      this.hora = x.horA;
+      this.minuto = x.minutO;
+      this.dia = x.diaSemanA;
+      this.fecha = x.diaMeS;
+      this.meridiano = x.meridianO;
+      this.segundo = x.segundO;
     });
     this.anio = this.tiempo.getFullYear().toString();
     this.personas = this.personaServicio.verPersonas();
@@ -233,12 +233,8 @@ export class MenuComponent implements OnInit {
     return instituto;
   }
 
-  //localStorage.getItem('tituloUsuario')
-
   tenerNombre(data){
     let persona: any;
-
-
     this.usuarios.forEach(usuario => {
       if(data === usuario.Usuario){
         this.personas.forEach(persona => {

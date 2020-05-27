@@ -1,64 +1,90 @@
 <div class="container">
   <div class="card">
       <div class="card-header ">
-        <div class="h2 text-center">Agregar Acta de Nacimiento</div>
+        <div class="h1 text-center"><a class="h2"><i class=" fas fa-plus "></i></a><a class="h1"><i class="far fa-file-alt"></i></a> | Agregar Acta de Nacimiento</div>
       </div>
       <div class="card-body">
-          <div class="form-group">
-              <label for="Persona" class="control-label font-weight-bold">Persona</label>
-              <input type="text" name="Persona" class="form-control" disabled value="Persona"/>
-          </div>
-          <div class="row">
-                  <div class="col-xl col-lg col-md col-sm col-xs">
-                      <form [formGroup]="formularioCreado">
-                          <br>
-                          <div class="row">
-                              <div class="form-group col-xl col-lg  col-md col-sm col-xs">
-                                  <label class="control-label h6 font-weight-bold">Folio</label>
-                                  <input formControlName="Folio" class="form-control" required minlength="4" maxlength="6"/>
-                                  <div *ngIf="formularioCreado.controls['Folio'].invalid && formularioCreado.controls['Folio'].dirty" validation="Folio" class="alert alert-danger">El Folio es Requerido de 4 a 6 Caracteres</div>
-
-                              </div>
-                              <div class="form-group col-xl col-lg col-md col-sm col-xs">
-                                  <label  class="control-label h6 font-weight-bold">Año</label>
-                                  <input type="text" formControlName="Anio" class="form-control" required minlength="4" maxlength="4"/>
-                                  <div *ngIf="formularioCreado.controls['Anio'].invalid && formularioCreado.controls['Anio'].dirty" validation="Anio" class="alert alert-danger">El Año es Requerido de 4 caracteres</div>
-                              </div>
-                              <div class="form-group col-xl col-lg col-md col-sm col-xs">
-                                  <label class="control-label h6 font-weight-bold">Libro</label>
-                                  <input formControlName="Libro" class="form-control" required minlength="4" maxlength="6"/>
-                                  <div *ngIf="formularioCreado.controls['Libro'].invalid && formularioCreado.controls['Libro'].dirty" validation="Anio" class="alert alert-danger">El Libro es Requerido de 4 a 6 caracteres</div>
-                              </div>
-                              <div class="form-group col-xl col-lg col-md col-sm col-xs">
-                                  <label class="control-label h6 font-weight-bold">Numero</label>
-                                  <input formControlName="Numero" class="form-control" required minlength="4" maxlength="6" />
-                                  <div *ngIf="formularioCreado.controls['Numero'].invalid && formularioCreado.controls['Numero'].dirty" validation="Anio" class="alert alert-danger">El Numero es Requerido de 4 a 6 caracteres</div>
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="control-label h6 font-weight-bold">Circunscripcion</label>
-                              <select formControlName="Circunscripcion" class ="form-control" >
-                                <option value="1ra">1ra circunscripcion</option>
-                              </select>
-                              <div validation="Circunscripcion" *ngIf="formularioCreado.controls['Circunscripcion'].invalid && formularioCreado.controls['Anio'].dirty" class="alert alert-danger">La Circunscripcion es Requerida</div>
-                          </div>
-                          <div class="form-group">
-                              <label for="copiaDigital" class="control-label font-weight-bold">Copia Digital</label>
-                              <input type="file" name="copiaDigital" class="form-control" />
-                              <img src="..." alt="" class="rounded mx-auto d-block" name="muestra">
-                          </div>
-                          <br>
-                          <div class="form-group mx-auto">
-                            <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
-                              <input type="submit" value="Agregar" class="btn btn-outline-primary btn-block font-weight-bold" />
-                            </div>
-                            <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
-                              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/personaDetalle'"/>
-                            </div>
-                        </div>
-                      </form>
-                  </div>
+        <form [formGroup]="formularioCreado">
+          <div class="row overflow-auto m-1" style="height: 500px;">
+            <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12">
+              <label class="control-label font-weight-bold h5">Persona</label>
+              <a *ngFor = "let persona of personas">
+                <input type="text" *ngIf="persona.id === idPersona"  value="{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{obtenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}" style="font-size: 15px;" name="Persona" class="form-control" disabled/>
+              </a>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+              <label class="control-label font-weight-bold h5">Folio</label>
+              <input formControlName="Folio" style="font-size: 15px;" class="form-control " required minlength="4" maxlength="6"/>
+              <div *ngIf="formularioCreado.controls['Folio'].invalid && formularioCreado.controls['Folio'].dirty" class="h5 alert alert-danger">El Folio es Requerido de 4 a 6 Caracteres</div>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+              <label  class="control-label font-weight-bold h5">Año</label>
+              <input type="text" formControlName="Anio" style="font-size: 15px;" class="form-control " required minlength="4" maxlength="4"/>
+              <div *ngIf="formularioCreado.controls['Anio'].invalid && formularioCreado.controls['Anio'].dirty" class="h5 alert alert-danger">El Año es Requerido de 4 caracteres</div>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label class="control-label font-weight-bold h5">Libro</label>
+                <input formControlName="Libro" style="font-size: 15px;" class="form-control" required minlength="4" maxlength="6"/>
+                <div *ngIf="formularioCreado.controls['Libro'].invalid && formularioCreado.controls['Libro'].dirty" class="h5 alert alert-danger">El Libro es Requerido de 4 a 6 caracteres</div>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label class="control-label  font-weight-bold h5">Numero</label>
+                <input formControlName="Numero" style="font-size: 15px;" class="form-control" required minlength="4" maxlength="6" />
+                <div *ngIf="formularioCreado.controls['Numero'].invalid && formularioCreado.controls['Numero'].dirty" class="alert alert-danger h5">El Numero es Requerido de 4 a 6 caracteres</div>
+            </div>
+            <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <label class="control-label font-weight-bold h5">Circunscripcion</label>
+              <select formControlName="Circunscripcion" style="font-size: 15px;" class ="form-control" >
+                <option *ngFor="let circunscripcion of circunscripciones" [value]="circunscripcion.id">{{circunscripcion.descripcion | uppercase}}</option>
+              </select>
+              <div *ngIf="formularioCreado.controls['Circunscripcion'].invalid && formularioCreado.controls['Circunscripcion'].dirty" class="alert alert-danger">La Circunscripcion es Requerida</div>
+            </div>
+            <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <label class="control-label font-weight-bold h5">Nacionalidad</label>
+              <select  style="font-size: 15px;"  formControlName="Nacionalidad" class ="form-control" required>
+                <option *ngFor ="let pais of paises" value="{{pais.id}}"> {{pais.nacionalidad | uppercase}}</option>
+              </select>
+              <div *ngIf="formularioCreado.controls['Nacionalidad'].invalid && formularioCreado.controls['Nacionalidad'].dirty" class="alert alert-danger">La Circunscripcion es Requerida</div>
+            </div>
+            <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <label class="control-label font-weight-bold h5">Pais</label>
+              <select  style="font-size: 15px;"  formControlName="Pais" class ="form-control" required (change) = "tenerCiudades()">
+                <option *ngFor ="let pais of paises" value="{{pais.id}}"> {{pais.descripcion | uppercase}}</option>
+              </select>
+              <div *ngIf="formularioCreado.controls['Pais'].invalid && formularioCreado.controls['Pais'].dirty" class="alert alert-danger">La Circunscripcion es Requerida</div>
+            </div>
+            <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <label class="control-label font-weight-bold h5">Ciudad</label>
+              <select  style="font-size: 15px;"  formControlName="Ciudad" class ="form-control" required>
+                <option *ngFor ="let ciudad of ciudades" value="{{ciudad.id}}"> {{ciudad.descripcion | uppercase}}</option>
+              </select>
+              <div *ngIf="formularioCreado.controls['Ciudad'].invalid && formularioCreado.controls['Ciudad'].dirty" class="alert alert-danger">La Circunscripcion es Requerida</div>
+            </div>
+            <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" >
+              <label class="control-label h5 font-weight-bold ">Copia Digital: </label>
+              <input type="file" Name="foto" class="form-control-file"  style="font-size: 15px;"  formControlName="Foto" accept=".png, .jpg" (change)="subirImagen($event)"/>
+              <progressbar [value]='carga' type="success" [striped] ="true" *ngIf="carga != 0 || carga > 99" class="mt-2"><b>{{carga}} %</b></progressbar>
+              <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="esImagen">
+                <img [src]="imagen" alt="" class=" img-thumbnail mx-auto img-fluid mt-2 mb-2">
               </div>
+              <div *ngIf="formularioCreado.controls['Foto'].invalid && formularioCreado.controls['Foto'].dirty" class="alert alert-danger h5">La Foto es Requerida</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="row form-group mx-auto">
+          <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 mb-3">
+            <button class="btn btn-outline-info btn-block" [disabled]="!formularioCreado.valid || carga>0" (click) ="agregarActaNacimiento()">
+              <a class="h3 font-weight-bold"><i class="far fa-save"></i> | Agregar</a>
+            </button>
+          </div>
+          <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 mb-3">
+            <button class="btn btn-outline-danger btn-block " [routerLink]="['/personaDetalle', idPersona]" >
+              <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+            </button>
+          </div>
+        </div>
       </div>
   </div>
 </div>

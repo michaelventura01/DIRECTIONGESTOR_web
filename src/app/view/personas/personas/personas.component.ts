@@ -5,6 +5,8 @@ import { DireccionService } from 'src/app/services/direccion.service';
 import { ContactoService } from 'src/app/services/contacto.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-personas',
@@ -21,6 +23,8 @@ export class PersonasComponent implements OnInit {
   tipoTelefonos: Array<any> = new Array<any>();
   buscarFormulario: FormGroup;
   Estado: string;
+  persona: string;
+  presentacion: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,9 +33,7 @@ export class PersonasComponent implements OnInit {
     private estadoServicio: EstadoService,
     private direccionServicio: DireccionService,
     private contactoServicio: ContactoService
-  ) {
-
-  }
+  ) {  }
 
   ngOnInit() {
     this.crearBuscador();
@@ -40,39 +42,105 @@ export class PersonasComponent implements OnInit {
     this.paises = this.direccionServicio.verPaises();
     this.sexos = this.personaServicio.verSexos();
     this.Estado = '01';
+    this.persona = '';
+    this.presentacion = true;
+  }
+
+  cambiarPresentacion() {
+    if (this.presentacion) {
+      this.presentacion = false;
+    } else {
+      this.presentacion = true;
+    }
 
   }
 
-  obtenerFecha(data){
+  asignarPersona(event) {
+    this.persona = event.target.value;
+  }
+
+  obtenerFecha(data) {
     return this.personaServicio.obtenerFecha(data);
   }
 
-  verPersona(data) {
-    this.router.navigate(['/personaDetalle', data]);
-  }
-
-  filtrarPersonas(evento){
-    let cadena = evento.target.value.toLowerCase();
+  filtrarPersonas(event) {
     let people = new Array<any>();
-    if(cadena !== '') {
-      this.personas.forEach(
-        (data) => {
-          let nombreapellido = data.Nombre + ' ' + data.Apellido;
-          if(nombreapellido.indexOf(cadena, 0) !== -1){
-            people.push(data);
-          }
+
+    this.personas.forEach(data => {
+      if (data.Estado === this.Estado) {
+        let nombreapellido = data.Nombre + ' ' + data.Apellido;
+        if (nombreapellido.indexOf(event, 0) > -1 ) {
+          people.push(data);
         }
-      );
-      this.personas = new Array<any>();
-      this.personas = people;
-    } else {
-      this.personas = new Array<any>();
-      this.personas = this.personaServicio.verPersonas();
+      }
     }
-    return this.personas;
+  );
+
+    return people;
   }
 
-  crearBuscador(){
+  listadoPersonaPDF() {
+    const doc = new jsPDF('portrait', 'px', 'a4');
+    let personas = new Array<any>();
+    let ids = new Array<any>();
+    let titulos = new Array<any>();
+    titulos = ['#' , 'NOMBRE' , 'FECHA DE NACIMIENTO' , 'NACIONALIDAD' , 'SEXO' ];
+
+    this.filtrarPersonas(this.buscarFormulario.value.Persona).forEach(persona => {
+      this.paises.forEach(pais => {
+        if (persona.Nacionalidad === pais.id) {
+          this.sexos.forEach(sexo => {
+            if (sexo.id === persona.Sexo) {
+              ids.push(persona.id);
+              personas.push([
+                ids.indexOf(persona.id) + 1,
+                persona.Nombre.toUpperCase() + ' ' + persona.Apellido.toUpperCase(),
+                this.obtenerFecha(persona.FechaNacimiento).fechaNacimiento.toUpperCase(),
+                pais.nacionalidad.toUpperCase(),
+                sexo.descripcion.toUpperCase()
+              ]);
+            }
+          });
+        }
+      });
+    });
+
+    doc.setFontSize(16);
+    doc.setTextColor(100);
+    doc.text(35, 20, 'Listado de Personas Encontradas');
+
+    doc.setTextColor(150);
+    doc.setLineWidth(0.5);
+    doc.line(15, 23, 430, 23);
+    //doc.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
+    //doc.autoTable(titulos,personas,{margin:{top: 25}});
+    //doc.addPage();
+    //doc.text(20, 20, 'Do you like that?');
+    //autoTable(doc, { html: '#tbPersonas' });
+    (doc as any).autoTable({
+      head: [titulos],
+      body: personas,
+      theme: 'striped'
+    });
+
+
+    doc.setTextColor(150);
+    doc.setFontSize(8);
+    doc.setLineWidth(0.5);
+    doc.line(15, 610, 430, 610);
+    doc.text(35, 620, localStorage.getItem('tituloFooter').toUpperCase());
+    doc.text(385, 620, 'Direction Gestor');
+
+
+    // Open PDF document in new tab
+    doc.output('dataurlnewwindow');
+
+    // Save the PDF
+    //doc.save('Test.pdf');
+
+  }
+
+  crearBuscador() {
     this.buscarFormulario = this.formBuilder.group(
       {
         Estado: [''],
@@ -81,22 +149,17 @@ export class PersonasComponent implements OnInit {
     );
   }
 
-  tenerSoloEstado(data){
+  tenerSoloEstado(data) {
     this.Estado = data.target.value;
   }
 
-  tenerEstadosPersonas(data){
+  tenerEstadosPersonas() {
     let state = new Array<any>();
-    data.forEach(dato => {
+    this.estados.forEach(dato => {
       if (dato.iddominioestado === '00' || dato.iddominioestado === '02') {
         state.push(dato);
       }
     });
-    this.estados = new Array<any>();
-    this.estados = state;
-
-
+    return state;
   }
-
-
 }
