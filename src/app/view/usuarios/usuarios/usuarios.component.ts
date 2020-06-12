@@ -7,6 +7,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { EstadoService } from 'src/app/services/estado.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-usuarios',
@@ -33,10 +34,15 @@ export class UsuariosComponent implements OnInit {
     private usuarioServicio: UsuarioService,
     private estadoServicio: EstadoService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.buscarFormulario();
     this.usuario = localStorage.getItem('usuario');
     this.instituciones = this.institucionServicio.verInstituciones();

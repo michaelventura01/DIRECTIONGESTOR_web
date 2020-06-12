@@ -8,6 +8,8 @@ import { EdificioService } from 'src/app/services/edificio.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { PersonaService } from 'src/app/services/persona.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-editedificio',
@@ -44,10 +46,16 @@ export class EditedificioComponent implements OnInit {
     private storage : AngularFireStorage,
     private database: AngularFirestore,
     private mensajeServicio: MensajeService,
-    private router: Router
+    private router: Router,
+    private personaServicio: PersonaService,
+    private spinner: NgxSpinnerService
     ) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.editarFormulario();
     this.idEdificio = this.ruta.snapshot.params['id'];
     this.estados = this.estadoServicio.verEstados();
@@ -68,13 +76,14 @@ export class EditedificioComponent implements OnInit {
   }
 
   editarEdificio(dato){
-
+    this.spinner.show();
     this.direccion = this.formularioEditar.value.Direccion;
     this.ciudad = this.formularioEditar.value.Ciudad;
     this.estado = this.formularioEditar.value.Estado;
     this.nombre = this.formularioEditar.value.Descripcion;
     this.pais = this.formularioEditar.value.Pais;
     this.institucion = dato.Institucion;
+    let hoy = new Date();
 
 
     if(this.ciudad==''){
@@ -102,14 +111,22 @@ export class EditedificioComponent implements OnInit {
       Foto:this.imagen,
       Institucion: this.institucion,
       Nombre:this.nombre,
-      Pais:this.pais
+      Pais:this.pais,
+      FechaAgregacion: this.obtenerFecha(dato.FechaAgregacion).time,
+      FechaModificacion: hoy
     }).then(()=>{
+      this.spinner.hide();
       this.mensajeServicio.exito('Actualizado','Edificio ha sido actualizado con exito');
       this.router.navigate(['/edificioDetalle', this.idEdificio]);
     }).catch(() => {
+      this.spinner.hide();
       this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
       this.router.navigate(['/edificioDetalle', this.idEdificio]);
     });
+  }
+
+  obtenerFecha(data){
+    return this.personaServicio.obtenerFecha(data);
   }
 
   subirImagen(event){

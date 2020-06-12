@@ -7,6 +7,7 @@ import { ActanacimientoService } from 'src/app/services/actanacimiento.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   templateUrl: './detaildocumento.component.html',
@@ -33,10 +34,15 @@ export class DetaildocumentoComponent implements OnInit {
     private ruta: ActivatedRoute,
     private mensajeServicio: MensajeService,
     private router: Router,
-    private database: AngularFirestore
+    private database: AngularFirestore,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.personas = this.personaServicio.verPersonas();
     this.paises = this.direccionServicio.verPaises();
     this.documentos = this.actanacimientoServicio.verDocumentos();

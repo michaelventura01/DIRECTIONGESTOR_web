@@ -6,6 +6,7 @@ import { EmpleadoService } from 'src/app/services/empleado.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { EstadoService } from 'src/app/services/estado.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-detailsusuario',
@@ -34,12 +35,17 @@ export class DetailsusuarioComponent implements OnInit {
     private usuarioServicio: UsuarioService,
     private estadoServicio: EstadoService,
     private router: Router,
-    private ruta: ActivatedRoute
+    private ruta: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) {
     this.idUsuario = this.ruta.snapshot.params['id'];
   }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.user = localStorage.getItem('usuario');
     this.rol = localStorage.getItem('rol');
     this.instituciones = this.institucionServicio.verInstituciones();
@@ -107,6 +113,11 @@ export class DetailsusuarioComponent implements OnInit {
 
   editarUsuario(data){
     this.router.navigate(['/usuarioEditar', data]);
+  }
+
+  eliminarUsuario(usuario){
+    this.spinner.show();
+    this.spinner.hide();
   }
 
 

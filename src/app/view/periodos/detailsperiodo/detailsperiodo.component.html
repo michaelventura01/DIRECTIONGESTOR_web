@@ -1,66 +1,66 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="container" *ngFor="let periodo of periodos">
   <div class="card" *ngIf="idPeriodo == periodo.id">
-      <div class="card-header">
-        <div class="h1 text-center">Periodo</div>
-      </div>
-          <div class="card-body">
-              <div class="row">
-
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
-                      Descripcion:
-                  </div>
-                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h5 text-uppercase">
-                      {{periodo.Descripcion | uppercase}}
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
-                    Codigo:
-                </div>
-                <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h5 text-uppercase">
-                    {{periodo.Codigo | uppercase}}
-                </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
-                    Duracion:
-                </div>
-                <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h5 text-uppercase">
-                    {{tenerSemanas(obtenerFecha(periodo.fechaInicio).date,obtenerFecha(periodo.fechaFin).date )}}
-                    <a *ngIf="2>tenerSemanas(obtenerFecha(periodo.fechaInicio).date,obtenerFecha(periodo.fechaFin).date )">Semana</a>
-                    <a *ngIf="tenerSemanas(obtenerFecha(periodo.fechaInicio).date,obtenerFecha(periodo.fechaFin).date )>1">Semanas</a>
-                </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
-                      Inicio de Periodo:
-                  </div>
-                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h5 text-uppercase">
-                      {{obtenerFecha(periodo.fechaInicio).fechaNacimiento | uppercase}}
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
-                      Fin de Periodo:
-                  </div>
-                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h5 text-uppercase">
-                    {{obtenerFecha(periodo.fechaFin).fechaNacimiento}}
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h4 font-weight-bold text-right">
-                      Estado:
-                  </div>
-                  <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h5 text-uppercase">
-                      <a *ngFor="let estado of estados">
-                        <a *ngIf="estado.id === periodo.Estado">{{estado.descripcion | uppercase}}</a>
-                      </a>
-                  </div>
-
-              </div>
-          </div>
-          <div class="card-footer form-group">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
-                  <input type="submit" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="['/periodoEditar',idPeriodo]"/>
-                </div>
-                <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                  <input type="submit" value="Eliminar" class="btn btn-warning btn-block font-weight-bold" />
-                </div>
-                <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                    <input type="submit" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/periodos'"/>
-                  </div>
-            </div>
+    <div class=" card-header">
+      <div class = "row">
+        <div class="col col-xl-10 col-lg-10  col-md-10 col-sm-10 col-xs-10 ">
+          <div class="h1 text-center"><i class="far fa-calendar-alt"></i> | Periodo</div>
         </div>
+        <div class="col col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2 text-right">
+          <button class = "btn btn-outline-danger" (click)="imprimirPeriodoPDF(periodo)">
+            <p class = "h1"><i class="fas fa-print"></i></p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row overflow-auto m-1" style="height: 480px;">
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Descripcion:</p>
+          {{periodo.Descripcion | uppercase}}
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Codigo:</p>
+          {{periodo.Codigo | uppercase}}
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Duracion:</p>
+          {{cantidadSemanas(periodo) | uppercase}}
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Inicio de Periodo:</p>
+          {{obtenerFecha(periodo.fechaInicio).fechaNacimiento | uppercase}}
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Fin de Periodo:</p>
+          {{obtenerFecha(periodo.fechaFin).fechaNacimiento | uppercase}}
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Estado:</p>
+          <a *ngFor="let estado of estados">
+            <a *ngIf="estado.id === periodo.Estado">{{estado.descripcion | uppercase}}</a>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer ">
+      <div class="row form-group mx-auto">
+        <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">
+          <button class="btn btn-outline-info btn-block " [routerLink]="['/periodoEditar', idPeriodo]">
+            <a class="h3 font-weight-bold"><i class="far fa-edit"></i> | Editar</a>
+          </button>
+        </div>
+        <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 mb-3">
+          <button class="btn btn-warning btn-block" (click)="eliminarPeriodo(periodo)">
+            <a class="h3 font-weight-bold"><i class="fas fa-ban"></i> | Eliminar</a>
+          </button>
+        </div>
+        <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 mb-3">
+          <button class="btn btn-outline-danger btn-block " [routerLink]="['/periodos']">
+            <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Atras</a>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

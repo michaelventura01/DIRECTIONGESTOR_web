@@ -7,7 +7,13 @@ import { ContactoService } from 'src/app/services/contacto.service';
 import { ActanacimientoService } from 'src/app/services/actanacimiento.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MensajeService } from 'src/app/services/mensaje.service';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import * as $ from 'jquery';
+import * as html2canvas from 'html2canvas';
+
 
 @Component({
   selector: 'app-detailspersona',
@@ -49,13 +55,18 @@ export class DetailspersonaComponent implements OnInit {
     private router: Router,
     private database: AngularFirestore,
     private mensajeServicio: MensajeService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private spinner: NgxSpinnerService
   ) {
     this.idPersona = this.persona.snapshot.params.id;
 
   }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.formularioObservacion();
     this.conducta = '';
     this.personas = this.personaServicio.verPersonas();
@@ -76,6 +87,250 @@ export class DetailspersonaComponent implements OnInit {
     this.esSalud = false;
     this.esConducta = false;
     this.esResponsabilidad = false;
+  }
+
+
+  imprimirPersonaPDF(persona) {
+    let hoy = new Date();
+    let lines: any;
+    let observation: string;
+
+    //let doc = new jsPDF('p', 'in', 'letter');
+
+    let doc = new jsPDF('portrait', 'px', 'a4');
+
+    doc.setFontSize(18);
+    doc.setTextColor(100);
+    doc.text(35, 20, 'Ficha Personal');
+
+    doc.setFontSize(12);
+    doc.setTextColor(130);
+    doc.text(360, 20, hoy.getDate() + ' / ' + (hoy.getMonth() + 1) + ' / ' + hoy.getFullYear());
+
+    doc.setTextColor(150);
+    doc.setLineWidth(0.5);
+    doc.line(15, 23, 430, 23);
+
+    doc.setTextColor(100);
+    doc.setFontSize(13);
+    doc.text(35, 60, 'Nombres:');
+    doc.text(205, 60, 'Apellidos:');
+    doc.text(360, 60, 'Edad:');
+    doc.text(35, 110, 'Fecha de Nacimiento:');
+    doc.text(205, 110, 'Nacionalidad:');
+    doc.text(360, 110, 'Sexo:');
+    doc.text(35, 160, 'Correo:');
+    doc.text(250, 160, 'Telefono:');
+    doc.text(35, 210, 'Direccion:');
+    doc.text(250, 210, 'Ciudad:');
+    doc.text(35, 260, 'Pais:');
+
+
+
+
+    doc.setTextColor(60);
+    doc.setFontSize(14);
+    doc.text(35, 75, persona.Nombre.toUpperCase());
+    doc.text(205, 75, persona.Apellido.toUpperCase());
+    doc.text(360, 75, this.obtenerFecha(persona.FechaNacimiento).edad.toUpperCase());
+    doc.text(35, 125, this.obtenerFecha(persona.FechaNacimiento).fechaNacimiento.toUpperCase());
+    this.paises.forEach( pais => {
+      if ( pais.id === persona.Nacionalidad ) {
+        doc.text(205, 125, pais.nacionalidad.toUpperCase());
+      }
+    });
+    this.sexos.forEach( sexo => {
+      if ( sexo.id === persona.Sexo ) {
+        doc.text(360, 125, sexo.descripcion.toUpperCase());
+      }
+    });
+    doc.text(35, 175, persona.Correo);
+    doc.text(250, 175,  '(' + persona.Telefono.slice(0, 3) + ') ' + persona.Telefono.slice(3, 6) + ' - ' + persona.Telefono.slice(6, 10));
+    doc.text(35, 225, persona.Direccion.toUpperCase());
+    this.ciudades.forEach( ciudad => {
+      if ( ciudad.id === persona.Ciudad ) {
+        doc.text(250, 225, ciudad.descripcion.toUpperCase());
+      }
+    });
+    this.paises.forEach( pais => {
+      if ( pais.id === persona.Pais ) {
+        doc.text(35, 275, pais.descripcion.toUpperCase());
+      }
+    });
+
+    let width = 35;
+
+    this.documentos.forEach( documento => {
+
+      if ( documento.Persona === persona.id && documento.Estado === '01') {
+        this.tipoDocumentos.forEach( tipo => {
+          if(documento.TipoDocumento === tipo.id) {
+            doc.setTextColor(100);
+            doc.setFontSize(13);
+            doc.text(width, 325, tipo.descripcion.toUpperCase());
+          }
+        });
+        doc.setTextColor(60);
+        doc.setFontSize(14);
+        doc.text(width, 340, documento.Numero.toUpperCase());
+
+        width += 215;
+      }
+
+    });
+
+    this.actasNacimientos.forEach( acta => {
+      if ( acta.Persona === persona.id  && acta.Estado === '01') {
+
+        doc.setTextColor(100);
+        doc.setFontSize(13);
+        doc.text(35, 395, 'Informacion de Acta de Nacimiento:');
+        doc.setTextColor(170);
+        doc.setLineWidth(0.5);
+        doc.line(30, 400, 420, 400);
+        doc.text(35, 415, 'Folio');
+        doc.text(100, 415, 'Año');
+        doc.text(160, 415, 'Libro');
+        doc.text(220, 415, 'Numero');
+        doc.text(290, 415, 'Circunscripcion');
+        doc.setTextColor(180);
+        doc.setLineWidth(0.5);
+        doc.line(30, 440, 420, 440);
+
+        doc.setTextColor(60);
+        doc.setFontSize(14);
+        doc.text(35, 430, acta.Folio);
+        doc.text(100, 430, acta.Anio);
+        doc.text(160, 430, acta.Libro);
+        doc.text(220, 430, acta.Numero.toUpperCase());
+        this.circunscripciones.forEach( circunscripcion => {
+          if (acta.Circunscripcion === circunscripcion.id) {
+            doc.text(290, 430, circunscripcion.descripcion.toUpperCase());
+          }
+        });
+      }
+    });
+
+    doc.setTextColor(150);
+    doc.setFontSize(8);
+    doc.setLineWidth(0.5);
+    doc.line(15, 610, 430, 610);
+    doc.text(35, 620, localStorage.getItem('tituloFooter').toUpperCase());
+    doc.text(220, 620, '1');
+    doc.text(385, 620, 'Direction Gestor');
+
+    doc.addPage();
+
+    doc.setFontSize(18);
+    doc.setTextColor(100);
+    doc.text(35, 20, 'Ficha Personal');
+
+    doc.setFontSize(12);
+    doc.setTextColor(130);
+    doc.text(360, 20, hoy.getDate() + ' / ' + (hoy.getMonth() + 1) + ' / ' + hoy.getFullYear());
+
+    doc.setTextColor(150);
+    doc.setLineWidth(0.5);
+    doc.line(15, 23, 430, 23);
+
+    doc.setTextColor(100);
+    doc.setFontSize(13);
+    doc.text(35, 60, 'Observaciones de Conducta:');
+    doc.text(35, 320, 'Observaciones de Responsabilidad:');
+    doc.setTextColor(60);
+    doc.setFontSize(14);
+
+    observation = '';
+    this.observaciones.forEach( observacion => {
+      if ( observacion.Persona === persona.id ) {
+        if (observacion.TipoObservacion === '01' &&  observacion.Estado === '01') {
+          observation = observacion.Descripcion;
+        }
+      }
+    });
+    if ( observation === '') {
+      observation = 'No tiene ninguna observacion por el momento.';
+    }
+    doc.splitTextToSize(observation, 400);
+    doc.text(35, 80, observation.toUpperCase());
+
+    observation = '';
+    this.observaciones.forEach( observacion => {
+      if ( observacion.Persona === persona.id ) {
+        if (observacion.TipoObservacion === '02' &&  observacion.Estado === '01') {
+          observation = observacion.Descripcion;
+        }
+      }
+    });
+    if ( observation === '') {
+      observation = 'No tiene ninguna observacion por el momento.';
+    }
+    doc.splitTextToSize(observation, 400);
+    doc.text(35, 340, observation.toUpperCase());
+
+
+
+
+
+    doc.setTextColor(150);
+    doc.setFontSize(8);
+    doc.setLineWidth(0.5);
+    doc.line(15, 610, 430, 610);
+    doc.text(35, 620, localStorage.getItem('tituloFooter').toUpperCase());
+    doc.text(220, 620, '2');
+    doc.text(385, 620, 'Direction Gestor');
+
+
+    doc.addPage();
+
+    doc.setFontSize(18);
+    doc.setTextColor(100);
+    doc.text(35, 20, 'Ficha Personal');
+
+    doc.setFontSize(12);
+    doc.setTextColor(130);
+    doc.text(360, 20, hoy.getDate() + ' / ' + (hoy.getMonth() + 1) + ' / ' + hoy.getFullYear());
+
+    doc.setTextColor(150);
+    doc.setLineWidth(0.5);
+    doc.line(15, 23, 430, 23);
+
+
+    doc.setTextColor(100);
+    doc.setFontSize(13);
+    doc.text(35, 60, 'Observaciones de Salud:');
+    doc.setTextColor(60);
+    doc.setFontSize(14);
+
+    observation = '';
+    this.observaciones.forEach( observacion => {
+      if ( observacion.Persona === persona.id ) {
+        if (observacion.TipoObservacion === '03' &&  observacion.Estado === '01') {
+          observation = observacion.Descripcion;
+        }
+      }
+    });
+    if (observation === '') {
+      observation = 'No tiene ninguna observacion por el momento.';
+    }
+    doc.splitTextToSize(observation, 400);
+    doc.text(35, 80, observation.toUpperCase());
+
+
+
+    doc.setTextColor(150);
+    doc.setFontSize(8);
+    doc.setLineWidth(0.5);
+    doc.line(15, 610, 430, 610);
+    doc.text(35, 620, localStorage.getItem('tituloFooter').toUpperCase());
+    doc.text(220, 620, '3');
+    doc.text(385, 620, 'Direction Gestor');
+
+    doc.output('dataurlnewwindow');
+
+    // Save the PDF
+    doc.save(persona.Nombre + ' ' + persona.Apellido + ' Ficha Personal');
+
   }
 
   cambiarObservacion(tipo) {
@@ -293,9 +548,7 @@ export class DetailspersonaComponent implements OnInit {
       salud: [''],
       responsabilidad: [''],
       conducta: ['']
-
     });
-
   }
 
 }

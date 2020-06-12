@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { PersonaService } from 'src/app/services/persona.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   templateUrl: './editreacion.component.html',
@@ -25,9 +26,14 @@ export class EditreacionComponent implements OnInit {
     private personaServicio: PersonaService,
     private router: Router,
     private ruta: ActivatedRoute,
-    private mensajeServicio: MensajeService) { }
+    private mensajeServicio: MensajeService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.crearFormulario();
     this.idRelacion = this.ruta.snapshot.params.id;
     this.personas = this.personaServicio.verPersonas();
@@ -51,6 +57,7 @@ export class EditreacionComponent implements OnInit {
   }
 
   editarRelacion(relacion) {
+    this.spinner.show();
     let fechaActual = new Date();
     let residencia: boolean;
     if (this.formularioCreado.value.Residencia === '') {
@@ -77,9 +84,11 @@ export class EditreacionComponent implements OnInit {
       FechaAgregacion: this.tenerFecha(relacion.FechaAgregacion).time,
       FechaModificacion: fechaActual
     }).then(() => {
-        this.mensajeServicio.exito('Modificado', 'Relacion ha sido modificada con exito');
-        this.router.navigate(['/personaDetalle', relacion.Persona]);
+      this.spinner.hide();
+      this.mensajeServicio.exito('Modificado', 'Relacion ha sido modificada con exito');
+      this.router.navigate(['/personaDetalle', relacion.Persona]);
     }).catch(() => {
+      this.spinner.hide();
       this.mensajeServicio.error('Error', 'Ha ocurrido un error no esperado');
       this.router.navigate(['/personaDetalle', relacion.Persona ]);
     });

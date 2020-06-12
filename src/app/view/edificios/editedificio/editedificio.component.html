@@ -1,64 +1,65 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="container">
   <div class="card" *ngFor="let edificio of tenerEdificio()">
       <div class="card-header">
-        <div class="h2 text-center">Editar Edificio</div>
+        <div class="h1 text-center"><a class="h2"><i class="far fa-edit"></i></a><i class="fas fa-landmark"></i> | Editar Edificio</div>
       </div>
       <div class="card-body" >
-          <div class="row">
+          <div class="row overflow-auto m-1" style="height: 500px; ">
               <div class="col-xl col-lg col-md col-sm col-xs">
                   <form [formGroup]="formularioEditar">
                     <div class="form-group">
-                      <label class="control-label font-weight-bold">Nombre de Edificio</label>
-                      <input formControlName="Descripcion" [value]="edificio.Nombre" class="form-control" required/>
-                      <div *ngIf="formularioEditar.controls['Descripcion'].invalid && formularioEditar.controls['Descripcion'].dirty" class="alert alert-danger">El Edificio es Requerido</div>
+                      <label class="control-label h5 font-weight-bold">Nombre de Edificio</label>
+                      <input formControlName="Descripcion" style="font-size: 15px;" [value]="edificio.Nombre" class="form-control" required/>
+                      <div *ngIf="formularioEditar.controls['Descripcion'].invalid && formularioEditar.controls['Descripcion'].dirty" class="h5 alert alert-danger">El Edificio es Requerido</div>
                     </div>
                     <div class="row">
                       <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 ">
-                        <label for="Pais" class="control-label font-weight-bold">Pais</label>
-                        <select formControlName="Pais" *ngIf="esPais"  class ="form-control" (change)="tenerCiudades(formularioEditar.value.Pais)"  required>
+                        <label for="Pais" class="control-label h5 font-weight-bold">Pais</label>
+                        <select formControlName="Pais" style="font-size: 15px;" *ngIf="esPais"  class ="form-control" (change)="tenerCiudades(formularioEditar.value.Pais)"  required>
                           <option *ngFor="let pais of paises" [value]="pais.id">{{pais.descripcion | uppercase}}</option>
                         </select>
                         <a *ngFor="let pais of paises">
                           <a *ngIf="pais.id === edificio.Pais">
-                            <input class="form-control" *ngIf="!esPais" (click)="tenerPais()" [value]="pais.descripcion | uppercase" type="text">
+                            <input class="form-control" style="font-size: 15px;" *ngIf="!esPais" (click)="tenerPais()" [value]="pais.descripcion | uppercase" type="text">
                           </a>
                         </a>
-                        <div *ngIf="formularioEditar.controls['Pais'].invalid && formularioEditar.controls['Pais'].dirty"  class="alert alert-danger">El Pais es Requerido</div>
+                        <div *ngIf="formularioEditar.controls['Pais'].invalid && formularioEditar.controls['Pais'].dirty"  class="h5 alert alert-danger">El Pais es Requerido</div>
                       </div>
                       <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 ">
-                        <label class="control-label font-weight-bold">Ciudad</label>
-                        <select formControlName="Ciudad" *ngIf="esCiudad"  class ="form-control" required>
+                        <label class="control-label h5 font-weight-bold">Ciudad</label>
+                        <select formControlName="Ciudad" style="font-size: 15px;" *ngIf="esCiudad"  class ="form-control" required>
                           <option *ngFor="let ciudad of ciudades" [value]="ciudad.id">{{ciudad.descripcion | uppercase}}</option>
                         </select>
                         <a *ngFor="let ciudad of ciudades">
                           <a *ngIf="ciudad.id === edificio.Ciudad">
-                            <input class="form-control" *ngIf="!esCiudad" (click)="tenerCiudad()" [value]="ciudad.descripcion | uppercase" type="text">
+                            <input class="form-control" style="font-size: 15px;" *ngIf="!esCiudad" (click)="tenerCiudad()" [value]="ciudad.descripcion | uppercase" type="text">
                           </a>
                         </a>
-                        <div *ngIf="formularioEditar.controls['Ciudad'].invalid && formularioEditar.controls['Ciudad'].dirty"  class="alert alert-danger">La Ciudad es Requerida</div>
+                        <div *ngIf="formularioEditar.controls['Ciudad'].invalid && formularioEditar.controls['Ciudad'].dirty"  class="h5 alert alert-danger">La Ciudad es Requerida</div>
                       </div>
                       <div class="form-group  col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 ">
-                        <label class="control-label font-weight-bold">Direccion</label>
-                        <input formControlName="Direccion" [value]="edificio.Direccion" class="form-control" required/>
-                        <div *ngIf="formularioEditar.controls['Direccion'].invalid && formularioEditar.controls['Direccion'].dirty"  class="alert alert-danger">La Direccion es Requerida</div>
+                        <label class="control-label h5 font-weight-bold">Direccion</label>
+                        <input formControlName="Direccion" style="font-size: 15px;" [value]="edificio.Direccion" class="form-control" required/>
+                        <div *ngIf="formularioEditar.controls['Direccion'].invalid && formularioEditar.controls['Direccion'].dirty"  class="h5 alert alert-danger">La Direccion es Requerida</div>
                       </div>
                     </div>
                     <div class="form-group" >
-                      <label class="control-label font-weight-bold">Foto</label>
-                      <input type="file" Name="foto" class="form-control-file" formControlName="Foto" accept=".png, .jpg" (change)="subirImagen($event)"/>
+                      <label class="control-label h5 font-weight-bold">Foto</label>
+                      <input type="file" Name="foto" style="font-size: 15px;" class="form-control-file" formControlName="Foto" accept=".png, .jpg" (change)="subirImagen($event)"/>
                       <progressbar [value]='carga' type="success" [striped] ="true" *ngIf="carga != 0 || carga > 99" class="mt-2"><b>{{carga}} %</b></progressbar>
                       <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="edificio.Foto!=''">
                         <img [src]="imagen" alt="" class=" img-thumbnail mx-auto img-fluid mt-2 mb-2" src="{{edificio.Foto}}" >
                       </div>
                     </div>
                     <div class="form-group mt-2 ">
-                      <label for="Estado" class="control-label font-weight-bold">Estado</label>
-                      <select formControlName="Estado" class ="form-control" *ngIf="esEstado"  (change) = "asignarEstado()"  required>
+                      <label for="Estado" class="control-label h5 font-weight-bold">Estado</label>
+                      <select formControlName="Estado" style="font-size: 15px;" class ="form-control" *ngIf="esEstado"  (change) = "asignarEstado()"  required>
                         <option *ngFor="let estado of tenerEstadosEdificios()" [value]='estado.id'>{{estado.descripcion | uppercase}}</option>
                       </select>
                       <a *ngFor="let estado of estados">
                         <a *ngIf="estado.id === edificio.Estado">
-                          <input class="form-control" *ngIf="!esEstado" (click)="tenerEstado()"  [value]="estado.descripcion | uppercase" type="text">
+                          <input class="form-control" style="font-size: 15px;" *ngIf="!esEstado" (click)="tenerEstado()"  [value]="estado.descripcion | uppercase" type="text">
                         </a>
                       </a>
                       <div *ngIf="formularioEditar.controls['Estado'].invalid && formularioEditar.controls['Estado'].dirty"  class="alert alert-danger">El Pais es Requerido</div>
@@ -68,14 +69,18 @@
           </div>
       </div>
       <div class="card-footer">
-        <div class="form-group mx-auto">
-          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
-            <input type="submit" (click)="editarEdificio(edificio)" value="Editar" class="btn btn-outline-primary btn-block font-weight-bold" />
+        <div class="row form-group mx-auto">
+          <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 mb-3">
+            <button class="btn btn-outline-info btn-block" (click)="editarEdificio(edificio)">
+              <a class="h3 font-weight-bold"><i class="far fa-edit"></i> | Editar</a>
+            </button>
           </div>
-          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
-            <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/edificioDetalle', edificio.id]"/>
+          <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 mb-3">
+            <button class="btn btn-outline-danger btn-block " [routerLink]="['/edificioDetalle',idEdificio]">
+              <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+            </button>
           </div>
-      </div>
+        </div>
       </div>
   </div>
 </div>

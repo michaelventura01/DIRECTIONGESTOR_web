@@ -1,32 +1,37 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="container">
   <div class="card" *ngFor="let aula of tenerAula()">
       <div class="card-header">
-        <div class="h2 text-center"> Editar Aula de Edificio</div>
+        <div class="h1 text-center"><a class="h2"><i class="far fa-edit"></i></a><i class="fas fa-chalkboard"></i> | Editar Aula de Edificio</div>
       </div>
       <div class="card-body">
-          <div class="row">
+          <div class="row overflow-auto m-1" style="height: 500px; ">
               <div class="col-xl col-lg col-md col-sm col-xs">
                   <form [formGroup]="formularioEditar">
                     <div class="row">
                       <div class="form-group col-xl col-lg  col-md col-sm col-xs">
-                        <label class="control-label font-weight-bold">Aula</label>
-                        <input formControlName ="Aula" [value]="aula.Descripcion" class="form-control" required/>
+                        <label class="control-label h5 font-weight-bold">Aula</label>
+                        <input formControlName ="Aula" style="font-size: 15px;" [value]="aula.Descripcion" class="form-control" required/>
                         <div *ngIf="formularioEditar.controls['Aula'].invalid && formularioEditar.controls['Aula'].dirty" class="alert alert-danger">La Descripcion es Requerida</div>
                       </div>
                       <div class="form-group col-xl col-lg  col-md col-sm col-xs">
-                          <label  class="control-label font-weight-bold">Edificio</label>
-                          <select formControlName ="Edificio" *ngIf="esEdificio" class ="form-control" required>
+                          <label  class="control-label h5 font-weight-bold">Edificio</label>
+                          <select formControlName ="Edificio" style="font-size: 15px;" *ngIf="esEdificio" class ="form-control" required>
                             <option *ngFor="let edificio of tenerEdificios()" [value]="edificio.id">{{edificio.Nombre | uppercase}}</option>
                           </select>
-                          <input type="text" *ngIf="!esEdificio" (click)="cambiarEdificio()" [value]='tenerEdificio(aula).Nombre | uppercase' class="form-control">
+                          <a *ngFor = "let edificio of edificios">
+                            <a *ngIf = "edificio.id === aula.Edificio">
+                              <input type="text" *ngIf="!esEdificio" style="font-size: 15px;" (click)="cambiarEdificio()" value='{{edificio.Nombre | uppercase}}' class="form-control">
+                            </a>
+                          </a>
                           <div *ngIf="formularioEditar.controls['Edificio'].invalid && formularioEditar.controls['Edificio'].dirty" class="alert alert-danger">El Edificio es Requerido</div>
                       </div>
                       <div class="form-group col-xl col-lg  col-md col-sm col-xs">
-                          <label class="control-label font-weight-bold">Estado</label>
-                          <select formControlName *ngIf="esEstado" class ="form-control" required  (click)="tenerEstadosEdificios()">
+                          <label class="control-label h5 font-weight-bold">Estado</label>
+                          <select formControlName = "Estado" style="font-size: 15px;" *ngIf="esEstado" class ="form-control" required  (click)="tenerEstadosEdificios()">
                             <option *ngFor="let estado of  tenerEstadosEdificios()" [value]="estado.id">{{estado.descripcion | uppercase}}</option>
                           </select>
-                          <input type="text" *ngIf="!esEstado" (click)="cambiarEstado()" [value]="tenerEstado(aula).descripcion | uppercase" class="form-control">
+                          <input type="text" style="font-size: 15px;" *ngIf="!esEstado" (click)="cambiarEstado()" [value]="tenerEstado(aula).descripcion | uppercase" class="form-control">
                           <div *ngIf="formularioEditar.controls['Estado'].invalid && formularioEditar.controls['Estado'].dirty" validation="Folio" class="alert alert-danger">El Estado es Requerido</div>
                       </div>
                     </div>
@@ -35,12 +40,16 @@
           </div>
       </div>
       <div class="card-footer">
-        <div class="form-group mx-auto">
-          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
-            <input type="submit" (click)="editarAula(aula)" value="Editar" class="btn btn-outline-primary btn-block font-weight-bold" />
+        <div class="row form-group mx-auto">
+          <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 mb-3">
+            <button class="btn btn-outline-info btn-block" (click)="editarAula(aula)">
+              <a class="h3 font-weight-bold"><i class="far fa-edit"></i> | Editar</a>
+            </button>
           </div>
-          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
-            <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/aulaDetalle'"/>
+          <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 mb-3">
+            <button class="btn btn-outline-danger btn-block " [routerLink]="['/aulaDetalle',idAula]">
+              <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+            </button>
           </div>
         </div>
       </div>

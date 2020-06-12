@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-addperiodo',
@@ -25,6 +26,7 @@ export class AddperiodoComponent implements OnInit {
     private periodoServicio: PeriodoService,
     private router: Router,
     private mensajeServicio: MensajeService,
+    private spinner: NgxSpinnerService,
     private database: AngularFirestore ) { }
 
   ngOnInit() {
@@ -50,40 +52,38 @@ export class AddperiodoComponent implements OnInit {
 
   }
 
-  guardarPeriodo(periodo){
-
+  guardarPeriodo(){
+    this.spinner.show();
+    let hoy = new Date();
     this.periodo = this.formularioCreado.value.Descripcion;
     this.fechaInicio = new Date(this.formularioCreado.value.Inicio);
     this.fechaFin = new Date(this.formularioCreado.value.Fin);
     this.codigo = this.formularioCreado.value.Codigo;
-
-
     if(this.tiempo>-1){
-      if(!periodo){
+      if(!this.buscarCursos()){
         this.database.collection('periodos').add({
           Descripcion: this.periodo,
           fechaInicio: this.fechaInicio,
           fechaFin: this.fechaFin,
           Institucion: this.institucion,
+          FechaAgregacion: hoy,
           Estado: '01',
           Codigo: this.codigo
         }).then(()=>{
+          this.spinner.hide();
           this.mensajeServicio.exito('Guardado','Periodo ha sido agregado con exito');
           this.router.navigate(['/periodos']);
         }).catch(() => {
+          this.spinner.hide();
           this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
           this.router.navigate(['/periodos']);
         });
       }else{
+        this.spinner.hide();
         this.mensajeServicio.info('Registro Existente','Un Registro con Este Codigo fue Agregado Anteriormente');
         this.router.navigate(['/periodos']);
       }
-
-
     }
-
-
-
   }
 
   tenerCantidadSemanas(){

@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="container" *ngIf="!esEmpleado">
   <progressbar [value]=50 type="primary" [striped] ="false" *ngIf="accion === 'Encargado'" class="mb-5"></progressbar>
   <div class="card">
@@ -9,7 +10,7 @@
           <form [formGroup]="formularioPersona">
             <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">
               <label class="control-label h5 font-weight-bold">Nombre: </label>
-              <input  style="font-size: 15px;"  formControlName="Nombre" style="font-size: 15px;" class="form-control" placeholder="Nombres" required/>
+              <input  formControlName="Nombre" style="font-size: 15px;" class="form-control" placeholder="Nombres" required/>
               <div *ngIf="formularioPersona.controls['Nombre'].invalid && formularioPersona.controls['Nombre'].dirty" class="alert alert-danger h5">El Nombre es Requerido</div>
             </div>
             <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">

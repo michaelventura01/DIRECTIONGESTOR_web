@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { PersonaService } from 'src/app/services/persona.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   templateUrl: './addreacion.component.html',
@@ -23,6 +24,7 @@ export class AddreacionComponent implements OnInit {
     private personaServicio: PersonaService,
     private router: Router,
     private ruta: ActivatedRoute,
+    private spinner: NgxSpinnerService,
     private mensajeServicio: MensajeService) { }
 
   ngOnInit() {
@@ -68,6 +70,7 @@ export class AddreacionComponent implements OnInit {
 
 
   agregarRelacion() {
+    this.spinner.show();
     let fechaActual = new Date();
     let residencia: boolean;
     if (this.formularioCreado.value.Residencia === '0') {
@@ -84,13 +87,16 @@ export class AddreacionComponent implements OnInit {
         Estado: '01',
         FechaAgregacion: fechaActual
       }).then(() => {
-          this.mensajeServicio.exito('Guardado', 'Relacion ha sido agregada con exito');
-          this.router.navigate(['/personaDetalle', this.idPersona]);
+        this.spinner.hide();
+        this.mensajeServicio.exito('Guardado', 'Relacion ha sido agregada con exito');
+        this.router.navigate(['/personaDetalle', this.idPersona]);
       }).catch(() => {
+        this.spinner.hide();
         this.mensajeServicio.error('Error', 'Ha ocurrido un error no esperado');
         this.router.navigate(['/personaDetalle', this.idPersona]);
       });
     } else {
+      this.spinner.hide();
       this.mensajeServicio.info('Registro Existente', 'Relacion ha sido agregada anteriormente');
       this.router.navigate(['/personaDetalle', this.idPersona]);
     }

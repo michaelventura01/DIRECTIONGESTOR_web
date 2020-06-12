@@ -6,6 +6,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-addedificio',
@@ -30,7 +31,9 @@ export class AddedificioComponent implements OnInit {
     private database: AngularFirestore,
     private storage: AngularFireStorage,
     private mensajeServicio:MensajeService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
+
   ) { }
 
   ngOnInit() {
@@ -47,6 +50,8 @@ export class AddedificioComponent implements OnInit {
   }
 
   agregarEdificio(){
+    this.spinner.show();
+    let hoy = new Date();
     if(!this.esImagen){this.imagen = '';}
 
     this.database.collection('edificios').add(
@@ -57,12 +62,15 @@ export class AddedificioComponent implements OnInit {
         Institucion: this.instituto,
         Nombre: this.formularioEdificio.value.Descripcion,
         Pais:this.formularioEdificio.value.Pais,
+        FechaAgregacion: hoy,
         Foto: this.imagen
       }).then(()=>{
+        this.spinner.hide();
       this.mensajeServicio.exito('Guardado','Edificio ha sido agregada con exito');
       this.router.navigate(['/edificios']);
 
     }).catch(() => {
+      this.spinner.hide();
       this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
       this.router.navigate(['/edificios']);
 

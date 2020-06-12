@@ -9,6 +9,7 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import {AngularFireStorage} from '@angular/fire/storage';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-addpersona',
@@ -48,6 +49,7 @@ export class AddpersonaComponent implements OnInit {
     private personaServicio: PersonaService,
     private contactoServicio: ContactoService,
     private router: Router,
+    private spinner: NgxSpinnerService,
     private mensajeServicio: MensajeService ) {
 
     }
@@ -91,6 +93,7 @@ export class AddpersonaComponent implements OnInit {
   }
 
   agregarPersona(data){
+    this.spinner.show();
     let fecha = new Date();
     this.buscarPersona(data);
     this.persona = this.formularioPersona.value.Nombre+' '+this.formularioPersona.value.Apellido;
@@ -132,6 +135,7 @@ export class AddpersonaComponent implements OnInit {
             FechaAgregacion: fecha,
             Estado: '01'
           }).then(()=>{
+            this.spinner.hide();
           this.mensajeServicio.exito('Guardado','Persona ha sido agregada con exito');
           this.visibleComponente = false;
 
@@ -144,6 +148,7 @@ export class AddpersonaComponent implements OnInit {
           }
 
         }).catch(() => {
+          this.spinner.hide();
           this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
 
           if(this.accion == 'Encargado'){
@@ -158,6 +163,7 @@ export class AddpersonaComponent implements OnInit {
       }
     }
     else{
+      this.spinner.hide();
       this.mensajeServicio.info('Registro Existente','Esta persona existe registrada en el sistema');
       if(this.accion == 'Encargado'){
         this.esEmpleado = true;
@@ -219,6 +225,7 @@ export class AddpersonaComponent implements OnInit {
 
 
   subirImagen(event){
+
     if(event.target.files.length>0){
       const file = event.target.files[0];
       let archivo = new Date().getTime().toString();

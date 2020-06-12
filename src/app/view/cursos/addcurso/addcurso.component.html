@@ -1,40 +1,45 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="container">
   <div class="card">
-      <div class="card-header ">
-        <div class="h2 text-center">Agregar Curso</div>
-      </div>
-      <div class="card-body">
-          <div class="row">
-              <div class="col-xl col-lg col-md col-sm col-xs">
-                  <form [formGroup]="formularioCreado">
-                      <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 ">
-                          <label class="control-label font-weight-bold">Nombre del Curso</label>
-                          <input formControlName="Descripcion" class="form-control" />
-                          <div *ngIf="formularioCreado.controls['Descripcion'].invalid && formularioCreado.controls['Descripcion'].dirty" class="alert alert-danger">La Descripcion es Requerida</div>
-                      </div>
-                      <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 ">
-                          <label class="control-label font-weight-bold">Codigo de Curso</label>
-                          <input formControlName="Codigo" class="form-control" required/>
-                          <div *ngIf="formularioCreado.controls['Codigo'].invalid && formularioCreado.controls['Codigo'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
-                      </div>
-                      <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 ">
-                          <label class="control-label font-weight-bold">Duracion en Semanas</label>
-                          <input type="number" formControlName="Tiempo" class="form-control" required/>
-                          <div *ngIf="formularioCreado.controls['Tiempo'].invalid && formularioCreado.controls['Tiempo'].dirty" class="alert alert-danger">El Tiempo es Requerido</div>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-      <div class="card-footer">
-        <div class="row">
-          <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
-              <input type="button" [disabled]="formularioCreado.invalid" value="Agregar" (click)='agregarCurso(buscarCursos())' class="btn btn-outline-primary btn-block font-weight-bold" />
-          </div>
-          <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
-              <input type="button" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/cursos'"/>
-          </div>
+    <div class="card-header ">
+      <div class="h1 text-center"><a class="h2"><i class=" fas fa-plus"></i></a><i class="fab fa-buffer"></i> | Agregar Curso</div>
+    </div>
+    <div class="card-body">
+      <div class="row overflow-auto m-1" style="height: 500px; ">
+        <div class="col-xl col-lg col-md col-sm col-xs">
+          <form [formGroup]="formularioCreado">
+            <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 ">
+              <label class="control-label h5 font-weight-bold">Nombre del Curso</label>
+              <input formControlName="Descripcion" style="font-size: 15px;" class="form-control" />
+              <div *ngIf="formularioCreado.controls['Descripcion'].invalid && formularioCreado.controls['Descripcion'].dirty" class="alert alert-danger">La Descripcion es Requerida</div>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 ">
+              <label class="control-label font-weight-bold h5">Codigo de Curso</label>
+              <input formControlName="Codigo" style="font-size: 15px;" class="form-control" required/>
+              <div *ngIf="formularioCreado.controls['Codigo'].invalid && formularioCreado.controls['Codigo'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 ">
+              <label class="control-label font-weight-bold h5">Duracion en Semanas</label>
+              <input type="number" style="font-size: 15px;" formControlName="Tiempo" class="form-control" required/>
+              <div *ngIf="formularioCreado.controls['Tiempo'].invalid && formularioCreado.controls['Tiempo'].dirty" class="alert alert-danger">El Tiempo es Requerido</div>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
+    <div class="card-footer">
+      <div class="row form-group mx-auto">
+        <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 mb-3">
+          <button class="btn btn-outline-info btn-block" [disabled]="formularioCreado.invalid" (click)='agregarCurso()'>
+            <a class="h3 font-weight-bold"><i class="far fa-save"></i> | Agregar</a>
+          </button>
+        </div>
+        <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 mb-3">
+          <button class="btn btn-outline-danger btn-block " [routerLink]="'/cursos'">
+            <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

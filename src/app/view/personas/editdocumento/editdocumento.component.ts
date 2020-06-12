@@ -8,6 +8,7 @@ import { DireccionService } from 'src/app/services/direccion.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { EstadoService } from 'src/app/services/estado.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   templateUrl: './editdocumento.component.html',
@@ -45,9 +46,14 @@ export class EditdocumentoComponent implements OnInit {
     private ruta: ActivatedRoute,
     private mensajeServicio: MensajeService,
     private router: Router,
-    private database: AngularFirestore ) { }
+    private database: AngularFirestore,
+    private spinner: NgxSpinnerService ) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.crearFormulario();
     this.personas = this.personaServicio.verPersonas();
     this.paises = this.direccionServicio.verPaises();
@@ -114,6 +120,7 @@ export class EditdocumentoComponent implements OnInit {
   }
 
   editarDocumento(documento) {
+    this.spinner.show();
     let fecha = new Date();
     if (!this.esImagen) {this.imagen = ''; }
 
@@ -153,9 +160,11 @@ export class EditdocumentoComponent implements OnInit {
         FechaModificacion: fecha,
         Estado: estado
       }).then(() => {
-          this.mensajeServicio.exito('Modificado', 'Documento ha sido agregada con exito');
-          this.router.navigate(['/personaDetalle', documento.Persona]);
+        this.spinner.hide();
+        this.mensajeServicio.exito('Modificado', 'Documento ha sido agregada con exito');
+        this.router.navigate(['/personaDetalle', documento.Persona]);
       }).catch(() => {
+        this.spinner.hide();
         this.mensajeServicio.error('Error', 'Ha ocurrido un error no esperado');
         this.router.navigate(['/personaDetalle', documento.Persona ]);
       });

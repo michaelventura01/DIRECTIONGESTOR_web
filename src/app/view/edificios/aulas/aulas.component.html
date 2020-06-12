@@ -1,70 +1,129 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="container">
   <div class="card">
-      <div class="card-header">
-        <div class="row">
-          <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10"><div class="h1 text-center">Aulas de Edificios</div></div>
-          <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2 ">
-              <button type="button" class="btn btn-success" [routerLink]="'/aulaAgregar'"><div class="h1"><i class=" far fa-plus-square "></i></div></button>
-          </div>
+    <div class="card-header">
+      <div class="row">
+        <div class="col col-xl-11 col-lg-11 col-md-11 col-sm-11 col-xs-11"><div class="h1 text-center"><i class="fas fa-chalkboard"></i> | Aulas de Edificios</div></div>
+        <div class="col col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1 ">
+          <button type="button" class="btn btn-success float-left" [routerLink]="'/aulaAgregar'"><div class="h1"><i class=" fas fa-plus "></i></div></button>
+        </div>
       </div>
-      </div>
+    </div>
       <div class="card-body">
           <div class="card-title">
             <div class="card-title" >
               <div class="row" [formGroup]="formularioBuscar" >
-                  <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5">
-                    <input type="text" formControlName="Aula"  class="form-control " (change)="filtrarAulas()" placeholder="Escribe Para Filtrar las Aulas">
+                <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5">
+                  <p class="font-weight-bold mb-0 h5" >Aula:</p>
+                  <input type="text" style="font-size: 15px;" formControlName="Aula"  class="form-control " (change)="filtrarAulas()" placeholder="Escribe Para Filtrar las Aulas">
+                </div>
+                <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+                  <p class="font-weight-bold mb-0 h5" >Edificio:</p>
+                  <select type="text" style="font-size: 15px;" formControlName="Edificio" (change)="asignarEdificio()"  class="form-control ">
+                    <option *ngFor="let edificio of  tenerEdificios()" [value]="edificio.id">{{edificio.Nombre | uppercase}}</option>
+                  </select>
+                </div>
+                <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2">
+                  <p class="font-weight-bold mb-0 h5" >Estado:</p>
+                  <select type="text" style="font-size: 15px;" formControlName="Estado" (change)="asignarEstado()"  class="form-control mb-2">
+                    <option *ngFor="let estado of tenerEstadosAulas()" [selected]=1  [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+                  </select>
+                </div>
+                <div class="col col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2  text-center">
+                  <div class="row">
+                    <div class="col col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 ">
+                      <button class = "btn btn-outline-danger" (click)="listadoAulaPDF()">
+                        <p class = "h1"><i class="fas fa-print"></i></p>
+                      </button>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                      <button class = "btn btn-outline-primary" (click)="cambiarPresentacion()">
+                        <p class = "h1" *ngIf="!presentacion"><i class="fas fa-list"></i></p>
+                        <p class = "h1" *ngIf="presentacion"><i class="fas fa-table"></i></p>
+                      </button>
+                    </div>
                   </div>
-                  <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                    <select type="text" formControlName="Edificio" (change)="asignarEdificio()"  class="form-control ">
-                      <option *ngFor="let edificio of  tenerEdificios()" [value]="edificio.id">{{edificio.Nombre | uppercase}}</option>
-                    </select>
-                  </div>
-                  <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2">
-                    <select type="text" formControlName="Estado" (change)="asignarEstado()"  class="form-control ">
-                      <option *ngFor="let estado of tenerEstadosAulas()" [selected]=1  [value]="estado.id">{{estado.descripcion | uppercase}}</option>
-                    </select>
-                  </div>
-                  <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
-                      <button type="button" class="btn btn-secondary " (click)="filtrarAulas()" ><div class="h4"><i class="fas fa-search "></i></div></button>
-                  </div>
-              </div>
+                </div>
+            </div>
           </div>
           </div>
           <hr>
-          <div class="row">
-              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngFor="let aula of filtrarAulas()">
-                  <div class="card mb-2">
-                      <div class="card-header"><div class="h4">{{aula.Descripcion | uppercase}}</div></div>
-                      <div class="card-body">
-                          <div class="row">
-                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h7 font-weight-bold">
-                                Edificio
-                              </div>
-                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h8 text-uppercase">
-                                <a *ngFor="let edificio of edificios">
-                                  <a *ngIf="aula.Edificio == edificio.id">{{edificio.Nombre | uppercase}}</a>
-                                </a>
-                              </div>
-                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h7 font-weight-bold">
-                                  Estado
-                              </div>
-                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h8 text-uppercase">
-                                <a *ngFor="let estado of estados">
-                                  <a *ngIf="aula.Estado == estado.id">{{estado.descripcion | uppercase}}</a>
-                                </a>
-                              </div>
-                          </div>
+          <div class="row overflow-auto m-1" *ngIf="presentacion" style="height: 500px; width: 100%;">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngFor="let aula of filtrarAulas()">
+                <div class="card mb-2">
+                  <div class="card-header"><div class="h4">{{aula.Descripcion | uppercase}}</div></div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5">
+                        <p class="font-weight-bold">Edificio:</p>
+                        <a *ngFor="let edificio of edificios">
+                          <a *ngIf="aula.Edificio == edificio.id">{{edificio.Nombre | uppercase}}</a>
+                        </a>
                       </div>
-                      <div class="card-footer">
-                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h8 font-weight-bold">
-                              <input type="button" class="btn btn-outline-secondary btn-block" value="Ver" [routerLink]="['/aulaDetalle',aula.id]" >
-                          </div>
+                      <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5">
+                        <p class="font-weight-bold">Estado:</p>
+                        <a *ngFor="let estado of estados">
+                          <a *ngIf="aula.Estado == estado.id">{{estado.descripcion | uppercase}}</a>
+                        </a>
                       </div>
+                    </div>
                   </div>
-              </div>
+                  <div class="card-footer">
+                    <button class="btn btn-outline-secondary btn-block" value="Ver" [routerLink]="['/aulaDetalle',aula.id]" routerLinkActive="router-link-active" >
+                      <a class="h4"><i class="far fa-eye"></i> Ver</a>
+                    </button>
+                  </div>
+                </div>
+            </div>
           </div>
-      </div>
+          <div class="row overflow-auto m-1" *ngIf="!presentacion" style="height: 500px; width: 100%;">
+            <table class="table table-hover h5" id="tbAulas">
+              <thead class="h4">
+                <tr>
+                  <th scope="col" width = "25%">Aula</th>
+                  <th scope="col" width = "25%">Edificio</th>
+                  <th scope="col" width = "30%">Direccion</th>
+                  <th scope="col" width = "10%">Estado</th>
+                  <th scope="col" width = "10%"></th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let aula of filtrarAulas()">
+                <tr>
+                  <td>
+                    {{aula.Descripcion | uppercase}}
+                  </td>
+                  <td>
+                    <a *ngFor="let edificio of edificios">
+                      <a *ngIf="aula.Edificio == edificio.id">{{edificio.Nombre | uppercase}}</a>
+                    </a>
+                  </td>
+                  <td>
+                    <a *ngFor="let edificio of edificios">
+                      <a *ngIf="aula.Edificio == edificio.id">{{edificio.Direccion | uppercase}}</a>
+                    </a>
+                  </td>
+                  <td>
+                    <a *ngFor="let estado of estados">
+                      <a *ngIf="aula.Estado == estado.id">{{estado.descripcion | uppercase}}</a>
+                    </a>
+                  </td>
+                  <td>
+                    <table >
+                      <tr>
+                        <td>
+                          <button type="button" class="btn btn-warning" [routerLink]="['/aulaDetalle',aula.id]"><a class="h4"><i class="far fa-eye"></i></a></button>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-secondary" [routerLink]="['/aulaEditar',aula.id]"><a class="h4"><i class="far fa-edit"></i></a></button>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       <div class="card-footer"></div>
   </div>
 </div>

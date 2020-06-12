@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { PersonaService } from 'src/app/services/persona.service';
 import { EstadoService } from 'src/app/services/estado.service';
 import { DireccionService } from 'src/app/services/direccion.service';
-import { ContactoService } from 'src/app/services/contacto.service';
-import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-personas',
@@ -28,14 +27,17 @@ export class PersonasComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
     private personaServicio: PersonaService,
     private estadoServicio: EstadoService,
     private direccionServicio: DireccionService,
-    private contactoServicio: ContactoService
+    private spinner: NgxSpinnerService
   ) {  }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.crearBuscador();
     this.estados = this.estadoServicio.verEstados();
     this.personas = this.personaServicio.verPersonas();
@@ -68,8 +70,8 @@ export class PersonasComponent implements OnInit {
 
     this.personas.forEach(data => {
       if (data.Estado === this.Estado) {
-        let nombreapellido = data.Nombre + ' ' + data.Apellido;
-        if (nombreapellido.indexOf(event, 0) > -1 ) {
+        let nombreapellido = data.Nombre.toLowerCase() + ' ' + data.Apellido.toLowerCase();
+        if (nombreapellido.indexOf(event.toLowerCase(), 0) > -1 ) {
           people.push(data);
         }
       }
@@ -112,11 +114,6 @@ export class PersonasComponent implements OnInit {
     doc.setTextColor(150);
     doc.setLineWidth(0.5);
     doc.line(15, 23, 430, 23);
-    //doc.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
-    //doc.autoTable(titulos,personas,{margin:{top: 25}});
-    //doc.addPage();
-    //doc.text(20, 20, 'Do you like that?');
-    //autoTable(doc, { html: '#tbPersonas' });
     (doc as any).autoTable({
       head: [titulos],
       body: personas,
@@ -136,7 +133,7 @@ export class PersonasComponent implements OnInit {
     doc.output('dataurlnewwindow');
 
     // Save the PDF
-    //doc.save('Test.pdf');
+    doc.save('PersonasEncontradas.pdf');
 
   }
 

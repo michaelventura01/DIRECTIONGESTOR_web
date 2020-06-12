@@ -5,6 +5,8 @@ import { EstadoService } from 'src/app/services/estado.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AsignaturaService } from 'src/app/services/asignatura.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { PersonaService } from 'src/app/services/persona.service';
 
 @Component({
   selector: 'app-editasignatura',
@@ -30,15 +32,21 @@ export class EditasignaturaComponent implements OnInit {
     private mensajeServicio: MensajeService,
     private database: AngularFirestore,
     private router: Router,
+    private spinner: NgxSpinnerService,
+    private personaServicio: PersonaService,
     private ruta: ActivatedRoute) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.crearFormulario();
     this.estados = this.estadoServicio.verEstados();
     this.asignaturas = this.asignaturaServicio.verAsignaturas();
     this.idAsignatura = this.ruta.snapshot.params['id'];
     this.institucion = localStorage.getItem('instituto');
     this.esEstado = false;
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
   }
 
   crearFormulario(){
@@ -67,8 +75,14 @@ export class EditasignaturaComponent implements OnInit {
     return state
   }
 
+  obtenerFecha(data){
+    return this.personaServicio.obtenerFecha(data);
+  }
+
   editarAsignatura(asignatura)
   {
+    this.spinner.show();
+    let hoy = new Date();
     this.descripcion = this.formularioEditar.value.Descripcion;
     this.codigo = asignatura.Codigo;
     this.estado = this.formularioEditar.value.Estado;
@@ -77,7 +91,6 @@ export class EditasignaturaComponent implements OnInit {
     if(this.descripcion == ''){
       this.descripcion = asignatura.Descripcion;
     }
-
 
     if(this.estado == ''){
       this.estado = asignatura.Estado;
@@ -92,17 +105,18 @@ export class EditasignaturaComponent implements OnInit {
       Codigo: this.codigo,
       Estado: this.estado,
       Institucion: this.institucion,
-      Tiempo: this.tiempo
+      Tiempo: this.tiempo,
+      FechaAgregacion: this.obtenerFecha(asignatura.FechaAgregacion).time,
+      FechaEdicion: hoy
+
     }).then(()=>{
-      this.mensajeServicio.exito('Actualizado','Asignatura ha sido actualizado con exito');
+      this.spinner.hide();
+      this.mensajeServicio.exito('Actualizado','Asignatura ha sido actualizada con exito');
       this.router.navigate(['/asignaturaDetalle', this.idAsignatura]);
     }).catch(() => {
+      this.spinner.hide();
       this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
       this.router.navigate(['/asignaturaDetalle', this.idAsignatura]);
     });
-
   }
-
-
-
 }

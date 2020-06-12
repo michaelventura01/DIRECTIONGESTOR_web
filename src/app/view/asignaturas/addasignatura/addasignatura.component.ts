@@ -5,6 +5,7 @@ import { EstadoService } from 'src/app/services/estado.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-addasignatura',
@@ -27,7 +28,8 @@ export class AddasignaturaComponent implements OnInit {
     private estadoServicio: EstadoService,
     private mensajeServicio: MensajeService,
     private database :  AngularFirestore,
-    private router: Router) {
+    private router: Router,
+    private spinner: NgxSpinnerService) {
     this.crearFormulario();
    }
 
@@ -72,6 +74,8 @@ export class AddasignaturaComponent implements OnInit {
 
   agregarAsignatura(asignaturaAnterior)
   {
+    this.spinner.show();
+    let hoy = new Date();
     this.codigo = this.formularioCreado.value.Codigo.toLowerCase();
     this.descripcion = this.formularioCreado.value.Descripcion;
     this.tiempo = this.formularioCreado.value.Tiempo;
@@ -84,17 +88,21 @@ export class AddasignaturaComponent implements OnInit {
         Codigo: this.codigo,
         Estado: this.estado,
         Institucion: this.institucion,
-        Tiempo: this.tiempo
+        Tiempo: this.tiempo,
+        FechaAgregacion: hoy
       }).then(()=>{
+        this.spinner.hide();
       this.mensajeServicio.exito('Guardado','Asignatura ha sido agregada con exito');
       this.router.navigate(['/asignaturas']);
 
     }).catch(() => {
+      this.spinner.hide();
       this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
       this.router.navigate(['/asignaturas']);
 
     });
   }else{
+    this.spinner.hide();
     this.mensajeServicio.info('Registro Existente','Una Asignatura con ese codigo ha sido agregado anteriormente');
     this.router.navigate(['/asignaturas']);
 

@@ -4,6 +4,7 @@ import { EdificioService } from 'src/app/services/edificio.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-addaula',
@@ -19,7 +20,9 @@ export class AddaulaComponent implements OnInit {
     private edificioServicio: EdificioService,
     private database: AngularFirestore,
     private mensajeServicio: MensajeService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
+
     ) { }
 
   ngOnInit() {
@@ -29,17 +32,22 @@ export class AddaulaComponent implements OnInit {
   }
 
   agregarAula(){
+    this.spinner.show();
+    let hoy = new Date();
     this.database.collection('aulas').add(
       {
         Descripcion:this.formularioAula.value.Aula,
         Edificio: this.formularioAula.value.Edificio,
         Estado: '01',
-        Institucion:this.institucion
+        Institucion:this.institucion,
+        FechaAgregacion: hoy
       }).then(()=>{
+        this.spinner.hide();
       this.mensajeServicio.exito('Guardado','Aula ha sido agregada con exito');
       this.router.navigate(['/aulas']);
 
     }).catch(() => {
+      this.spinner.hide();
       this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
       this.router.navigate(['/aulas']);
 

@@ -9,6 +9,7 @@ import { InstitucionService } from 'src/app/services/institucion.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -50,6 +51,7 @@ export class AddusuarioComponent implements OnInit {
     private mensajeServicio: MensajeService,
     private institucionServicio: InstitucionService,
     private database: AngularFirestore,
+    private spinner: NgxSpinnerService,
     private router: Router) { }
 
   ngOnInit() {
@@ -229,6 +231,7 @@ export class AddusuarioComponent implements OnInit {
 
 
   guardarUsuario(usuario){
+    this.spinner.show();
 
     if(this.accion == 'Encargado'){
       this.Persona = this.persona;
@@ -287,6 +290,7 @@ export class AddusuarioComponent implements OnInit {
             fechaInicio: new Date()
           }
         ).then(()=>{
+          this.spinner.hide();
           this.mensajeServicio.exitoSeguir('Guardado','Usuario ha sido agregada con exito');
           if(this.accion == 'Encargado'){
             this.router.navigate(['/']);
@@ -294,6 +298,7 @@ export class AddusuarioComponent implements OnInit {
             this.router.navigate(['/usuarios']);
           }
         }).catch(() => {
+          this.spinner.hide();
           this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
           if(this.accion == 'Encargado'){
             this.router.navigate(['/institucionAgregar']);
@@ -304,9 +309,11 @@ export class AddusuarioComponent implements OnInit {
         });
       }else{
         if(this.accion == 'Encargado'){
+          this.spinner.hide();
           this.mensajeServicio.info('Registro Existente','Este usuario ya fue registrado anteriormente');
           this.router.navigate(['/']);
         }else{
+          this.spinner.hide();
           this.mensajeServicio.info('Registro Existente','Este usuario ya fue registrado anteriormente');
           this.router.navigate(['/usuarios']);
         }

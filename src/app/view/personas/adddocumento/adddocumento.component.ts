@@ -7,6 +7,7 @@ import { ActanacimientoService } from 'src/app/services/actanacimiento.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   templateUrl: './adddocumento.component.html',
@@ -38,6 +39,7 @@ export class AdddocumentoComponent implements OnInit {
     private ruta: ActivatedRoute,
     private mensajeServicio: MensajeService,
     private router: Router,
+    private spinner: NgxSpinnerService,
     private database: AngularFirestore ) { }
 
   ngOnInit() {
@@ -67,6 +69,7 @@ export class AdddocumentoComponent implements OnInit {
   }
 
   agregarDocumento() {
+    this.spinner.show();
     let fecha = new Date();
     if (!this.buscarDocumento()) {
       if (!this.esImagen) {this.imagen = ''; }
@@ -82,13 +85,16 @@ export class AdddocumentoComponent implements OnInit {
         FechaAgregacion: fecha,
         Estado: '01'
         }).then(() => {
+          this.spinner.hide();
           this.mensajeServicio.exito('Guardado', 'Documento ha sido agregada con exito');
           this.router.navigate(['/personaDetalle', this.idPersona]);
       }).catch(() => {
+        this.spinner.hide();
         this.mensajeServicio.error('Error', 'Ha ocurrido un error no esperado');
         this.router.navigate(['/personaDetalle', this.idPersona]);
       });
     } else {
+      this.spinner.hide();
       this.mensajeServicio.info('Registro Existente', 'Acta de Nacimiento fue Agregada Anteriormente');
       this.router.navigate(['/personaDetalle', this.idPersona]);
     }

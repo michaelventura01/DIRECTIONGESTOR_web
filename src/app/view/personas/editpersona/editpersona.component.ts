@@ -9,6 +9,7 @@ import { ContactoService } from 'src/app/services/contacto.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-editpersona',
@@ -58,11 +59,16 @@ export class EditpersonaComponent implements OnInit {
     private direccionServicio: DireccionService,
     private contactoServicio: ContactoService,
     private database: AngularFirestore,
-    private storage: AngularFireStorage ) {
+    private storage: AngularFireStorage,
+    private spinner: NgxSpinnerService ) {
     this.idPersona = this.ruta.snapshot.params['id'];
   }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.esCiudadActiva = false;
     this.esMenorAnioActual = true;
     this.esImagen = false;
@@ -165,6 +171,7 @@ export class EditpersonaComponent implements OnInit {
   }
 
   editarPersona(data) {
+    this.spinner.show()
     let fecha = new Date();
     if (this.esMenorAnioActual) {
       if (this.formularioEditar.value.Nombre === '') {
@@ -256,9 +263,11 @@ export class EditpersonaComponent implements OnInit {
         FechaAgregacion: this.obtenerFecha(data.FechaAgregacion).time,
         FechaEdicion: fecha
       }).then(() => {
+        this.spinner.hide();
         this.mensajeServicio.exito('Actualizado', 'Persona ha sido actualizada con exito');
         this.router.navigate(['/personaDetalle', this.idPersona]);
       }).catch(() => {
+        this.spinner.hide();
         this.mensajeServicio.error('Error', 'Ha ocurrido un error no esperado');
         this.router.navigate(['/personaDetalle', this.idPersona]);
       });

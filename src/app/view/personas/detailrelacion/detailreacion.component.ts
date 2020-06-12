@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { EstadoService } from 'src/app/services/estado.service';
 import { DireccionService } from 'src/app/services/direccion.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   templateUrl: './detailreacion.component.html',
@@ -31,9 +32,14 @@ export class DetailreacionComponent implements OnInit {
     private router: Router,
     private ruta: ActivatedRoute,
     private estadoServicio: EstadoService,
-    private mensajeServicio: MensajeService) { }
+    private mensajeServicio: MensajeService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.idRelacion = this.ruta.snapshot.params.id;
     this.personas = this.personaServicio.verPersonas();
     this.tiposrelaciones = this.personaServicio.verTiposRelaciones();

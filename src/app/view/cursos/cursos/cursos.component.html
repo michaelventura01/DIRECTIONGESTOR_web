@@ -1,66 +1,115 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="container">
   <div class="card">
-      <div class="card-header">
-          <div class="row">
-              <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                <div class="h1 text-center">Cursos</div>
-              </div>
-              <div class="col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2 ">
-                  <button type="button" class="btn btn-success" [routerLink]="'/cursoAgregar'"><div class="h1"><i class=" far fa-plus-square "></i></div></button>
-              </div>
-          </div>
+    <div class="card-header">
+      <div class="row">
+        <div class="col col-xl-11 col-lg-11 col-md-11 col-sm-11 col-xs-11"><div class="h1 text-center"><i class="fab fa-buffer"></i> | Cursos</div></div>
+        <div class="col col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1 ">
+          <button type="button" class="btn btn-success float-left" [routerLink]="'/cursoAgregar'"><div class="h1"><i class=" fas fa-plus "></i></div></button>
+        </div>
       </div>
-      <div class="card-body">
-          <div class="card-title">
-              <div class="row" [formGroup]="formularioBuscar">
-                  <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7">
-                      <input type="text" formControlName="Curso" (change) ="filtrarCursos()" class="form-control " placeholder="Escribe Para Filtrar los Cursos">
-                  </div>
-                  <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                      <select type="text" formControlName="Estado" (change)="asignarEstado()" class="form-control ">
-                        <option *ngFor="let estado of tenerEstadosCursos()" [selected]=1 [value]="estado.id">{{estado.descripcion | uppercase}}</option>
-                      </select>
-                  </div>
-                  <div class=" col-xl-1 col-lg-1  col-md-1 col-sm-1 col-xs-1">
-                      <button type="button" class="btn btn-secondary " (click)="filtrarCursos()"><div class="h4"><i class="fas fa-search "></i></div></button>
-                  </div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">
+        <div class="row" [formGroup]="formularioBuscar">
+            <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7">
+              <p class="font-weight-bold mb-0 h5" >Curso:</p>
+              <input type="text" style="font-size: 15px;" formControlName="Curso" (change) ="filtrarCursos()" class="mb-2 form-control " placeholder="Escribe Para Filtrar los Cursos">
+            </div>
+            <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
+              <p class="font-weight-bold mb-0 h5" >Estado:</p>
+              <select type="text" formControlName="Estado" style="font-size: 15px;" (change)="asignarEstado()" class="mb-2 form-control ">
+                <option *ngFor="let estado of tenerEstadosCursos()" [selected]=1 [value]="estado.id">{{estado.descripcion | uppercase}}</option>
+              </select>
+            </div>
+            <div class="col col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2  text-center">
+              <div class="row">
+                <div class="col col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 ">
+                  <button class = "btn btn-outline-danger" (click)="listadoCursoPDF()">
+                    <p class = "h1"><i class="fas fa-print"></i></p>
+                  </button>
+                </div>
+                <div class="col col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
+                  <button class = "btn btn-outline-primary" (click)="cambiarPresentacion()">
+                    <p class = "h1" *ngIf="!presentacion"><i class="fas fa-list"></i></p>
+                    <p class = "h1" *ngIf="presentacion"><i class="fas fa-table"></i></p>
+                  </button>
+                </div>
               </div>
+            </div>
           </div>
-          <hr>
-          <div class="row">
-              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" *ngFor="let curso of filtrarCursos()" >
-                  <div class="card mb-3" >
-                      <div class="card-header"><div class="h4">{{curso.Descripcion | uppercase}}</div></div>
-                      <div class="card-body h8">
-                          <div class="row">
-                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h8 font-weight-bold">
-                                  Codigo
-                              </div>
-                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h9 text-uppercase">
-                                  {{curso.Codigo}}
-                              </div>
-
-                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h9 font-weight-bold">
-                                  Estado
-                              </div>
-                              <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h9 text-uppercase">
-                                  <a *ngFor="let estado of estados">
-                                    <a *ngIf="estado.id == curso.Estado">{{estado.descripcion}}</a>
-                                  </a>
-                              </div>
-
-                          </div>
-                          <hr>
-                          <div class="form-group col-xl col-lg  col-md col-sm col-xs h8 font-weight-bold">
-                              <input type="button" class="btn btn-outline-secondary btn-block" value="Ver" [routerLink]="['/cursoDetalle',curso.id]"  >
-                          </div>
-                      </div>
+        </div>
+        <hr>
+        <div class="row overflow-auto m-1" *ngIf="presentacion" style="height: 500px; width: 100%;">
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" *ngFor="let curso of filtrarCursos()" >
+            <div class="card mb-3" >
+              <div class="card-header"><div class="h4">{{curso.Descripcion | uppercase}}</div></div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5">
+                    <p class="font-weight-bold">Codigo:</p>
+                    {{curso.Codigo | uppercase}}
                   </div>
+                  <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5">
+                    <p class="font-weight-bold">Estado:</p>
+                    <a *ngFor="let estado of estados">
+                      <a *ngIf="curso.Estado == estado.id">{{estado.descripcion | uppercase}}</a>
+                    </a>
+                  </div>
+                </div>
               </div>
-
-
-          </div>
+              <div class="card-footer">
+                <button class="btn btn-outline-secondary btn-block" value="Ver" [routerLink]="['/cursoDetalle',curso.id]" routerLinkActive="router-link-active" >
+                  <a class="h4"><i class="far fa-eye"></i> Ver</a>
+                </button>
+              </div>
+            </div>
+        </div>
       </div>
-      <div class="card-footer"></div>
+      <div class="row overflow-auto m-1" *ngIf="!presentacion" style="height: 500px; width: 100%;">
+        <table class="table table-hover h5" id="tbCursos">
+          <thead class="h4">
+            <tr>
+              <th scope="col" width = "25%">Curso</th>
+              <th scope="col" width = "25%">Codigo</th>
+              <th scope="col" width = "20%">Duracion</th>
+              <th scope="col" width = "20%">Estado</th>
+              <th scope="col" width = "10%"></th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let curso of filtrarCursos()">
+            <tr>
+              <td>
+                {{curso.Descripcion | uppercase}}
+              </td>
+              <td>
+                {{curso.Codigo | uppercase}}
+              </td>
+              <td>
+                {{cantidadSemana(curso.Tiempo)}}
+              </td>
+              <td>
+                <a *ngFor="let estado of estados">
+                  <a *ngIf="curso.Estado == estado.id">{{estado.descripcion | uppercase}}</a>
+                </a>
+              </td>
+              <td>
+                <table >
+                  <tr>
+                    <td>
+                      <button type="button" class="btn btn-warning" [routerLink]="['/cursoDetalle',curso.id]"><a class="h4"><i class="far fa-eye"></i></a></button>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-secondary" [routerLink]="['/cursoEditar',curso.id]"><a class="h4"><i class="far fa-edit"></i></a></button>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer"></div>
   </div>
 </div>

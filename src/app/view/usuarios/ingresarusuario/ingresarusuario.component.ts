@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { EstudianteService } from 'src/app/services/estudiante.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ingresarusuario',
@@ -35,7 +36,9 @@ export class IngresarusuarioComponent implements OnInit {
     private mensajeServicio: MensajeService,
     private empleadoServicio: EmpleadoService,
     private estudianteServicio: EstudianteService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
+
     ) {
 
   }
@@ -115,6 +118,7 @@ export class IngresarusuarioComponent implements OnInit {
   }
 
   ingresar( ){
+
     let control:string = this.formularioIngreso.value.Name;
     let pass: string = this.formularioIngreso.value.Password;
     let user: any;
@@ -127,6 +131,7 @@ export class IngresarusuarioComponent implements OnInit {
 
 
     if(user){
+      this.spinner.show();
       this.esCorrecto = true;
 
       if(user.Estado == '01' && this.tenerInstitucion(user.Institucion).Estado == '01' && this.tenerEmpleadoEstudiante(user.Usuario).Estado == '01' ){
@@ -141,6 +146,7 @@ export class IngresarusuarioComponent implements OnInit {
         localStorage.setItem('rol',user.Rol);
 
         titulo = 'HOLA '+this.tenerPersona(user.Persona).Nombre.toUpperCase()+' '+this.tenerPersona(user.Persona).Apellido.toUpperCase();
+        this.spinner.hide();
         this.mensajeServicio.exitoSeguir(titulo,'Su usuario ha sido validado con exito');
         this.router.navigate(['/menu']);
       }else{

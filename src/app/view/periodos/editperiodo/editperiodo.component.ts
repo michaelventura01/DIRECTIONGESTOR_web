@@ -6,6 +6,7 @@ import { PersonaService } from 'src/app/services/persona.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-editperiodo',
@@ -40,10 +41,16 @@ export class EditperiodoComponent implements OnInit {
     private personaServicio: PersonaService,
     private estadoServicio: EstadoService,
     private database: AngularFirestore,
-    private mensajeServicio: MensajeService
+    private mensajeServicio: MensajeService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
+
     this.crearFormulario();
     this.tiempo = 0;
     this.idPeriodo = this.ruta.snapshot.params['id'];
@@ -78,7 +85,6 @@ export class EditperiodoComponent implements OnInit {
       }
     }
 
-
     this.tiempo = semanaTotal;
 
     return semanaTotal;
@@ -109,23 +115,27 @@ export class EditperiodoComponent implements OnInit {
   }
 
   editarPeriodo(periodo){
+    this.spinner.show();
+    let hoy = new Date();
 
     this.periodo = this.formularioEditar.value.Descripcion;
     this.codigo  = periodo.Codigo;
     this.estado = this.formularioEditar.value.Estado;
 
+
     if(this.periodo==""){this.periodo = periodo.Descripcion;}
     if(this.estado ==""){this.estado  = periodo.Estado;}
+
     if (this.formularioEditar.value.Inicio === '') {
       this.fechaInicio = this.obtenerFecha(periodo.fechaInicio).time;
     } else {
-      this.fechaInicio = new Date(this.formularioEditar.value.Inicio);
+      this.fechaInicio = new Date(this.formularioEditar.value.Inicio.toString());
     }
 
     if (this.formularioEditar.value.Fin === '') {
       this.fechaFin = this.obtenerFecha(periodo.fechaFin).time;
     } else {
-      this.fechaFin = new Date(this.formularioEditar.value.Fin);
+      this.fechaFin = new Date(this.formularioEditar.value.Fin.toString());
     }
 
     this.database.doc('periodos/' + this.idPeriodo).update({
@@ -134,15 +144,18 @@ export class EditperiodoComponent implements OnInit {
       fechaFin: this.fechaFin,
       Institucion: this.institucion,
       Estado: this.estado,
-      Codigo: this.codigo
+      Codigo: this.codigo,
+      FechaAgregacion: this.obtenerFecha(periodo.FechaAgregacion).time,
+      FechaEdicion: hoy
     }).then(() => {
+      this.spinner.hide();
       this.mensajeServicio.exito('Actualizado','Periodo ha sido actualizada con exito');
       this.router.navigate(['/periodoDetalle', this.idPeriodo]);
     }).catch(() => {
+      this.spinner.hide();
       this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
       this.router.navigate(['/periodoDetalle', this.idPeriodo]);
     });
-
   }
 
   crearFormulario(){

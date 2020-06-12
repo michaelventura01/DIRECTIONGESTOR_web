@@ -51,7 +51,11 @@
               </div>
               <div *ngIf="esUsuario && tenerAula" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/aulas']">
                 <div class=" h1"><i class="fas fa-chalkboard"></i></div>
-                <div class="h4">AULA</div>
+                <div class="h4">AULAS</div>
+              </div>
+              <div *ngIf="esUsuario && tenerAula" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/edificios']">
+                <div class=" h1"><i class="fas fa-landmark"></i></div>
+                <div class="h4">EDIFICIOS</div>
               </div>
               <div *ngIf="esUsuario && tenerCurso" class="col-xl-3 col-lg-3  col-md-4 col-sm-5 col-xs-5 btn btn-outline-dark font-weight-bold m-1" [routerLink]="['/cursos']">
                 <div class=" h1"><i class="fab fa-buffer"></i></div>

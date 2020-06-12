@@ -8,6 +8,7 @@ import { PersonaService } from 'src/app/services/persona.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-editusuario',
@@ -45,6 +46,7 @@ export class EditusuarioComponent implements OnInit {
     private ruta: ActivatedRoute,
     private router: Router,
     private mensajeServicio: MensajeService,
+    private spinner: NgxSpinnerService,
     private database: AngularFirestore) {
       this.idUsuario = this.ruta.snapshot.params['id'];
      }
@@ -95,7 +97,7 @@ export class EditusuarioComponent implements OnInit {
   }
 
   editarUsuario(data){
-
+    this.spinner.show();
     this.Persona = data.Persona;
     this.Usuario = data.Usuario;
     this.Institucion =  data.Institucion;
@@ -162,9 +164,11 @@ export class EditusuarioComponent implements OnInit {
           Usuario: this.Usuario,
           fechaInicio: this.tenerFecha(data.fechaInicio).time
         }).then(()=>{
+          this.spinner.hide();
           this.mensajeServicio.exito('Actualizado','Usuario ha sido actualizado con exito');
           this.router.navigate(['/usuarioDetalle', this.idUsuario]);
         }).catch(() => {
+          this.spinner.hide();
           this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
           this.router.navigate(['/usuarioDetalle', this.idUsuario]);
         });
@@ -181,9 +185,11 @@ export class EditusuarioComponent implements OnInit {
           fechaInicio: this.tenerFecha(data.fechaInicio).time,
           fechaFin: new Date()
         }).then(()=>{
+          this.spinner.hide();
           this.mensajeServicio.exito('Actualizado','Usuario ha sido actualizado con exito');
           this.router.navigate(['/usuarioDetalle', this.idUsuario]);
         }).catch(() => {
+          this.spinner.hide();
           this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
           this.router.navigate(['/usuarioDetalle', this.idUsuario]);
         });

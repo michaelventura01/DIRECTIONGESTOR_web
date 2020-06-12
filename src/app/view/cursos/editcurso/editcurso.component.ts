@@ -5,6 +5,8 @@ import { EstadoService } from 'src/app/services/estado.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { PersonaService } from 'src/app/services/persona.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-editcurso',
   templateUrl: './editcurso.component.html',
@@ -35,9 +37,15 @@ export class EditcursoComponent implements OnInit {
     private mensajeServicio: MensajeService,
     private database: AngularFirestore,
     private router: Router,
+    private personaServicio: PersonaService,
+    private spinner: NgxSpinnerService,
     private ruta: ActivatedRoute) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.crearFormulario();
     this.estados = this.estadoServicio.verEstados();
     this.cursos = this.cursoServicio.verCursos();
@@ -50,8 +58,13 @@ export class EditcursoComponent implements OnInit {
     this.esEstado = true;
   }
 
-  editarCurso(curso){
+  obtenerFecha(data){
+    return this.personaServicio.obtenerFecha(data);
+  }
 
+  editarCurso(curso){
+    this.spinner.show();
+    let hoy = new Date();
     this.descripcion = this.formularioCreado.value.Descripcion;
     this.codigo = curso.Codigo;
     this.estado = this.formularioCreado.value.Estado;
@@ -76,11 +89,16 @@ export class EditcursoComponent implements OnInit {
       Codigo: this.codigo,
       Estado: this.estado,
       Institucion: this.institucion,
-      Tiempo: this.tiempo
+      Tiempo: this.tiempo,
+      FechaAgregacion: this.obtenerFecha(curso.FechaAgregacion).date,
+      FechaEdicion: hoy
+
     }).then(()=>{
+      this.spinner.hide();
       this.mensajeServicio.exito('Actualizado','Curso ha sido actualizado con exito');
       this.router.navigate(['/cursoDetalle', this.idCurso]);
     }).catch(() => {
+      this.spinner.hide();
       this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
       this.router.navigate(['/cursoDetalle', this.idCurso]);
     });

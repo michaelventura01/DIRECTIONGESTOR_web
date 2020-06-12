@@ -7,6 +7,8 @@ import { DireccionService } from 'src/app/services/direccion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { PersonaService } from 'src/app/services/persona.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-editaula',
@@ -38,13 +40,18 @@ export class EditaulaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private mensajeServicio: MensajeService,
-    private database: AngularFirestore
-
+    private database: AngularFirestore,
+    private personaServicio: PersonaService,
+    private spinner: NgxSpinnerService
   ) {
 
   }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.editarFormulario();
     this.idAula = this.ruta.snapshot.params['id'],
     this.usuario = localStorage.getItem('usuario');
@@ -67,7 +74,9 @@ export class EditaulaComponent implements OnInit {
   }
 
   editarAula(aula){
+    this.spinner.show();
 
+    let hoy = new Date();
     this.descripcion = this.formularioEditar.value.Aula;
     this.estado = this.formularioEditar.value.Estado;
     this.edificio = this.formularioEditar.value.Edificio;
@@ -86,11 +95,15 @@ export class EditaulaComponent implements OnInit {
       Descripcion: this.descripcion,
       Edificio: this.edificio,
       Estado: this.estado,
-      Institucion: this.institucion
+      Institucion: this.institucion,
+      FechaAgregacion: this.obtenerFecha(aula.FechaAgregacion).time,
+      FechaModificacion: hoy
     }).then(()=>{
+      this.spinner.hide();
       this.mensajeServicio.exito('Actualizado','Aula ha sido actualizada con exito');
       this.router.navigate(['/aulaDetalle', this.idAula]);
     }).catch(() => {
+      this.spinner.hide();
       this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
       this.router.navigate(['/aulaDetalle', this.idAula]);
     });
@@ -106,6 +119,9 @@ export class EditaulaComponent implements OnInit {
     return edificio;
   }
 
+  obtenerFecha(data){
+    return this.personaServicio.obtenerFecha(data);
+  }
 
   tenerEstado(aula){
     let estado: any;
