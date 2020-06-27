@@ -43,7 +43,9 @@
         <div class="row overflow-auto m-1" *ngIf="presentacion" style="height: 500px; width: 100%;">
           <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" *ngFor="let curso of filtrarCursos()" >
             <div class="card mb-3" >
-              <div class="card-header"><div class="h4">{{curso.Descripcion | uppercase}}</div></div>
+              <div class="card-header">
+                <div class="h4">{{curso.Descripcion | uppercase}}</div>
+              </div>
               <div class="card-body">
                 <div class="row">
                   <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5">

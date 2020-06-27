@@ -6,6 +6,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { EstadoService } from 'src/app/services/estado.service';
 import { Router } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-addestudiante',
@@ -34,6 +35,7 @@ export class AddestudianteComponent implements OnInit {
     private database: AngularFirestore,
     private estadoServicio: EstadoService,
     private router: Router,
+    private spinner: NgxSpinnerService,
     private mensajeServicio: MensajeService) { }
 
   ngOnInit() {
@@ -149,6 +151,7 @@ export class AddestudianteComponent implements OnInit {
 
   agregarEstudiante(){
 
+    this.spinner.show();
     if(!this.buscarEstudiante()){
       this.persona = this.formularioEstudiante.value.Persona;
       this.database.collection('estudiantes').add(
@@ -160,13 +163,16 @@ export class AddestudianteComponent implements OnInit {
         institucion: this.instituto,
         fechaInicio: new Date(this.formularioEstudiante.value.FechaInicio)
       }).then(()=>{
+        this.spinner.hide();
         this.mensajeServicio.exito('Guardado','Estudiante ha sido agregado con exito');
         this.router.navigate(['/estudiantes']);
       }).catch(() => {
+        this.spinner.hide();
         this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
         this.router.navigate(['/estudiantes']);
       });
     }else{
+      this.spinner.hide();
       this.mensajeServicio.info('Registro Existente','Estudiante ha sido registrado anteriormente');
       this.router.navigate(['/estudiantes']);
     }
