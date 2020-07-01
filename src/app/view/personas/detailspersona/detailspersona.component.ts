@@ -11,8 +11,6 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import * as $ from 'jquery';
-import * as html2canvas from 'html2canvas';
 
 
 @Component({

@@ -134,6 +134,7 @@ export class EstudiantesComponent implements OnInit {
       }
     );
 
+    console.log(people);
     return people;
   }
 

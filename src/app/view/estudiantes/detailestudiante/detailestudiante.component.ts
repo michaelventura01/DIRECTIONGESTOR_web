@@ -231,7 +231,6 @@ export class DetailestudianteComponent implements OnInit {
       doc.text(250, 375, this.obtenerFecha(etudiant.fechaFin).fechaNacimiento.toUpperCase());
     }
  
-
     let width = 35;
 
 
