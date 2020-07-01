@@ -230,7 +230,7 @@ export class DetailestudianteComponent implements OnInit {
     if(estudent.fechaFin){
       doc.text(250, 375, this.obtenerFecha(etudiant.fechaFin).fechaNacimiento.toUpperCase());
     }
-
+ 
 
     let width = 35;
 
