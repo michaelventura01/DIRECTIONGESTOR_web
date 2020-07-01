@@ -1,152 +1,146 @@
 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="container" *ngFor="let estudiante of estudiantes">
-    <div class="card" *ngIf="estudiante.id === idEstudiante">
-        <div class="card-header">
-          <div class="h2 text-center">
+  <div class="card" *ngIf="estudiante.id === idEstudiante">
+    <div class="card-header">
+      <div class="row">
+        <div class="col col-xl-10 col-lg-10  col-md-10 col-sm-10 col-xs-10 ">
+          <div class="h1 text-center">
+            <i class="fas fa-users"></i> |
             <a *ngFor="let persona of personas">
-              <a *ngIf="persona.id === estudiante.Persona">Estudiante |
+              <a *ngIf="persona.id === estudiante.Persona">ESTUDIANTE
                 {{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}}
               </a>
             </a>
           </div>
         </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" >
-                  <a *ngFor="let persona of personas">
-                    <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="estudiante.Persona === persona.id">
-                      <img [src]="persona.Foto"  class=" img-thumbnail rounded-circle mx-auto img-fluid mt-2 mb-2">
-                    </div>
-                  </a>
-                </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                    Codigo Estudiante
-                </div>
-                <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                    {{estudiante.Codigo}}
-                </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Edad:
-                  </div>
-                    <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                      <a *ngFor="let persona of personas">
-                        <a *ngIf="persona.id === estudiante.Persona">{{tenerEdad(persona.FechaNacimiento).edad}}</a>
-                      </a>
-                    </div>
-                    <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Cumpleaños:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                    <a *ngFor="let persona of personas">
-                      <a *ngIf="persona.id === estudiante.Persona">{{tenerEdad(persona.FechaNacimiento).birthdate}}</a>
-                    </a>
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                    Sexo:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                    <a *ngFor="let persona of personas">
-                      <a *ngIf="persona.id === estudiante.Persona">
-                        <a *ngFor="let sexo of sexos">
-                          <a *ngIf="sexo.id === persona.Sexo">{{sexo.descripcion}}</a>
-                        </a>
-                      </a>
-                    </a>
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                      Nacionalidad:
-                  </div>
-                  <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                    <a *ngFor="let persona of personas">
-                      <a *ngIf="persona.id === estudiante.Persona">
-                        <a *ngFor="let nacionalidad of paises">
-                          <a *ngIf="nacionalidad.id === persona.Nacionalidad">{{nacionalidad.nacionalidad}}</a>
-                        </a>
-                      </a>
-                    </a>
-                  </div>
-                  <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                    Direccion:
-                </div>
-                <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6 text-uppercase">
-                  <a *ngFor="let persona of personas">
-                    <a *ngIf="persona.id === estudiante.Persona">{{persona.Direccion}} , </a>
-                  </a>
-                  <a *ngFor="let persona of personas">
-                    <a *ngIf="persona.id === estudiante.Persona">
-                      <a *ngFor="let ciudad of ciudades">
-                        <a *ngIf="ciudad.id === persona.Ciudad"> {{ciudad.descripcion}} , </a>
-                      </a>
-                    </a>
-                  </a>
-                  <a *ngFor="let persona of personas">
-                    <a *ngIf="persona.id === estudiante.Persona">
-                      <a *ngFor="let pais of paises">
-                        <a *ngIf="pais.id === persona.Pais"> {{pais.descripcion}}</a>
-                      </a>
-                    </a>
-                  </a>
-                </div>
-                <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                    Contacto:
-                </div>
-                <div class="form-group col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 h6">
-                  <a *ngFor="let persona of personas">
-                    <a *ngIf="persona.id === estudiante.Persona">
-                      <a *ngFor="let tipo of tiposTelefonos">
-                        <a *ngIf="tipo.id === persona.TipoTelefono">{{tipo.descripcion | uppercase}} </a>
-                      </a>
-                    </a>
-                  </a>
-                  <a *ngFor="let persona of personas">
-                    <a *ngIf="persona.id === estudiante.Persona"> {{persona.Telefono}} | </a>
-                  </a>
-                  <a *ngFor="let persona of personas">
-                    <a *ngIf="persona.id === estudiante.Persona"> {{persona.Correo}}</a>
-                  </a>
+        <div class="col col-xl-2 col-lg-2  col-md-2 col-sm-2 col-xs-2 text-right">
+          <button class = "btn btn-outline-danger" (click)="imprimirEstudiantePDF(estudiante)">
+            <p class = "h1"><i class="fas fa-print"></i></p>
+          </button>
+        </div>
 
-              </div>
-              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                  Mensualidad:
-              </div>
-              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                {{estudiante.Mensualidad  | currency:'$'}}
-              </div>
-              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                  Fecha de Inicio:
-              </div>
-              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                {{tenerEdad(estudiante.fechaInicio).fechaNacimiento}}
-              </div>
-              <div *ngIf="estudiante.Estado!=01" class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                Fecha de Finalizacion:
-              </div>
-              <div *ngIf="estudiante.Estado!=01" class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                {{tenerEdad(estudiante.fechaFin).fechaNacimiento}}
-              </div>
-              <div class="form-group col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 h5 font-weight-bold text-right">
-                  Estado:
-              </div>
-              <div class="form-group col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 h6 text-uppercase">
-                <a *ngFor="let estado of estados">
-                  <a *ngIf="estado.id === estudiante.Estado">{{estado.descripcion}}</a>
-                </a>
-              </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row overflow-auto m-1" style="height: 480px;">
+        <div class="form-group col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12" >
+          <a *ngFor="let persona of personas">
+            <div class="col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 card mt-2 mb-2" *ngIf="estudiante.Persona === persona.id">
+              <img [src]="persona.Foto"  class=" img-thumbnail rounded-circle mx-auto img-fluid mt-2 mb-2">
             </div>
-            </div>
-            <div class="card-footer form-group">
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6">
-                      <input type="button" value="Editar" class="btn btn-outline-info btn-block font-weight-bold" [routerLink]="['/estudianteEditar', idEstudiante]"/>
-                    </div>
-                    <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                      <input type="button" value="Eliminar" class="btn btn-warning btn-block font-weight-bold" />
-                    </div>
-                    <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3">
-                        <input type="button" value="Atras" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="['/estudiantes']"/>
-                      </div>
-                </div>
-            </div>
+          </a>
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Codigo Estudiante:</p>
+          {{estudiante.Codigo | uppercase}}
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Edad:</p>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona">{{tenerEdad(persona.FechaNacimiento).edad}}</a>
+          </a>
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Cumpleaños:</p>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona">{{tenerEdad(persona.FechaNacimiento).birthdate}}</a>
+          </a>
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Sexo:</p>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona">
+              <a *ngFor="let sexo of sexos">
+                <a *ngIf="sexo.id === persona.Sexo">{{sexo.descripcion}}</a>
+              </a>
+            </a>
+          </a>
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Nacionalidad:</p>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona">
+              <a *ngFor="let nacionalidad of paises">
+                <a *ngIf="nacionalidad.id === persona.Nacionalidad">{{nacionalidad.nacionalidad}}</a>
+              </a>
+            </a>
+          </a>
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Direccion:</p>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona">{{persona.Direccion}} , </a>
+          </a>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona">
+              <a *ngFor="let ciudad of ciudades">
+                <a *ngIf="ciudad.id === persona.Ciudad"> {{ciudad.descripcion}} , </a>
+              </a>
+            </a>
+          </a>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona">
+              <a *ngFor="let pais of paises">
+                <a *ngIf="pais.id === persona.Pais"> {{pais.descripcion}}</a>
+              </a>
+            </a>
+          </a>
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Contacto:</p>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona">
+              <a *ngFor="let tipo of tiposTelefonos">
+                <a *ngIf="tipo.id === persona.TipoTelefono">{{tipo.descripcion | uppercase}} </a>
+              </a>
+            </a>
+          </a>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona"> | ({{persona.Telefono | slice:0:3}}) {{persona.Telefono | slice:3:6}} - {{persona.Telefono | slice:6:10}} | </a>
+          </a>
+          <a *ngFor="let persona of personas">
+            <a *ngIf="persona.id === estudiante.Persona"> {{persona.Correo | lowercase}}</a>
+          </a>
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Mensualidad:</p>
+          {{estudiante.Mensualidad  | currency:'$'}}
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+          <p class="text-center font-weight-bold mb-0">Fecha de Inicio:</p>
+          {{tenerEdad(estudiante.fechaInicio).fechaNacimiento}}
+        </div>
+        <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center" *ngIf="estudiante.Estado!=01">
+          <p class="text-center font-weight-bold mb-0">Fecha de Finalizacion:</p>
+          {{tenerEdad(estudiante.fechaFin).fechaNacimiento}}
+        </div>
+      </div>
+      <div class="form-group  col-xl-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 h5 text-uppercase text-center">
+        <p class="text-center font-weight-bold mb-0">Estado:</p>
+        <a *ngFor="let estado of estados">
+          <a *ngIf="estado.id === estudiante.Estado">{{estado.descripcion}}</a>
+        </a>
+      </div>
+    </div>
+    <div class="card-footer ">
+      <div class="row form-group mx-auto">
+        <div class="col-xl-6 col-lg-6  col-md-6 col-sm-6 col-xs-6 mb-3">
+          <button class="btn btn-outline-info btn-block " [routerLink]="['/estudianteEditar', idEstudiante]">
+            <a class="h3 font-weight-bold"><i class="far fa-edit"></i> | Editar</a>
+          </button>
+        </div>
+        <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 mb-3">
+          <button class="btn btn-warning btn-block" (click)="eliminarEStudiante(estudiante)">
+            <a class="h3 font-weight-bold"><i class="fas fa-ban"></i> | Eliminar</a>
+          </button>
+        </div>
+        <div class="col-xl-3 col-lg-3  col-md-3 col-sm-3 col-xs-3 mb-3">
+          <button class="btn btn-outline-danger btn-block " [routerLink]="['/estudiantes']">
+            <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Atras</a>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 

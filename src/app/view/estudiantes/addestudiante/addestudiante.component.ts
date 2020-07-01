@@ -161,7 +161,8 @@ export class AddestudianteComponent implements OnInit {
         Estado: '01',
         Mensualidad: this.formularioEstudiante.value.Mensualidad,
         institucion: this.instituto,
-        fechaInicio: new Date(this.formularioEstudiante.value.FechaInicio)
+        fechaInicio: new Date(this.formularioEstudiante.value.FechaInicio),
+        fechaAgregacion: new Date()
       }).then(()=>{
         this.spinner.hide();
         this.mensajeServicio.exito('Guardado','Estudiante ha sido agregado con exito');

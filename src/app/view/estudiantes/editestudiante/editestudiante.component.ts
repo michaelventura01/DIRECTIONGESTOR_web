@@ -7,6 +7,8 @@ import { EstudianteService } from 'src/app/services/estudiante.service';
 import { EstadoService } from 'src/app/services/estado.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { NgxSpinner } from 'ngx-spinner/lib/ngx-spinner.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -44,9 +46,14 @@ export class EditestudianteComponent implements OnInit {
     private estadoServicio: EstadoService,
     private database: AngularFirestore,
     private mensajeServicio: MensajeService,
-    private router: Router) { }
+    private router: Router,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
     this.crearFormulario();
     this.personas = this.personaServicio.verPersonas();
     this.estudiantes = this.estudianteServicio.verEstudiantes();
@@ -118,6 +125,8 @@ export class EditestudianteComponent implements OnInit {
 
   editarEstudiante(data){
 
+    this.spinner.show()
+
     if(this.formularioEditar.value.Mensualidad == 0){
       this.Mensualidad = data.Mensualidad;
     }else{
@@ -152,11 +161,15 @@ export class EditestudianteComponent implements OnInit {
             institucion: this.instituto,
             fechaInicio: new Date(this.FechaInicio),
             fechaFin: new Date(this.FechaFin),
+            fechaAgregacion: this.obtenerFecha(data.fechaAgregacion).time,
+            fechaModificacion: new Date(),
             Persona: data.Persona
           }).then(()=>{
+            this.spinner.hide();
             this.mensajeServicio.exito('Actualizado','Estudiante ha sido actualizado con exito');
             this.router.navigate(['/estudianteDetalle', this.idEstudiante]);
           }).catch(() => {
+            this.spinner.hide();
             this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
             this.router.navigate(['/']);
           });
@@ -168,20 +181,21 @@ export class EditestudianteComponent implements OnInit {
           Mensualidad: this.Mensualidad,
           institucion: this.instituto,
           fechaInicio: new Date(this.FechaInicio),
+          fechaAgregacion: this.obtenerFecha(data.fechaAgregacion).time,
+          fechaModificacion: new Date(),
           Persona: data.Persona
         }).then(()=>{
+          this.spinner.hide();
           this.mensajeServicio.exito('Actualizado','Estudiante ha sido actualizado con exito');
           this.router.navigate(['/estudianteDetalle', this.idEstudiante]);
         }).catch(() => {
+          this.spinner.hide();
           this.mensajeServicio.error('Error','Ha ocurrido un error no esperado');
           this.router.navigate(['/']);
         });
       }
     }
   }
-
-
-
 
   crearFormulario(){
     this.formularioEditar = this.formBuilder.group(

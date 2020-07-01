@@ -1,76 +1,80 @@
 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="container" *ngFor="let estudiante of estudiantes">
-    <div class="card" *ngIf="estudiante.id === idEstudiante">
-        <div class="card-header">
-          <div class="text-center"><div class="h2 text-center">Editar Estudiante</div></div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-xl col-lg col-md col-sm col-xs">
-                    <form [formGroup]="formularioEditar">
-                      <div class="form-group">
-                        <label class="control-label font-weight-bold">Persona</label>
-                        <div class="row">
-                          <div class="col-xl-9 col-lg-9  col-md-9 col-sm-9 col-xs-9" *ngFor="let persona of personas">
-                            <input type="text" *ngIf="persona.id === estudiante.Persona"  formControlName="Persona"  class="form-control"  value="{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{tenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}">
-                           </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="form-group col-xl col-lg  col-md col-sm col-xs" >
-                        <label class="control-label font-weight-bold">Codigo de Estudiante</label>
-                        <input type="text" formControlName="Codigo" value='{{estudiante.Codigo | uppercase}}' class="form-control" required />
-                        <div *ngIf="formularioEditar.controls['Codigo'].invalid && formularioEditar.controls['Codigo'].dirty" class="alert alert-danger">El Codigo es Requerido</div>
-                      </div>
-                      <div class="form-group col-xl col-lg  col-md col-sm col-xs">
-                        <label class="control-label font-weight-bold">Mensualidad</label>
-                        <input type="number" formControlName="Mensualidad" class="form-control" [value]="estudiante.Mensualidad" required/>
-                        <div *ngIf="formularioEditar.controls['Mensualidad'].invalid && formularioEditar.controls['Mensualidad'].dirty" class="alert alert-danger">La Mensualidad es Requerido</div>
-                      </div>
-                  </div>
+  <div class="card" *ngIf="estudiante.id === idEstudiante">
+      <div class="card-header">
+        <div class="h1 text-center"><a class="h2"><i class="far fa-edit"></i></a><i class="fas fa-users"></i> | Editar Estudiante</div>
+      </div>
+      <div class="card-body">
+        <div class="form-group row overflow-auto m-1" style="height: 500px; ">
+          <div class="col-xl col-lg col-md col-sm col-xs">
+              <form [formGroup]="formularioEditar">
+                <div class="form-group">
+                  <label class="control-label font-weight-bold h5">Persona</label>
                   <div class="row">
-                    <div class="form-group col-xl col-lg  col-md col-sm col-xs">
-                      <label class="control-label font-weight-bold">Fecha de Inicio</label>
-                      <input type="date" formControlName="FechaInicio" class ="form-control" *ngIf="esFechaInicio" required>
-                      <a *ngFor="let persona of personas">
-                        <input class="form-control" *ngIf="estudiante.Persona === persona.id && !esFechaInicio" (click)="editarFechaInicio()" [value]="tenerFecha(persona.FechaNacimiento).fecha">
-                      </a>
-
-                      <div *ngIf="formularioEditar.controls['FechaInicio'].invalid && formularioEditar.controls['FechaInicio'].dirty" class="alert alert-danger">El Puesto es Requerido</div>
-                    </div>
-                    <div class="form-group col-xl col-lg  col-md col-sm col-xs">
-                      <label class="control-label font-weight-bold">Estado</label>
-                      <select formControlName="Estado" class ="form-control" required (click)="tenerEstadosEstudiantes(estados, formularioEditar.value.Estado)" *ngIf="esEstado">
-                        <option *ngFor="let estado of estados" [value]="estado.id" >{{estado.descripcion | uppercase }}</option>
-                      </select>
-                      <a *ngIf="!esEstado">
-                        <a *ngFor="let estado of estados">
-                          <input class="form-control"  *ngIf="estudiante.Estado === estado.id" [value]="estado.descripcion | uppercase" (click)="tenerEstadosEstudiantes(estados)">
-                        </a>
-                      </a>
-                      <div *ngIf="!esCorrectoEstado" class="alert alert-danger">El Estado es Requerido</div>
-                    </div>
-                    <div class="form-group col-xl col-lg  col-md col-sm col-xs" *ngIf="esFechaFin">
-                      <label class="control-label font-weight-bold">Fecha de Finalizacion</label>
-                      <input type="date" formControlName="FechaFin" (change)="controlSalida(estudiante.FechaInicio, formularioEditar.FechaFin)" class ="form-control" required>
-                      <div *ngIf="FechaFin=== undefined && esCorrectoEstado" class="alert alert-danger">Fecha de Finalizacion Requerida</div>
-                    </div>
+                    <div class="col-xl-9 col-lg-9  col-md-9 col-sm-9 col-xs-9" *ngFor="let persona of personas">
+                      <input style="font-size: 15px;" type="text" *ngIf="persona.id === estudiante.Persona"  formControlName="Persona"  class="form-control"  value="{{persona.Nombre | uppercase}} {{persona.Apellido | uppercase}} | {{tenerFecha(persona.FechaNacimiento).fechaNacimiento | uppercase}}">
+                      </div>
                   </div>
+              </div>
 
-                    </form>
+              <div class="row">
+                <div class="form-group col-xl col-lg  col-md col-sm col-xs" >
+                  <label class="control-label font-weight-bold h5">Codigo de Estudiante</label>
+                  <input style="font-size: 15px;" type="text" formControlName="Codigo" value='{{estudiante.Codigo | uppercase}}' class="form-control" required />
+                  <div *ngIf="formularioEditar.controls['Codigo'].invalid && formularioEditar.controls['Codigo'].dirty" class="alert alert-danger h5">El Codigo es Requerido</div>
+                </div>
+                <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                  <label class="control-label font-weight-bold h5">Mensualidad</label>
+                  <input style="font-size: 15px;" type="number" formControlName="Mensualidad" class="form-control" [value]="estudiante.Mensualidad" required/>
+                  <div *ngIf="formularioEditar.controls['Mensualidad'].invalid && formularioEditar.controls['Mensualidad'].dirty" class="alert alert-danger h5">La Mensualidad es Requerido</div>
                 </div>
             </div>
-        </div>
-        <div class="card-footer">
-          <div class="row">
-            <div class="form-group mx-auto col-xl-7 col-lg-7  col-md-7 col-sm-10 col-xs-10">
-              <input type="submit" (click)="editarEstudiante(estudiante)" value="Editar" class="btn btn-outline-primary btn-block font-weight-bold" />
+            <div class="row">
+              <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                <label class="control-label font-weight-bold h5">Fecha de Inicio</label>
+                <input style="font-size: 15px;" type="date" formControlName="FechaInicio" class ="form-control" *ngIf="esFechaInicio" required>
+                <a *ngFor="let persona of personas">
+                <input style="font-size: 15px;" class="form-control" *ngIf="estudiante.Persona === persona.id && !esFechaInicio" (click)="editarFechaInicio()" [value]="tenerFecha(persona.FechaNacimiento).fecha">
+                </a>
+
+                <div *ngIf="formularioEditar.controls['FechaInicio'].invalid && formularioEditar.controls['FechaInicio'].dirty" class="alert alert-danger h5">El Puesto es Requerido</div>
+              </div>
+              <div class="form-group col-xl col-lg  col-md col-sm col-xs">
+                <label class="control-label font-weight-bold h5">Estado</label>
+                <select style="font-size: 15px;" formControlName="Estado" class ="form-control" required (click)="tenerEstadosEstudiantes(estados, formularioEditar.value.Estado)" *ngIf="esEstado">
+                  <option *ngFor="let estado of estados" [value]="estado.id" >{{estado.descripcion | uppercase }}</option>
+                </select>
+                <a *ngIf="!esEstado">
+                  <a *ngFor="let estado of estados">
+                    <input style="font-size: 15px;" class="form-control"  *ngIf="estudiante.Estado === estado.id" [value]="estado.descripcion | uppercase" (click)="tenerEstadosEstudiantes(estados)">
+                  </a>
+                </a>
+                <div *ngIf="!esCorrectoEstado" class="alert alert-danger h5">El Estado es Requerido</div>
+              </div>
+              <div class="form-group col-xl col-lg  col-md col-sm col-xs" *ngIf="esFechaFin">
+                <label class="control-label font-weight-bold h5">Fecha de Finalizacion</label>
+                <input style="font-size: 15px;" type="date" formControlName="FechaFin" (change)="controlSalida(estudiante.FechaInicio, formularioEditar.FechaFin)" class ="form-control" required>
+                <div *ngIf="FechaFin=== undefined && esCorrectoEstado" class="alert alert-danger h5">Fecha de Finalizacion Requerida</div>
+              </div>
             </div>
-            <div class="form-group mx-auto col-xl-5 col-lg-5  col-md-5 col-sm-10 col-xs-10">
-              <input type="submit" value="Cancelar" class="btn btn-outline-danger btn-block font-weight-bold" [routerLink]="'/estudianteDetalle'"/>
-            </div>
+
+            </form>
           </div>
         </div>
+      </div>
+    <div class="card-footer">
+      <div class="row form-group mx-auto">
+        <div class="col-xl-7 col-lg-7  col-md-7 col-sm-7 col-xs-7 mb-3">
+          <button class="btn btn-outline-info btn-block" (click)="editarEstudiante(estudiante)">
+            <a class="h3 font-weight-bold"><i class="far fa-edit"></i> | Editar</a>
+          </button>
+        </div>
+        <div class="col-xl-5 col-lg-5  col-md-5 col-sm-5 col-xs-5 mb-3">
+          <button class="btn btn-outline-danger btn-block " [routerLink]="['/estudianteDetalle',estudiante.id]" >
+            <a class="h3 font-weight-bold"><i class="fas fa-chevron-left"></i> | Cancelar</a>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
+</div>
